@@ -1,0 +1,282 @@
+/* ============================================
+   GDPR Cookie Consent Banner — AQUINTAQA
+   Dark minimal theme matching project styles
+   ============================================ */
+
+/* ── Banner ── */
+.cc-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background: #161B22;
+  border-top: 1px solid rgba(255,255,255,.08);
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  box-shadow: 0 -4px 24px rgba(0,0,0,.5);
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform .35s ease, opacity .35s ease;
+}
+
+.cc-banner.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.cc-banner.hidden {
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cc-banner-text {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(230,237,243,.7);
+  line-height: 1.55;
+}
+
+.cc-banner-text a {
+  color: rgba(230,237,243,.9);
+  text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,.25);
+  text-underline-offset: 2px;
+}
+
+.cc-banner-text a:hover {
+  color: #fff;
+  text-decoration-color: rgba(255,255,255,.5);
+}
+
+.cc-banner-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.cc-btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background .2s, color .2s, border-color .2s;
+  white-space: nowrap;
+}
+
+.cc-btn-accept {
+  background: rgba(255,255,255,.9);
+  color: #0D1117;
+}
+
+.cc-btn-accept:hover {
+  background: #fff;
+}
+
+.cc-btn-reject {
+  background: transparent;
+  color: rgba(230,237,243,.7);
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+.cc-btn-reject:hover {
+  border-color: rgba(255,255,255,.25);
+  color: rgba(230,237,243,.9);
+}
+
+.cc-btn-settings {
+  background: transparent;
+  color: rgba(230,237,243,.5);
+  border: 1px solid transparent;
+}
+
+.cc-btn-settings:hover {
+  color: rgba(230,237,243,.8);
+}
+
+/* ── Settings modal overlay ── */
+.cc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+
+.cc-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Settings panel ── */
+.cc-panel {
+  background: #161B22;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 420px;
+  margin: 24px;
+  padding: 32px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  box-shadow: 0 16px 48px rgba(0,0,0,.6);
+}
+
+.cc-panel h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #E6EDF3;
+  margin-bottom: 6px;
+}
+
+.cc-panel-subtitle {
+  font-size: 13px;
+  color: rgba(230,237,243,.5);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+/* ── Toggle rows ── */
+.cc-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+.cc-toggle-row:last-of-type {
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+.cc-toggle-label {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cc-toggle-label span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #E6EDF3;
+}
+
+.cc-toggle-label small {
+  font-size: 12px;
+  color: rgba(230,237,243,.45);
+}
+
+/* ── Toggle switch ── */
+.cc-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.cc-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.cc-switch-slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.1);
+  border-radius: 11px;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.cc-switch-slider::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.5);
+  transition: transform .2s, background .2s;
+}
+
+.cc-switch input:checked + .cc-switch-slider {
+  background: rgba(255,255,255,.3);
+}
+
+.cc-switch input:checked + .cc-switch-slider::before {
+  transform: translateX(18px);
+  background: #fff;
+}
+
+.cc-switch input:disabled + .cc-switch-slider {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+/* ── Panel button ── */
+.cc-panel-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 10px;
+}
+
+.cc-btn-save {
+  flex: 1;
+  padding: 11px 20px;
+  background: rgba(255,255,255,.9);
+  color: #0D1117;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.cc-btn-save:hover {
+  background: #fff;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .cc-banner {
+    flex-direction: column;
+    padding: 20px 20px;
+    gap: 16px;
+  }
+
+  .cc-banner-actions {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .cc-banner-actions .cc-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .cc-panel {
+    margin: 16px;
+    padding: 24px;
+  }
+}
