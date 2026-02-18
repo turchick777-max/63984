@@ -311,6 +311,9 @@
             <div class="error-msg" id="err-nda">You must accept the NDA terms to proceed</div>
           </div>
 
+          <!-- hCaptcha container (rendered by js/hcaptcha-scaffold.js) -->
+          <div data-hcaptcha data-hcaptcha-error-id="err-hcaptcha"></div>
+
           <button type="submit" class="submit-btn" id="submit-btn">Request Access</button>
         </form>
       </div>
@@ -380,7 +383,18 @@
       if (!role.value.trim()) { showError('err-role', role); valid = false; }
       if (!nda.checked) { showError('err-nda'); valid = false; }
 
+      // hCaptcha validation
+      if (window.hcaptchaScaffold && !window.hcaptchaScaffold.isValid()) {
+        var errCaptcha = document.getElementById('err-hcaptcha');
+        if (errCaptcha) errCaptcha.classList.add('visible');
+        valid = false;
+      }
+
       if (!valid) return;
+
+      // Clear captcha error on success
+      var errCaptchaEl = document.getElementById('err-hcaptcha');
+      if (errCaptchaEl) errCaptchaEl.classList.remove('visible');
 
       // Store in localStorage
       localStorage.setItem('investor_access', 'true');
@@ -401,6 +415,7 @@
     });
   })();
   </script>
+  <script src="js/hcaptcha-scaffold.js"></script>
   <script src="js/consent.js"></script>
 </body>
 </html>
