@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Investor Access — AQUINTAQA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <style>
+    :root {
+      --bg: #0D1117;
+      --card-bg: #161B22;
+      --card-border: rgba(255,255,255,.08);
+      --text: #E6EDF3;
+      --text-dim: rgba(230,237,243,.6);
+      --text-muted: rgba(230,237,243,.35);
+      --accent: #E6EDF3;
+      --error: #f85149;
+      --radius: 4px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    /* ── Header ── */
+    .form-header {
+      margin-bottom: 40px;
+    }
+
+    .form-header h1 {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .form-header p {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* ── Form ── */
+    .form-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+    }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dim);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 12px 14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .field input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .field input:focus {
+      border-color: rgba(255,255,255,.25);
+      box-shadow: 0 0 0 3px rgba(255,255,255,.05);
+    }
+
+    .field input.error {
+      border-color: var(--error);
+    }
+
+    .field .error-msg {
+      font-size: 12px;
+      color: var(--error);
+      margin-top: 6px;
+      display: none;
+    }
+
+    .field .error-msg.visible {
+      display: block;
+    }
+
+    /* ── NDA Checkbox ── */
+    .nda-block {
+      margin: 28px 0 24px;
+      padding: 20px;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+    }
+
+    .nda-block .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .nda-block input[type="checkbox"] {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--text);
+      cursor: pointer;
+    }
+
+    .nda-block .nda-text {
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+
+    .nda-block .nda-text strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .nda-block .error-msg {
+      font-size: 12px;
+      color: var(--error);
+      margin-top: 8px;
+      display: none;
+    }
+
+    .nda-block .error-msg.visible {
+      display: block;
+    }
+
+    /* ── Submit ── */
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: rgba(255,255,255,.9);
+      color: #0D1117;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: .01em;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+
+    .submit-btn:hover {
+      background: #fff;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.985);
+    }
+
+    .submit-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    /* ── Confirmation overlay ── */
+    .confirmation {
+      display: none;
+      text-align: center;
+      padding: 48px 32px;
+    }
+
+    .confirmation.visible {
+      display: block;
+    }
+
+    .confirmation .icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .confirmation h2 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .confirmation p {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .confirmation .loader {
+      margin-top: 24px;
+      width: 100%;
+      height: 2px;
+      background: rgba(255,255,255,.1);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .confirmation .loader-fill {
+      height: 100%;
+      background: rgba(255,255,255,.6);
+      border-radius: 1px;
+      animation: fill 1.5s ease forwards;
+    }
+
+    @keyframes fill {
+      from { width: 0%; }
+      to { width: 100%; }
+    }
+
+    /* ── Footer note ── */
+    .footer-note {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="form-header">
+        <h1>Investor Access</h1>
+        <p>Complete the form below and accept the NDA terms to access the Investor Overview page.</p>
+      </div>
+
+      <!-- Form Card -->
+      <div class="form-card" id="form-card">
+        <form id="access-form" novalidate>
+
+          <div class="field">
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" name="fullname" placeholder="John Doe" required />
+            <div class="error-msg" id="err-fullname">Please enter your full name</div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="john@company.com" required />
+            <div class="error-msg" id="err-email">Please enter a valid email address</div>
+          </div>
+
+          <div class="field">
+            <label for="company">Company</label>
+            <input type="text" id="company" name="company" placeholder="Company name" required />
+            <div class="error-msg" id="err-company">Please enter your company name</div>
+          </div>
+
+          <div class="field">
+            <label for="role">Role</label>
+            <input type="text" id="role" name="role" placeholder="e.g. Managing Partner" required />
+            <div class="error-msg" id="err-role">Please enter your role</div>
+          </div>
+
+          <div class="nda-block">
+            <label class="checkbox-row">
+              <input type="checkbox" id="nda" name="nda" />
+              <span class="nda-text">
+                I acknowledge that the information on the Investor page is <strong>confidential and pre-NDA</strong>.
+                I agree not to disclose, distribute, or reproduce any of the materials without prior written consent from AQUINTAQA.
+              </span>
+            </label>
+            <div class="error-msg" id="err-nda">You must accept the NDA terms to proceed</div>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submit-btn">Request Access</button>
+        </form>
+      </div>
+
+      <!-- Confirmation (hidden until submit) -->
+      <div class="form-card confirmation" id="confirmation">
+        <div class="icon">✓</div>
+        <h2>Access Granted</h2>
+        <p>Email confirmed (MVP simulation)<br>Redirecting to Investor Overview…</p>
+        <div class="loader"><div class="loader-fill"></div></div>
+      </div>
+
+      <div class="footer-note">
+        AQUINTAQA — Confidential investor materials. All rights reserved.
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    const form = document.getElementById('access-form');
+    const formCard = document.getElementById('form-card');
+    const confirmation = document.getElementById('confirmation');
+
+    // If already has access, go straight to investor page
+    if (localStorage.getItem('investor_access') === 'true') {
+      window.location.href = 'investor.html';
+      return;
+    }
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function showError(id, inputEl) {
+      document.getElementById(id).classList.add('visible');
+      if (inputEl) inputEl.classList.add('error');
+    }
+
+    function clearError(id, inputEl) {
+      document.getElementById(id).classList.remove('visible');
+      if (inputEl) inputEl.classList.remove('error');
+    }
+
+    // Clear errors on input
+    ['fullname', 'email', 'company', 'role'].forEach(field => {
+      const el = document.getElementById(field);
+      el.addEventListener('input', () => clearError('err-' + field, el));
+    });
+    document.getElementById('nda').addEventListener('change', () => clearError('err-nda'));
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const fullname = document.getElementById('fullname');
+      const email = document.getElementById('email');
+      const company = document.getElementById('company');
+      const role = document.getElementById('role');
+      const nda = document.getElementById('nda');
+      let valid = true;
+
+      // Validate
+      if (!fullname.value.trim()) { showError('err-fullname', fullname); valid = false; }
+      if (!email.value.trim() || !validateEmail(email.value.trim())) { showError('err-email', email); valid = false; }
+      if (!company.value.trim()) { showError('err-company', company); valid = false; }
+      if (!role.value.trim()) { showError('err-role', role); valid = false; }
+      if (!nda.checked) { showError('err-nda'); valid = false; }
+
+      if (!valid) return;
+
+      // Store in localStorage
+      localStorage.setItem('investor_access', 'true');
+      localStorage.setItem('investor_email', email.value.trim());
+      localStorage.setItem('investor_name', fullname.value.trim());
+      localStorage.setItem('investor_company', company.value.trim());
+      localStorage.setItem('investor_role', role.value.trim());
+      localStorage.setItem('nda_accepted', 'true');
+
+      // Show confirmation
+      formCard.style.display = 'none';
+      confirmation.classList.add('visible');
+
+      // Redirect after 1.5s
+      setTimeout(() => {
+        window.location.href = 'investor.html';
+      }, 1500);
+    });
+  })();
+  </script>
+</body>
+</html>
