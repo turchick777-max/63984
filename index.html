@@ -12,6 +12,8 @@
   <meta property="og:type" content="website">
   <meta content="summary_large_image" name="twitter:card">
   <meta content="width=1440, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- MOBILE: switch viewport to device-width on phones so mobile CSS fires -->
+  <script>if(screen.width<768){document.querySelector('meta[name="viewport"]').setAttribute("content","width=device-width,initial-scale=1,viewport-fit=cover")}</script>
   <meta content="Webflow" name="generator">
   <!-- PERF: Preconnect to external origins for faster resource fetching -->
   <link rel="preconnect" href="https://d3e54v103j8qbb.cloudfront.net" crossorigin>
@@ -74,6 +76,63 @@
       visibility: hidden; 
       pointer-events: none; 
     }
+
+    /* =============================================
+       MOBILE LAYOUT START
+       Breakpoint: max-width 767px
+       Desktop/tablet remain pixel-identical.
+       ============================================= */
+    @media screen and (max-width: 767px) {
+
+      /* ── Iframe sections: scaled desktop preview ── */
+      section[id$="-embed"] {
+        min-height: auto !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      section[id$="-embed"] iframe {
+        width: 1440px !important;
+        transform-origin: top left;
+        display: block !important;
+        border: none !important;
+      }
+
+      /* ── Section spacing ── */
+      .se1 + div > section[id$="-embed"],
+      section[id$="-embed"] + section[id$="-embed"] {
+        margin-top: 0 !important;
+      }
+
+      /* ── Footer ── */
+      .footer2 {
+        padding: 32px 0 !important;
+      }
+      .footer-2 {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 20px !important;
+        padding: 0 20px !important;
+        width: 100% !important;
+      }
+      .footer-2 .text-block-3 {
+        font-size: 0.8rem !important;
+        text-align: center !important;
+        line-height: 1.7 !important;
+        max-width: 90% !important;
+      }
+      .footer-2 .div-block-3 {
+        justify-content: center !important;
+        gap: 1.5rem !important;
+      }
+      .footer-2 .div-block-3 a {
+        font-size: 0.85rem !important;
+        color: rgba(255,255,255,.65) !important;
+        text-decoration: none !important;
+      }
+    }
+    /* MOBILE LAYOUT END */
   </style>
   <link rel="stylesheet" href="css/consent.css" />
 </head>
@@ -386,6 +445,49 @@
     });
 
     videoObserver.observe(videoSection);
+  })();
+
+  // ─── MOBILE: Scale iframe sections to fit viewport ───
+  (function() {
+    'use strict';
+    if (screen.width >= 768) return; // Desktop/tablet: skip
+
+    var DESIGN_W = 1440;
+    var vw = window.innerWidth || screen.width;
+    var scale = vw / DESIGN_W;
+
+    var iframes = document.querySelectorAll('section[id$="-embed"] iframe');
+    iframes.forEach(function(iframe) {
+      // Read original height from inline style
+      var origH = parseInt(iframe.style.height) || 900;
+      var scaledH = Math.ceil(origH * scale);
+
+      // Scale iframe: render at desktop width, zoom to fit
+      iframe.style.width = DESIGN_W + 'px';
+      iframe.style.height = origH + 'px';
+      iframe.style.transform = 'scale(' + scale + ')';
+      iframe.style.transformOrigin = 'top left';
+
+      // Fix parent section height (transform doesn't affect layout)
+      var section = iframe.parentElement;
+      section.style.height = scaledH + 'px';
+      section.style.minHeight = scaledH + 'px';
+      section.style.overflow = 'hidden';
+    });
+
+    // Recalculate on orientation change
+    window.addEventListener('orientationchange', function() {
+      setTimeout(function() {
+        var newVw = window.innerWidth;
+        var newScale = newVw / DESIGN_W;
+        iframes.forEach(function(iframe) {
+          var origH = parseInt(iframe.getAttribute('data-orig-h')) || parseInt(iframe.style.height) || 900;
+          iframe.style.transform = 'scale(' + newScale + ')';
+          iframe.parentElement.style.height = Math.ceil(origH * newScale) + 'px';
+          iframe.parentElement.style.minHeight = Math.ceil(origH * newScale) + 'px';
+        });
+      }, 300);
+    });
   })();
   </script>
 
