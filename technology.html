@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Technology — AQUINTAQA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon">
+  <style>
+    :root {
+      --bg: #0e1116;
+      --card-bg: #161b22;
+      --card-border: rgba(255,255,255,.08);
+      --accent: #2BD4C3;
+      --accent-dim: rgba(43,212,195,.15);
+      --text: #e6edf3;
+      --text-dim: rgba(230,237,243,.65);
+      --text-muted: rgba(230,237,243,.4);
+      --card-w: 380px;
+      --card-gap: 24px;
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ── */
+    .page {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      flex-shrink: 0;
+      padding: 40px 48px 0;
+    }
+
+    .header h1 {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .header .subtitle {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .header .hint {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .header .hint span {
+      color: var(--accent);
+    }
+
+    /* ── Cards rail ── */
+    .rail-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      padding: 32px 0 40px;
+    }
+
+    .rail {
+      display: flex;
+      gap: var(--card-gap);
+      padding: 0 48px;
+      height: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      cursor: grab;
+    }
+
+    .rail:active { cursor: grabbing; }
+    .rail::-webkit-scrollbar { display: none; }
+
+    /* ── Card ── */
+    .card {
+      flex: 0 0 var(--card-w);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      scroll-snap-align: start;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,.12) transparent;
+      transition: border-color .3s, box-shadow .3s;
+    }
+
+    .card:hover {
+      border-color: rgba(43,212,195,.25);
+      box-shadow: 0 0 0 1px rgba(43,212,195,.08), 0 8px 32px rgba(0,0,0,.3);
+    }
+
+    .card::-webkit-scrollbar { width: 4px; }
+    .card::-webkit-scrollbar-track { background: transparent; }
+    .card::-webkit-scrollbar-thumb { background: rgba(255,255,255,.12); border-radius: 2px; }
+
+    .card-number {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      opacity: .8;
+    }
+
+    .card h2 {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    .card h2 .accent {
+      color: var(--accent);
+    }
+
+    .card p {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    .card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text);
+      margin-top: 8px;
+      margin-bottom: 10px;
+      padding-left: 12px;
+      border-left: 2px solid var(--accent);
+    }
+
+    .card ul, .card ol {
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    .card li {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .card li::marker {
+      color: var(--accent);
+    }
+
+    .card .note {
+      font-size: 13px;
+      font-style: italic;
+      color: var(--text-muted);
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .card .comparison-group {
+      margin-bottom: 16px;
+    }
+
+    .card .comparison-group h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+      letter-spacing: .02em;
+    }
+
+    .card .comparison-group.aq h4 {
+      color: var(--accent);
+    }
+
+    .card .comparison-group ul {
+      margin-bottom: 8px;
+    }
+
+    .card .scope-link {
+      display: inline;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ── Bottom bar with scroll indicators ── */
+    .bottom-bar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 48px 32px;
+    }
+
+    .dot-nav {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .dot-nav .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.15);
+      transition: background .3s, transform .3s;
+      cursor: pointer;
+    }
+
+    .dot-nav .dot.active {
+      background: var(--accent);
+      transform: scale(1.3);
+    }
+
+    /* ── Arrow buttons ── */
+    .arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(22,27,34,.85);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .2s, border-color .2s;
+      backdrop-filter: blur(8px);
+    }
+
+    .arrow-btn:hover {
+      background: rgba(43,212,195,.15);
+      border-color: rgba(43,212,195,.4);
+    }
+
+    .arrow-btn.left { left: 12px; }
+    .arrow-btn.right { right: 12px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- Header -->
+    <div class="header">
+      <h1>TECHNOLOGY</h1>
+      <div class="subtitle">Volumetric Gas–Sorbent Desalination Platform</div>
+      <div class="hint">Scroll horizontally or use <span>← →</span> arrows</div>
+    </div>
+
+    <!-- Cards rail -->
+    <div class="rail-wrap">
+      <button class="arrow-btn left" id="arrow-left">←</button>
+      <button class="arrow-btn right" id="arrow-right">→</button>
+
+      <div class="rail" id="rail">
+
+        <!-- Card 1: Process Overview -->
+        <div class="card" data-card="0">
+          <div class="card-number">Section 01</div>
+          <h2>Process <span class="accent">Overview</span></h2>
+          <p>AQUINTAQA is based on a volumetric gas–sorbent separation mechanism designed to remove dissolved ions from saline water through controlled physicochemical interaction within a multiphase system.</p>
+          <p>The process differs fundamentally from pressure-driven membrane desalination and thermal evaporation technologies. Instead of forcing water through a selective barrier or applying phase-change energy, the system utilizes:</p>
+          <ul>
+            <li>Controlled gas-phase interaction</li>
+            <li>Selective sorbent-mediated ion capture</li>
+            <li>Directional mass transfer within a volumetric reactor environment</li>
+          </ul>
+          <p>The separation occurs within a dynamically regulated chamber designed to optimize ion selectivity, process stability, and energy balance.</p>
+          <p>The platform is modular and configurable depending on feed salinity and operating conditions.</p>
+        </div>
+
+        <!-- Card 2: High-Level Architecture -->
+        <div class="card" data-card="1">
+          <div class="card-number">Section 02</div>
+          <h2>High-Level <span class="accent">Architecture</span></h2>
+          <p>The system architecture consists of:</p>
+          <ol>
+            <li>Feed conditioning module</li>
+            <li>Volumetric reaction chamber</li>
+            <li>Gas-phase circulation and control unit</li>
+            <li>Sorbent regeneration subsystem</li>
+            <li>Separation and recovery module</li>
+            <li>Process control and monitoring system</li>
+          </ol>
+          <p>The architecture is designed for:</p>
+          <ul>
+            <li>Multi-feed adaptability</li>
+            <li>Stable long-duration operation</li>
+            <li>Controlled mass transfer environment</li>
+            <li>Industrial scalability</li>
+          </ul>
+          <div class="note">No high-pressure membrane stacks are used. No high-temperature evaporation stages are required.</div>
+        </div>
+
+        <!-- Card 3: Operating Envelope -->
+        <div class="card" data-card="2">
+          <div class="card-number">Section 03</div>
+          <h2>Operating <span class="accent">Envelope</span></h2>
+          <p>Validated operating ranges (pilot level):</p>
+          <ul>
+            <li>Feed salinity range: 15–210 g/L</li>
+            <li>Continuous runs: ≥300 hours</li>
+            <li>Multi-feed operation confirmed</li>
+            <li>Baseline directional ion reduction demonstrated</li>
+          </ul>
+          <p>Testing includes controlled laboratory validation before and after treatment cycles (independent laboratory verification under NDA).</p>
+        </div>
+
+        <!-- Card 4: Comparison with Conventional Desalination -->
+        <div class="card" data-card="3">
+          <div class="card-number">Section 04</div>
+          <h2>Comparison with <span class="accent">Conventional Desalination</span></h2>
+
+          <div class="comparison-group">
+            <h4>Reverse Osmosis (RO)</h4>
+            <ul>
+              <li>Pressure-driven membrane process</li>
+              <li>Membrane fouling and scaling risks</li>
+              <li>High-pressure pump dependency</li>
+              <li>Sensitivity to feed composition</li>
+            </ul>
+          </div>
+
+          <div class="comparison-group">
+            <h4>Thermal Distillation</h4>
+            <ul>
+              <li>Energy-intensive phase change</li>
+              <li>High CAPEX infrastructure</li>
+              <li>Large-scale fixed installations</li>
+            </ul>
+          </div>
+
+          <div class="comparison-group aq">
+            <h4>AQUINTAQA Platform</h4>
+            <ul>
+              <li>No membrane-based separation</li>
+              <li>No high-pressure requirement</li>
+              <li>No bulk phase-change energy input</li>
+              <li>Volumetric ion-selective mechanism</li>
+              <li>Modular reactor configuration</li>
+            </ul>
+          </div>
+
+          <div class="note">The differentiation is structural, not incremental.</div>
+        </div>
+
+        <!-- Card 5: IP & Process Governance -->
+        <div class="card" data-card="4">
+          <div class="card-number">Section 05</div>
+          <h2>IP & Process <span class="accent">Governance</span></h2>
+          <p>The technology is governed under a structured IP framework covering:</p>
+          <ul>
+            <li>Reactor configuration principles</li>
+            <li>Sorbent system design</li>
+            <li>Gas–liquid interaction methodology</li>
+            <li>Control algorithms and operating modes</li>
+          </ul>
+          <p>Operational knowledge is compartmentalized. Detailed process parameters are disclosed only under e-NDA within the Data Room.</p>
+          <div class="note">All technical documentation is version-controlled and traceable.</div>
+        </div>
+
+        <!-- Card 6: Engineering Status -->
+        <div class="card" data-card="5">
+          <div class="card-number">Section 06</div>
+          <h2>Engineering <span class="accent">Status</span></h2>
+          <p>Current maturity level (see TRL Snapshot for reference):</p>
+          <ul>
+            <li>Core principle validated</li>
+            <li>Controlled prototypes demonstrated</li>
+            <li>Integrated pilot ≥800h confirmed</li>
+            <li>Independent laboratory verification completed</li>
+          </ul>
+          <p>The technology is transitioning from pilot configuration to industrial engineering design phase.</p>
+        </div>
+
+        <!-- Card 7: Scope of This Page -->
+        <div class="card" data-card="6">
+          <div class="card-number">Section 07</div>
+          <h2>Scope of <span class="accent">This Page</span></h2>
+          <p>This page provides high-level architectural and engineering description only.</p>
+          <p>For validation details → see <span class="scope-link">Quality & Validation</span>.</p>
+          <p>For investment structure → see <span class="scope-link">Investor Page</span>.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Dot navigation -->
+    <div class="bottom-bar">
+      <div class="dot-nav" id="dot-nav"></div>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    const rail = document.getElementById('rail');
+    const cards = Array.from(rail.querySelectorAll('.card'));
+    const dotNav = document.getElementById('dot-nav');
+    const leftBtn = document.getElementById('arrow-left');
+    const rightBtn = document.getElementById('arrow-right');
+    const CARD_W = 380;
+    const GAP = 24;
+    const STEP = CARD_W + GAP;
+    let activeIndex = 0;
+
+    // Build dot nav
+    cards.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.addEventListener('click', () => scrollToCard(i));
+      dotNav.appendChild(dot);
+    });
+
+    function updateDots() {
+      const scrollLeft = rail.scrollLeft;
+      const idx = Math.round(scrollLeft / STEP);
+      activeIndex = Math.max(0, Math.min(idx, cards.length - 1));
+      dotNav.querySelectorAll('.dot').forEach((d, i) => {
+        d.classList.toggle('active', i === activeIndex);
+      });
+    }
+
+    function scrollToCard(i) {
+      rail.scrollTo({ left: i * STEP, behavior: 'smooth' });
+    }
+
+    // Arrow buttons
+    leftBtn.addEventListener('click', () => {
+      const next = activeIndex <= 0 ? cards.length - 1 : activeIndex - 1;
+      scrollToCard(next);
+    });
+
+    rightBtn.addEventListener('click', () => {
+      const next = activeIndex >= cards.length - 1 ? 0 : activeIndex + 1;
+      scrollToCard(next);
+    });
+
+    // Update dots on scroll
+    rail.addEventListener('scroll', updateDots, { passive: true });
+
+    // Drag to scroll
+    let isDown = false, startX, scrollStart;
+
+    rail.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - rail.offsetLeft;
+      scrollStart = rail.scrollLeft;
+      rail.style.scrollSnapType = 'none';
+    });
+
+    rail.addEventListener('mouseleave', () => { isDown = false; rail.style.scrollSnapType = 'x mandatory'; });
+    rail.addEventListener('mouseup', () => { isDown = false; rail.style.scrollSnapType = 'x mandatory'; });
+
+    rail.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - rail.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      rail.scrollLeft = scrollStart - walk;
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { rightBtn.click(); }
+      if (e.key === 'ArrowLeft') { leftBtn.click(); }
+    });
+  })();
+  </script>
+</body>
+</html>
