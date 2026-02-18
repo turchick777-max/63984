@@ -84,6 +84,104 @@
        ============================================= */
     @media screen and (max-width: 767px) {
 
+      /* ── HERO: hide 3D Spline, use CSS sphere ── */
+      .spline-content,
+      .sphere-marker {
+        display: none !important;
+      }
+
+      /* ── Show left column: text + CSS sphere ── */
+      .se1 .colum-l {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+        z-index: 5 !important;
+        padding: 70px 24px 0 !important;
+        width: 100% !important;
+        flex: 1 1 auto !important;
+      }
+
+      .se1 .content-img {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        position: static !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+
+      /* Stats text visible */
+      .se1 .content-img > .text-block,
+      .se1 .content-img > .text-block._2 {
+        display: block !important;
+        font-size: clamp(0.72rem, 3.2vw, 0.95rem) !important;
+        text-align: center !important;
+        position: static !important;
+        transform: none !important;
+        left: auto !important;
+        top: auto !important;
+        width: auto !important;
+        margin-bottom: 4px !important;
+        letter-spacing: 1px !important;
+        color: rgba(255,255,255,0.7) !important;
+        font-weight: 300 !important;
+      }
+
+      /* Hide desktop-only elements */
+      .se1 .div-block-17,
+      .se1 .div-block-5,
+      .se1 .podpis {
+        display: none !important;
+      }
+
+      /* ── CSS Sphere: visible on mobile ── */
+      .se1 .sfera,
+      .se1 .sfera.no {
+        display: block !important;
+        width: 52vw !important;
+        max-width: 230px !important;
+        aspect-ratio: 1 / 1 !important;
+        margin: 16px auto !important;
+        position: relative !important;
+        z-index: 2 !important;
+        border-radius: 50% !important;
+        filter: drop-shadow(0 0 40px rgba(66,207,242,0.45)) !important;
+      }
+
+      /* ── Bottom text: in flow, not absolute ── */
+      .se1 .colum-r {
+        position: relative !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+        width: 100% !important;
+        z-index: 10 !important;
+        padding: 0 24px 36px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        background: transparent !important;
+        flex-shrink: 0 !important;
+      }
+
+      .se1 .h1,
+      .se1 h1 {
+        text-align: center !important;
+        font-size: clamp(1.4rem, 6.5vw, 2rem) !important;
+        margin-bottom: 10px !important;
+      }
+
+      .se1 .colum-r .text {
+        text-align: center !important;
+        max-width: 100% !important;
+      }
+
+      .se1 .div-block-4 {
+        justify-content: center !important;
+      }
+
       /* ── Iframe sections: scaled desktop preview ── */
       section[id$="-embed"] {
         min-height: auto !important;
@@ -97,12 +195,6 @@
         transform-origin: top left;
         display: block !important;
         border: none !important;
-      }
-
-      /* ── Section spacing ── */
-      .se1 + div > section[id$="-embed"],
-      section[id$="-embed"] + section[id$="-embed"] {
-        margin-top: 0 !important;
       }
 
       /* ── Footer ── */
