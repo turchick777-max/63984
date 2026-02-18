@@ -194,34 +194,26 @@
       text-underline-offset: 3px;
     }
 
-    /* ── Bottom bar with scroll indicators ── */
+    /* ── Bottom bar with progress strip ── */
     .bottom-bar {
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
       padding: 0 48px 32px;
     }
 
-    .dot-nav {
-      display: flex;
-      gap: 8px;
-      align-items: center;
+    .progress-track {
+      width: 100%;
+      height: 2px;
+      background: rgba(255,255,255,.1);
+      border-radius: 1px;
+      overflow: hidden;
     }
 
-    .dot-nav .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255,255,255,.15);
-      transition: background .3s, transform .3s;
-      cursor: pointer;
-    }
-
-    .dot-nav .dot.active {
-      background: rgba(255,255,255,.7);
-      transform: scale(1.3);
+    .progress-fill {
+      height: 100%;
+      background: rgba(255,255,255,.6);
+      border-radius: 1px;
+      transition: width .3s ease;
+      width: 0%;
     }
 
     /* ── Arrow buttons ── */
@@ -384,9 +376,11 @@
       </div>
     </div>
 
-    <!-- Dot navigation -->
+    <!-- Progress bar -->
     <div class="bottom-bar">
-      <div class="dot-nav" id="dot-nav"></div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
     </div>
   </div>
 
@@ -394,7 +388,7 @@
   (() => {
     const rail = document.getElementById('rail');
     const cards = Array.from(rail.querySelectorAll('.card'));
-    const dotNav = document.getElementById('dot-nav');
+    const progressFill = document.getElementById('progress-fill');
     const leftBtn = document.getElementById('arrow-left');
     const rightBtn = document.getElementById('arrow-right');
     const CARD_W = 380;
@@ -402,22 +396,15 @@
     const STEP = CARD_W + GAP;
     let activeIndex = 0;
 
-    // Build dot nav
-    cards.forEach((_, i) => {
-      const dot = document.createElement('div');
-      dot.className = 'dot' + (i === 0 ? ' active' : '');
-      dot.addEventListener('click', () => scrollToCard(i));
-      dotNav.appendChild(dot);
-    });
-
-    function updateDots() {
-      const scrollLeft = rail.scrollLeft;
-      const idx = Math.round(scrollLeft / STEP);
+    function updateProgress() {
+      const maxScroll = rail.scrollWidth - rail.clientWidth;
+      const pct = maxScroll > 0 ? (rail.scrollLeft / maxScroll) * 100 : 0;
+      progressFill.style.width = pct + '%';
+      const idx = Math.round(rail.scrollLeft / STEP);
       activeIndex = Math.max(0, Math.min(idx, cards.length - 1));
-      dotNav.querySelectorAll('.dot').forEach((d, i) => {
-        d.classList.toggle('active', i === activeIndex);
-      });
     }
+
+    const updateDots = updateProgress;
 
     function scrollToCard(i) {
       rail.scrollTo({ left: i * STEP, behavior: 'smooth' });
