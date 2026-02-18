@@ -24,7 +24,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
-      min-height: 100vh;
+      min-height: var(--stage-h, 100vh);
       background: var(--bg);
       color: var(--text);
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
@@ -35,7 +35,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      min-height: var(--stage-h, 100vh);
       padding: 40px 24px;
     }
 
@@ -260,9 +260,11 @@
       line-height: 1.5;
     }
   </style>
+  <link rel="stylesheet" href="css/stage-scale.css" />
   <link rel="stylesheet" href="css/consent.css" />
 </head>
 <body>
+<div id="viewport"><div id="stage">
   <div class="page">
     <div class="container">
 
@@ -332,6 +334,7 @@
 
     </div>
   </div>
+</div></div><!-- /stage /viewport -->
 
   <script>
   (() => {
@@ -416,6 +419,7 @@
   })();
   </script>
   <script src="js/hcaptcha-scaffold.js"></script>
+  <script src="js/stage-scale.js"></script>
   <script src="js/consent.js"></script>
 </body>
 </html>

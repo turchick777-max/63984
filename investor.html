@@ -707,10 +707,12 @@
 			}
 			/* ====== END PROVIDED CSS ====== */
 		</style>
+		<link rel="stylesheet" href="css/stage-scale.css" />
 		<link rel="stylesheet" href="css/consent.css" />
 	</head>
 
 	<body>
+	<div id="viewport"><div id="stage">
 		<div class="w-layout-vflex analytics-wrapper tab-pane-tab-4 inherited-css">
 			<div class="w-layout-hflex _2col-grid analytics-header _2">
 				<h4 words-slide-from-right="" text-split="" class="u-text-style-h1 blue _2" style="opacity: 1">
@@ -1019,6 +1021,7 @@
 				<div class="mobile-dropdown" aria-hidden="true"></div>
 			</div>
 		</div>
+	</div></div><!-- /stage /viewport -->
 
 		<script>
 			// Minimal vanilla tabs (so the file works standalone without Webflow JS)
@@ -1055,6 +1058,7 @@
 				setActive(current);
 			})();
 		</script>
+		<script src="js/stage-scale.js"></script>
 		<script src="js/consent.js"></script>
 	</body>
 </html>

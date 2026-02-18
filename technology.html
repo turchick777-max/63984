@@ -38,7 +38,7 @@
     .page {
       display: flex;
       flex-direction: column;
-      height: 100vh;
+      height: var(--stage-h, 100vh);
     }
 
     /* ── Header ── */
@@ -270,9 +270,11 @@
     .arrow-btn.left { left: 12px; }
     .arrow-btn.right { right: 12px; }
   </style>
+  <link rel="stylesheet" href="css/stage-scale.css" />
   <link rel="stylesheet" href="css/consent.css" />
 </head>
 <body>
+<div id="viewport"><div id="stage" data-stage-fit>
   <div class="page">
     <!-- Header -->
     <div class="header">
@@ -426,6 +428,7 @@
       </div>
     </div>
   </div>
+</div></div><!-- /stage /viewport -->
 
   <script>
   (() => {
@@ -496,6 +499,7 @@
     });
   })();
   </script>
+  <script src="js/stage-scale.js"></script>
   <script src="js/consent.js"></script>
 </body>
 </html>
