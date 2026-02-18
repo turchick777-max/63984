@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AQUINTAQA — Screen 6 (Video)</title>
+  <style>
+    :root{
+      --bg:#000000;
+
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.72);
+
+      --cyan:#00D7FF;
+
+      --overlay: 0.33;
+
+      --max: 1240px;
+      --gap: 56px;
+
+      /* smaller headline */
+      --h1: 38px;
+      --h1lh: 1.08;
+
+      --body: 20px;
+      --bodylh: 1.7;
+
+      --radius: 22px;
+      --shadow: 0 12px 40px rgba(0,0,0,.45);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    .screen{
+      min-height: 100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 64px 32px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width: var(--max);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 0.9fr 1.6fr;
+      gap: var(--gap);
+      align-items:start;
+    }
+
+    /* H1 above everything */
+    .heroTitle{
+      grid-column: 1 / -1;
+      margin: -20px 0 18px 0;
+      font-size: 52px;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      font-weight: 500;
+      color: var(--text);
+      max-width: 100%;
+    }
+    .heroTitle .line{ display:block; }
+
+    /* LEFT */
+    .left{
+      padding-top: 6px;
+    }
+
+    .body{
+      margin: 0 0 22px 0;
+      max-width: 520px;
+      font-size: var(--body);
+      line-height: var(--bodylh);
+      letter-spacing: 0.01em;
+      color: var(--muted);
+      text-align: left;
+    }
+
+    .cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 0.5px solid rgba(8, 145, 178, 0.5);
+      background: transparent;
+      color: #fff;
+      font-size: 0.95rem;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      font-weight: 400;
+      text-decoration:none;
+      user-select:none;
+      white-space: nowrap;
+      transition:
+        background-color 0.35s ease,
+        border-color 0.35s ease,
+        box-shadow 0.35s ease,
+        transform 0.25s ease;
+    }
+    .cta:hover{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(8, 145, 178, 0.8);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.15);
+      transform: translateY(-1px);
+    }
+    .cta:active{ transform: translateY(0); }
+    .cta:focus-visible{
+      outline: 1.5px solid rgba(8, 145, 178, 0.95);
+      outline-offset: 3px;
+    }
+
+    /* RIGHT */
+    .right{
+      padding-top: 0;
+    }
+
+    .videoCard{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      min-height: 420px;
+      border-radius: var(--radius);
+      overflow:hidden;
+      background: #050505;
+      box-shadow: var(--shadow);
+      margin-top: 6px;
+    }
+
+    .videoCard video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      transform: translateZ(0);
+    }
+
+    .videoOverlay{
+      position:absolute;
+      inset:0;
+      background: rgba(0,0,0,var(--overlay));
+      pointer-events:none;
+    }
+
+    .videoBorder{
+      position:absolute;
+      inset:0;
+      border-radius: var(--radius);
+      box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset;
+      pointer-events:none;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .grid{
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+      .screen{ padding: 48px 22px; }
+      .heroTitle{
+        font-size: 34px;
+        max-width: 100%;
+      }
+      .videoCard{
+        aspect-ratio: 16 / 10;
+        min-height: 320px;
+        margin-top: 0;
+      }
+      .body{ max-width: 100%; }
+    }
+
+    @media (max-width: 520px){
+      .heroTitle{ font-size: 30px; }
+      .body{ font-size: 15px; }
+      .cta{ height: 42px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="screen">
+    <section class="wrap">
+      <div class="grid">
+
+        <!-- FIXED LINE BREAK: second line starts with "platform" -->
+        <h1 class="heroTitle">
+          <span class="line">AQUINTAQA is a next-generation desalination</span>
+          <span class="line">platform based on a volumetric gas–sorbent process.</span>
+        </h1>
+
+        <!-- LEFT COLUMN BODY -->
+        <div class="left">
+          <div class="body">
+            An international team of engineers and researchers. Process architecture is established; key operating modes have been demonstrated on prototypes and verified by independent labs (before/after). We are ready to move from prototypes to industrial engineering design and scale-up. Investor materials and next steps — on the Investor Page.
+          </div>
+
+          <a class="cta" href="#" target="_self" rel="noopener">
+            Open Investor Page
+          </a>
+        </div>
+
+        <!-- RIGHT VIDEO -->
+        <div class="right">
+          <div class="videoCard" aria-label="AQUINTAQA video loop">
+            <video
+              src="aquintaqa-process-loop.mp4"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+            ></video>
+            <div class="videoOverlay" aria-hidden="true"></div>
+            <div class="videoBorder" aria-hidden="true"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const v = document.querySelector("video");
+    if (v) {
+      const tryPlay = () => v.play().catch(()=>{});
+      tryPlay();
+      window.addEventListener("pointerdown", tryPlay, { once: true });
+      window.addEventListener("keydown", tryPlay, { once: true });
+    }
+  </script>
+</body>
+</html>

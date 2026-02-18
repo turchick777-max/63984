@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1440, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <title>AQUINTAQA | Validation & FAQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: Onest;
+            src: url('../../fonts/Onest-Light.woff') format("woff");
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: Onest;
+            src: url('../../fonts/Onest-Regular.woff') format("woff");
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: Onest;
+            src: url('../../fonts/Onest-Medium.woff') format("woff");
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: Onest;
+            src: url('../../fonts/Onest-SemiBold.woff') format("woff");
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --bg: #000000;
+            --line: rgba(74, 144, 164, 0.25);
+            --accent: #4AC8DC;
+            --text-main: #ffffff;
+            --text-dim: #999999;
+            --font-main: 'Onest', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- LAYOUT --- */
+        .grid-container {
+            display: grid;
+            grid-template-rows: auto 1fr; /* Header, Content */
+            min-height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* --- HEADER AREA --- */
+        .top-section {
+            padding: 40px 60px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 60px;
+        }
+
+        .main-title {
+            font-family: var(--font-main);
+            text-transform: uppercase;
+            font-size: 38px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .main-title span {
+            display: block;
+            color: #ffffff;
+            font-size: 18px;
+            margin-top: 10px;
+            opacity: 1;
+            letter-spacing: -1px;
+            font-family: var(--font-main);
+            font-weight: 400;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            padding: 5px 12px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-size: 11px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .lang-btn.active { color: var(--accent); }
+
+        /* --- FEATURES (ICONS) --- */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 60px;
+        }
+
+        .feature-item {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            grid-template-rows: auto auto;
+            gap: 15px;
+            column-gap: 20px;
+        }
+
+        .icon-box {
+            grid-column: 1;
+            grid-row: 1;
+            height: 60px;
+            width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-box svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--accent);
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .feat-title {
+            grid-column: 2;
+            grid-row: 1;
+            font-family: var(--font-main);
+            font-size: 19px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-main);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            height: 60px;
+        }
+
+        .feat-text {
+            grid-column: 1 / 3;
+            grid-row: 2;
+            font-size: 15px;
+            line-height: 1.5;
+            color: var(--text-dim);
+        }
+
+        /* --- FAQ SECTION --- */
+        .faq-section {
+            display: flex;
+            flex: 1;
+        }
+
+        .faq-left {
+            width: 35%;
+            padding: 50px 60px;
+        }
+
+        .faq-right {
+            width: 65%;
+            padding: 50px 60px;
+        }
+
+        .faq-heading {
+            font-family: var(--font-main);
+            font-size: 38px;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .faq-sub {
+            font-size: 16px;
+            color: var(--text-dim);
+            line-height: 1.5;
+            max-width: 250px;
+        }
+
+        /* Accordion */
+        .accordion-item {
+            margin-bottom: 0;
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 25px 0;
+            background: none;
+            border: none;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-main);
+            transition: color 0.3s;
+        }
+
+        .accordion-header:hover {
+            color: var(--accent);
+        }
+
+        .q-text {
+            font-family: var(--font-main);
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding-right: 20px;
+            font-weight: 500;
+        }
+
+        .icon-plus {
+            position: relative;
+            width: 12px;
+            height: 12px;
+            flex-shrink: 0;
+        }
+
+        .icon-plus::before, .icon-plus::after {
+            content: '';
+            position: absolute;
+            background: var(--text-main);
+            transition: transform 0.3s;
+        }
+        
+        .icon-plus::before { width: 100%; height: 1px; top: 50%; left: 0; }
+        .icon-plus::after { width: 1px; height: 100%; top: 0; left: 50%; }
+
+        .accordion-item.active .icon-plus::after {
+            opacity: 0;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+        }
+
+        .a-text {
+            padding-bottom: 25px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-dim);
+        }
+
+        /* Technical details in FAQ answers - keep mono font for technical terms */
+        .a-text code,
+        .a-text .tech {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Force desktop view on all devices - viewport only, no scroll */
+        html, body {
+            overflow-x: hidden !important;
+        }
+
+        /* Disabled responsive media queries - always show desktop version */
+        /*
+        @media (max-width: 1024px) {
+            .features-grid { grid-template-columns: 1fr; gap: 40px; }
+            .faq-section { flex-direction: column; }
+            .faq-left, .faq-right { width: 100%; padding: 30px 40px; }
+            .faq-left { padding-bottom: 20px; }
+        }
+        */
+    </style>
+</head>
+<body>
+
+    <div class="grid-container">
+        <!-- TOP SECTION: VALIDATION & ICONS -->
+        <section class="top-section">
+            <div class="page-header">
+                <div class="main-title">
+                    Validation Snapshot
+                    <span id="txt-subtitle">PUBLIC VIEW • PRE-NDA</span>
+                </div>
+                <div class="lang-switch">
+                    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+                    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <!-- Icon 1: Low Energy -->
+                <div class="feature-item">
+                    <div class="icon-box">
+                        <svg viewBox="0 0 50 50">
+                            <!-- Lightning / Pulse -->
+                            <path d="M28 2L15 28H25L22 48L35 22H25L28 2Z" fill="var(--bg)"/>
+                        </svg>
+                    </div>
+                    <div class="feat-title" id="t-f1">Low energy load</div>
+                    <div class="feat-text" id="d-f1">No high pressure. No boiling. Energy demand is feed- and configuration-dependent.</div>
+                </div>
+
+                <!-- Icon 2: No Brine -->
+                <div class="feature-item">
+                    <div class="icon-box">
+                        <svg viewBox="0 0 50 50">
+                            <defs>
+                                <!-- Clip path with wavy water line -->
+                                <clipPath id="waterClip">
+                                    <path d="M 10 28 Q 15 26, 20 28 T 30 28 T 40 28 L 40 46 L 10 46 Z" />
+                                </clipPath>
+                            </defs>
+                            <!-- Drop outline -->
+                            <path d="M25 5C25 5 10 20 10 32C10 40 16 46 25 46C34 46 40 40 40 32C40 20 25 5 25 5Z" stroke="var(--accent)" stroke-width="1.5" fill="none"/>
+                            <!-- Water fill with wavy top -->
+                            <path d="M25 5C25 5 10 20 10 32C10 40 16 46 25 46C34 46 40 40 40 32C40 20 25 5 25 5Z" fill="var(--accent)" fill-opacity="0.3" clip-path="url(#waterClip)"/>
+                            <!-- Crossed-out line -->
+                            <line x1="8" y1="42" x2="42" y2="8" stroke="var(--accent)" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="feat-title" id="t-f2">No high-salinity brine discharge</div>
+                    <div class="feat-text" id="d-f2">Salts are captured into a controlled concentrate stream; no continuous marine brine discharge.</div>
+                </div>
+
+                <!-- Icon 3: No RO (Vertical) -->
+                <div class="feature-item">
+                    <div class="icon-box">
+                        <svg viewBox="0 0 50 50">
+                            <!-- Membrane filter with cross - VERTICAL -->
+                            <rect x="10" y="5" width="30" height="40" rx="2"/>
+                            <circle cx="25" cy="15" r="2" fill="var(--accent)"/>
+                            <circle cx="25" cy="25" r="2" fill="var(--accent)"/>
+                            <circle cx="25" cy="35" r="2" fill="var(--accent)"/>
+                            <line x1="10" y1="5" x2="40" y2="45" stroke="var(--accent)" stroke-width="2"/>
+                            <line x1="40" y1="5" x2="10" y2="45" stroke="var(--accent)" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="feat-title" id="t-f3">No RO — no membrane fouling</div>
+                    <div class="feat-text" id="d-f3">No RO membrane trains by design — reduced chemical cleaning and downtime.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOTTOM SECTION: FAQ -->
+        <section class="faq-section">
+            <div class="faq-left">
+                <div class="faq-heading">FAQ</div>
+            </div>
+            
+            <div class="faq-right" id="faq-list">
+                <!-- JS will inject questions here -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        const content = {
+            en: {
+                subtitle: "PUBLIC VIEW • PRE-NDA",
+                f1t: "Low energy load",
+                f1d: "No high pressure. No boiling. Energy demand is feed- and configuration-dependent.",
+                f2t: "No high-salinity brine discharge",
+                f2d: "Salts are captured into a controlled concentrate stream; no continuous marine brine discharge.",
+                f3t: "No RO — no membrane fouling",
+                f3d: "No RO membrane trains by design—reduced chemical cleaning and downtime.",
+                faqSub: "Answers to questions you may have.",
+                faq: [
+                    {
+                        q: "What drives low energy load without high pressure or boiling?",
+                        a: "The process does not rely on high pressure or boiling. Energy demand is driven by separation/transfer under mild conditions and is feed- and configuration-dependent."
+                    },
+                    {
+                        q: "What happens to salts if there is no brine discharge?",
+                        a: "Salts are not released as a large-volume high-salinity outfall. They are captured into a controlled concentrate stream / compact residue, managed under the selected disposal or value-recovery scenario."
+                    },
+                    {
+                        q: "Why no RO, and what does that change in operations?",
+                        a: "RO membrane trains are not used, so membrane fouling is not applicable by design. This reduces the need for frequent chemical cleaning, simplifies maintenance, and improves operational stability."
+                    },
+                    {
+                        q: "How do you benchmark to WHO / EU / US EPA on the public page?",
+                        a: "The public page shows status trends only—no numeric values and no operating-mode disclosure. Full before/after tables, methods, and reports are available after e-NDA in the Data Room."
+                    },
+                    {
+                        q: "What is available pre-NDA vs post-NDA?",
+                        a: "Pre-NDA: high-level architecture, safe-to-disclose claims, public status indicators. Post e-NDA: independent lab reports, sampling protocols, analytical methods, and expanded datasets—while sensitive process know-how remains protected."
+                    }
+                ]
+            },
+            ru: {
+                subtitle: "ПУБЛИЧНЫЙ ОБЗОР • PRE-NDA",
+                f1t: "Низкая энергонагрузка",
+                f1d: "Без высокого давления. Без кипячения. Потребление зависит от состава фида и конфигурации.",
+                f2t: "Без сброса рассола",
+                f2d: "Соли улавливаются в контролируемый поток концентрата; нет постоянного сброса рассола в море.",
+                f3t: "Нет RO — нет фаулинга",
+                f3d: "Мембраны RO не используются — отсутствие фаулинга снижает потребность в химчистке и простоях.",
+                faqSub: "Ответы на часто задаваемые вопросы.",
+                faq: [
+                    {
+                        q: "Q1. Энергия: за счет чего низкая нагрузка?",
+                        a: "Процесс не требует высокого давления или кипячения. Энергозатраты определяются разделением в мягких условиях и зависят от фида."
+                    },
+                    {
+                        q: "Q2. Отходы: что происходит с солями?",
+                        a: "Соли не сбрасываются в виде объемного рассола. Они концентрируются в управляемый поток или компактный остаток для утилизации или переработки."
+                    },
+                    {
+                        q: "Q3. Почему нет RO и что это меняет?",
+                        a: "Отсутствие RO-мембран исключает их загрязнение (фаулинг). Это упрощает обслуживание, снижает необходимость в химии и повышает стабильность."
+                    },
+                    {
+                        q: "Q4. Стандарты: где цифры WHO/EPA?",
+                        a: "Публично доступны только статус-тренды без числовых значений. Полные таблицы, методики и отчеты доступны в Data Room после подписания e-NDA."
+                    },
+                    {
+                        q: "Q5. Валидация: что доступно до/после NDA?",
+                        a: "До NDA: архитектура высокого уровня, безопасные клеймы, статус-индикаторы. После NDA: лабораторные отчеты, протоколы, методики и полные датасеты."
+                    }
+                ]
+            }
+        };
+
+        let currentLang = 'en';
+
+        function setLang(lang) {
+            currentLang = lang;
+            const d = content[lang];
+
+            // Update Header & Icons
+            document.getElementById('txt-subtitle').innerText = d.subtitle;
+            document.getElementById('t-f1').innerText = d.f1t; document.getElementById('d-f1').innerText = d.f1d;
+            document.getElementById('t-f2').innerText = d.f2t; document.getElementById('d-f2').innerText = d.f2d;
+            document.getElementById('t-f3').innerText = d.f3t; document.getElementById('d-f3').innerText = d.f3d;
+
+            // Buttons state
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.innerText.toLowerCase() === lang));
+
+            renderFAQ();
+        }
+
+        function renderFAQ() {
+            const container = document.getElementById('faq-list');
+            container.innerHTML = '';
+            
+            content[currentLang].faq.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'accordion-item';
+                div.innerHTML = `
+                    <button class="accordion-header" onclick="toggleItem(this)">
+                        <span class="q-text">${item.q}</span>
+                        <div class="icon-plus"></div>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="a-text">${item.a}</div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function toggleItem(btn) {
+            const item = btn.parentElement;
+            const content = item.querySelector('.accordion-content');
+            
+            // Close others
+            document.querySelectorAll('.accordion-item').forEach(i => {
+                if (i !== item) {
+                    i.classList.remove('active');
+                    i.querySelector('.accordion-content').style.maxHeight = null;
+                }
+            });
+
+            item.classList.toggle('active');
+            if (item.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = null;
+            }
+        }
+
+        // Init
+        setLang('en');
+    </script>
+</body>
+</html>

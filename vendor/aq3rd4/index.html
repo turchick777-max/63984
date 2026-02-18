@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1440, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <title>AQUINTAQA | Quality & Standards</title>
+    <!-- Шрифты: Inter для текстов и JetBrains Mono для цифр -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --line: rgba(74, 144, 164, 0.25);
+            --line-bright: rgba(74, 144, 164, 0.5);
+            --accent: #4AC8DC;
+            --text-main: #ffffff;
+            --text-dim: #888888;
+            --text-micro: #444444;
+            --green: #3a8060;
+            --red: #8b4a4a;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: auto;
+            min-height: 100%;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                linear-gradient(var(--line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line) 1px, transparent 1px);
+            background-size: 50px 50px;
+            color: var(--text-main);
+            font-family: var(--font-main);
+            position: relative;
+        }
+
+        /* Blueprint Layout - decorative lines */
+        .center-line {
+            position: absolute;
+            left: 50%;
+            top: 100px;
+            bottom: 120px;
+            width: 1px;
+            background: var(--line-bright);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .center-line::before, .center-line::after {
+            content: ''; position: absolute; left: -4px; width: 9px; height: 1px; background: var(--accent);
+        }
+        .center-line::before { top: 0; } .center-line::after { bottom: 0; }
+
+        .horizontal-line {
+            position: absolute;
+            bottom: 120px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--line-bright);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Header */
+        header {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid var(--line-bright);
+            position: relative;
+            z-index: 2;
+            background: var(--bg);
+        }
+
+        h1 {
+            font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+            font-weight: 600;
+            font-size: 28px;
+            line-height: 1.1;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+        }
+
+        .lang-switch {
+            position: absolute;
+            right: 40px;
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--line);
+            color: var(--text-dim);
+            padding: 4px 10px;
+            cursor: pointer;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            transition: 0.3s;
+        }
+
+        .lang-btn.active { color: var(--accent); border-color: var(--accent); }
+
+        /* Main Content */
+        main {
+            display: flex;
+            position: relative;
+            z-index: 2;
+            padding: 0;
+        }
+
+        .col {
+            width: 50%;
+            padding: 40px 60px;
+        }
+
+        /* Инженерные уголки для блоков */
+        .tech-block {
+            position: relative;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(74, 144, 164, 0.1);
+        }
+
+        /* Metric styling */
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .metric-label .headline { 
+            font-size: 18px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            color: rgba(255, 255, 255, 0.75); 
+            margin-bottom: 8px;
+        }
+        
+        .metric-label .micro { 
+            font-size: 11px; 
+            color: rgba(255, 255, 255, 0.55); 
+            line-height: 1.4; 
+            max-width: 320px; 
+        }
+        
+        .metric-value { 
+            font-family: var(--font-mono); 
+            font-size: 35px; 
+            font-weight: 300; 
+            color: rgba(255, 255, 255, 0.9);
+            white-space: nowrap;
+        }
+
+        /* Dual Columns for Chloride/Sodium */
+        .dual-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            padding: 20px 0 15px 0;
+        }
+
+        .dual-legend {
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(74, 144, 164, 0.1);
+            margin-top: -5px;
+            font-size: 9px;
+            color: var(--text-dim);
+        }
+
+        .dual-col h3 { 
+            font-size: 17px; 
+            color: rgba(255, 255, 255, 0.8); 
+            margin-bottom: 12px; 
+            font-weight: 400; 
+            letter-spacing: 1px;
+            font-family: var(--font-mono);
+        }
+
+        /* Cyan only for these two section headings */
+        #txt-cl-h,
+        #txt-na-h {
+            color: var(--accent);
+        }
+        
+        .data-point { 
+            display: flex; 
+            justify-content: space-between; 
+            margin-bottom: 6px; 
+            font-family: var(--font-mono);
+            white-space: nowrap;
+        }
+        
+        .data-point > span:first-child {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.75);
+        }
+        
+        .data-point > span:last-child {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .val-green { 
+            color: var(--green) !important; 
+        }
+        
+        .status-check { 
+            color: var(--green); 
+            font-size: 11px; 
+            margin-top: 10px; 
+            text-transform: lowercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-family: var(--font-main);
+        }
+
+        /* Right Side Table */
+        .badge-row { 
+            display: grid; 
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 8px; 
+            margin-bottom: 25px; 
+        }
+
+        .table-container {
+            margin-bottom: 15px;
+            border: 1px solid rgba(74, 144, 164, 0.1);
+            max-height: 275px;
+            overflow-y: auto;
+        }
+
+        .table-container::-webkit-scrollbar { 
+            width: 1px; 
+        }
+        
+        .table-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .table-container::-webkit-scrollbar-thumb { 
+            background: var(--line-bright);
+            border-radius: 0;
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: var(--line-bright);
+        }
+
+        tbody tr.hidden-row {
+            display: none;
+        }
+
+        .table-container.expanded tbody tr.hidden-row {
+            display: table-row;
+        }
+
+        .expand-btn {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--line);
+            color: var(--text-dim);
+            padding: 8px 12px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .expand-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .expand-arrow {
+            font-size: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .expand-btn.expanded .expand-arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Badge styling (matching Executive Summary button from first screen) */
+        .badge { 
+            border: 0.5px solid rgba(8, 145, 178, 0.5); 
+            border-radius: 8px;
+            padding: 6px 12px; 
+            font-size: 9px; 
+            color: rgba(255, 255, 255, 0.9); 
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.35s ease, border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+            background: transparent;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .badge:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(8, 145, 178, 0.8);
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .badge:active {
+            transform: translateY(0);
+        }
+
+        .badge.active {
+            border-color: rgba(8, 145, 178, 0.65);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        /* Custom tooltip for badges */
+        .badge[data-tooltip] {
+            position: relative;
+        }
+
+        .badge[data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            border: 0.5px solid rgba(8, 145, 178, 0.3);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.45);
+            white-space: pre-line;
+            max-width: 280px;
+            width: max-content;
+            text-align: left;
+            text-transform: none;
+            line-height: 1.4;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 1000;
+        }
+
+        .badge[data-tooltip]:hover::after {
+            opacity: 1;
+        }
+
+        /* Position tooltip to the right for last two badges to prevent overflow */
+        .badge-row .badge:nth-child(4)[data-tooltip]::after,
+        .badge-row .badge:nth-child(5)[data-tooltip]::after {
+            left: auto;
+            right: 0;
+            transform: none;
+        }
+
+        h2.table-h { 
+            font-size: 16px; 
+            font-weight: 300; 
+            margin-bottom: 10px; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-align: left;
+        }
+
+        .table-subtitle {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.65);
+            line-height: 1.5;
+            margin-bottom: 15px;
+            text-align: left;
+            font-family: var(--font-main);
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { 
+            text-align: left; 
+            padding: 10px 5px; 
+            color: rgba(255, 255, 255, 0.55); 
+            font-weight: 400; 
+            border-bottom: 1px solid var(--line-bright); 
+            text-transform: uppercase; 
+            font-size: 10px; 
+            letter-spacing: 1px;
+            font-family: var(--font-mono);
+        }
+        
+        td { 
+            padding: 10px 5px; 
+            border-bottom: 1px solid rgba(255,255,255,0.03); 
+            font-size: 11px;
+        }
+
+        .status-cell { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            font-family: var(--font-mono); 
+            font-size: 10px; 
+            letter-spacing: 0.5px;
+            color: rgba(255, 255, 255, 0.45);
+        }
+        
+        .dot { width: 6px; height: 6px; border-radius: 0; transform: rotate(45deg); }
+        .dot.red { background: var(--red); }
+        .dot.green { background: var(--green); }
+
+        .table-label {
+            font-size: 10px;
+            font-family: var(--font-mono);
+            color: var(--text-dim);
+            margin-top: 20px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table-notes {
+            font-size: 9px;
+            font-family: var(--font-main);
+            color: var(--text-dim);
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        
+        .nda-note { 
+            margin-top: 20px; 
+            padding: 15px; 
+            font-size: 10px; 
+            color: var(--text-dim); 
+            border: 1px solid var(--line); 
+            line-height: 1.5; 
+            background: rgba(0,0,0,0.3);
+        }
+
+        /* Footer with Logo */
+        footer {
+            height: 120px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            box-shadow: none;
+            margin-top: -60px;
+        }
+
+        .logo-glow {
+            display: none;
+        }
+
+        .logo-img {
+            position: relative;
+            width: 115px;
+            height: 115px;
+            object-fit: contain;
+            z-index: 1;
+        }
+
+        /* Tooltip styles */
+        .badge[title] {
+            position: relative;
+        }
+
+        .badge[title]:hover::after {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--accent);
+            color: var(--text-main);
+            padding: 8px 12px;
+            font-size: 10px;
+            white-space: nowrap;
+            z-index: 100;
+            margin-bottom: 5px;
+        }
+
+        /* Force desktop view on all devices - viewport only, no scroll */
+        html, body {
+            overflow-x: hidden !important;
+        }
+
+        /* Disabled responsive media queries - always show desktop version */
+        /*
+        @media (max-width: 1200px) {
+            main { flex-direction: column; }
+            .col { width: 100%; padding: 30px 40px; }
+            .center-line { display: none; }
+        }
+        @media (min-width: 768px) and (max-width: 1200px) { ... }
+        @media (max-width: 768px) { ... }
+        */
+    </style>
+</head>
+<body>
+    <div class="center-line"></div>
+    <div class="horizontal-line"></div>
+
+    <header>
+        <h1 id="txt-title">QUALITY & STANDARDS</h1>
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="setLang('en')">EN</button>
+            <button class="lang-btn" onclick="setLang('ru')">RU</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Left Column: Metrics -->
+        <div class="col">
+            <!-- Salt Reduction -->
+            <div class="tech-block">
+                <div class="metric-row">
+                    <div class="metric-label">
+                        <div class="headline" id="txt-salt-h">Salt reduction factor (pilot)</div>
+                        <div class="micro" id="txt-salt-m">(proxy: Cl⁻ / TDS; feed/config dependent)</div>
+                    </div>
+                    <div class="metric-value">~900–1500×</div>
+                </div>
+            </div>
+
+            <!-- Product Water Recovery -->
+            <div class="tech-block">
+                <div class="metric-row">
+                    <div class="metric-label">
+                        <div class="headline" id="txt-rec-h">Product water recovery (pilot)</div>
+                        <div class="micro" id="txt-rec-m">(feed dependent; typical range disclosed under e-NDA)</div>
+                    </div>
+                    <div class="metric-value">up to 98%</div>
+                </div>
+            </div>
+
+            <!-- Chloride / Sodium dual columns -->
+            <div class="dual-metrics">
+                <div class="dual-col">
+                    <h3 id="txt-cl-h">CHLORIDE (Cl⁻)</h3>
+                    <div class="data-point"><span id="txt-raw1">Raw:</span> <span id="txt-raw1-val">48,000 mg/L</span></div>
+                    <div class="data-point"><span id="txt-after1">After:</span> <span class="val-green">&lt;52 mg/L</span></div>
+                    <div class="data-point"><span id="txt-guide1">Guideline (WHO/EU/US EPA):</span> <span>≤ 350 mg/L</span></div>
+                    <div class="status-check"><span>✓</span> <span id="txt-st1-text">below guideline</span></div>
+                </div>
+                <div class="dual-col">
+                    <h3 id="txt-na-h">SODIUM (Na⁺)</h3>
+                    <div class="data-point"><span id="txt-raw2">Raw:</span> <span id="txt-raw2-val">23,200 mg/L</span></div>
+                    <div class="data-point"><span id="txt-after2">After:</span> <span class="val-green">&lt;16 mg/L</span></div>
+                    <div class="data-point"><span id="txt-guide2">Guideline (WHO/EU/US EPA):</span> <span>≤ 200 mg/L</span></div>
+                    <div class="status-check"><span>✓</span> <span id="txt-st2-text">below guideline</span></div>
+                </div>
+            </div>
+            <div class="dual-legend" id="txt-dual-legend">Raw — raw sample • After — after AQUINTAQA • Guideline — WHO/EU/US EPA benchmark</div>
+
+            <!-- Particle Removal -->
+            <div class="tech-block">
+                <div class="metric-row">
+                    <div class="metric-label">
+                        <div class="headline" id="txt-part-h">Particle removal (pilot)</div>
+                        <div class="micro" id="txt-part-m">(proxy: particle-size / turbidity; feed/config dependent)</div>
+                    </div>
+                    <div class="metric-value">&lt; 1 μm</div>
+                </div>
+            </div>
+
+            <!-- Feed Salinity Tolerance -->
+            <div class="tech-block">
+                <div class="metric-row">
+                    <div class="metric-label">
+                        <div class="headline" id="txt-sal-h">FEED TDS LIMIT (PILOT)</div>
+                        <div class="micro" id="txt-sal-m">(basis: TDS; feed/config dependent)</div>
+                    </div>
+                    <div class="metric-value">up to 200 g/L</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Quality Table -->
+        <div class="col">
+            <h2 class="table-h" id="txt-table-h">LAB EXTRACT — BEFORE / AFTER</h2>
+            <p class="table-subtitle" id="txt-table-subtitle">Representative pilot sample; results vary by feed and operating conditions. Full dataset available under e-NDA (Data Room).</p>
+
+            <div class="badge-row">
+                <span class="badge active" id="badge-who" data-tooltip="World Health Organization — Public drinking-water guidance used here as a reference benchmark.">WHO</span>
+                <span class="badge active" id="badge-eu" data-tooltip="European Union — Reference drinking-water limits/benchmarks (jurisdiction-dependent).">EU</span>
+                <span class="badge active" id="badge-epa" data-tooltip="United States Environmental Protection Agency — Public drinking-water standards/benchmarks used here for reference.">US EPA</span>
+                <span class="badge active" id="badge-lab" data-tooltip="Measured by independent laboratories. Full reports & methods: e-NDA (Data Room). (Not a certification claim.)">LAB-VERIFIED</span>
+                <span class="badge active" id="badge-coc" data-tooltip="Sample origin and handling are documented (tracking & logs). Full package: e-NDA (Data Room).">CoC-VERIFIED</span>
+            </div>
+
+            <div class="table-container" id="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th id="th-p">Parameter</th>
+                            <th id="th-r">Raw (status)</th>
+                            <th id="th-a">After (status)</th>
+                            <th id="th-b">Benchmark: WHO / EU / US EPA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="expand-btn" id="expand-btn" onclick="toggleTable()">
+                <span id="expand-btn-text">Show more parameters</span>
+                <span class="expand-arrow">▼</span>
+            </button>
+
+            <div class="table-label" id="txt-table-label">Trends: public status view (no numbers)</div>
+            <div class="table-notes" id="txt-table-notes">RED = outside benchmark • GREEN = within benchmark. Full before/after tables, methods & reports available under e-NDA (Data Room).</div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="logo-container">
+            <div class="logo-glow"></div>
+            <img src="logo23.png" alt="AQUINTAQA" class="logo-img" loading="lazy" decoding="async">
+        </div>
+    </footer>
+
+    <script>
+        const content = {
+            en: {
+                title: "QUALITY & STANDARDS",
+                saltH: "Salt reduction factor (pilot)", saltM: "(proxy: Cl⁻ / TDS; feed/config dependent)",
+                recH: "Product water recovery (pilot)", recM: "(feed dependent; typical range disclosed under e-NDA)",
+                clH: "CHLORIDE (Cl⁻)", naH: "SODIUM (Na⁺)",
+                raw: "Raw:", after: "After:",
+                raw1Val: "48,000 mg/L", raw2Val: "23,200 mg/L",
+                guide1: "Guideline (WHO/EU/US EPA):", guide2: "Guideline (WHO/EU/US EPA):",
+                st1: "below guideline", st2: "below guideline",
+                dualLegend: "Raw — raw sample • After — after AQUINTAQA • Guideline — WHO/EU/US EPA benchmark",
+                expandBtn: "Show more parameters",
+                collapseBtn: "Show less",
+                badgeWho: "World Health Organization\nPublic drinking-water guidance used here as a reference benchmark.",
+                badgeEu: "European Union\nReference drinking-water limits/benchmarks (jurisdiction-dependent).",
+                badgeEpa: "United States Environmental Protection Agency\nPublic drinking-water standards/benchmarks used here for reference.",
+                badgeLab: "Measured by independent laboratories. Full reports & methods: e-NDA (Data Room).\n(Not a certification claim.)",
+                badgeCoc: "Sample origin and handling are documented (tracking & logs). Full package: e-NDA\n(Data Room).",
+                partH: "Particle removal (pilot)", partM: "(proxy: particle-size / turbidity; feed/config dependent)",
+                salH: "FEED TDS LIMIT (PILOT)", salM: "(basis: TDS; feed/config dependent)",
+                tableH: "LAB EXTRACT — BEFORE / AFTER",
+                tableSubtitle: "Representative pilot sample; results vary by feed and operating conditions. Full dataset available under e-NDA (Data Room).",
+                thP: "Parameter", thR: "Raw (status)", thA: "After (status)", thB: "Benchmark: WHO / EU / US EPA",
+                tableLabel: "Trends: public status view (no numbers)",
+                tableNotes: "RED = outside benchmark • GREEN = within benchmark. Full before/after tables, methods & reports available under e-NDA (Data Room).",
+                rows: [
+                    ["TDS (total dissolved solids)", "HIGH", "OK"],
+                    ["Hardness (Ca/Mg)", "HIGH", "OK"],
+                    ["Nitrates/nitrites", "HIGH", "OK"],
+                    ["Chlorides", "HIGH", "OK"],
+                    ["NTU (turbidity)", "HIGH", "OK"],
+                    ["Sulfates (SO₄²⁻)", "HIGH", "OK"],
+                    ["Alkalinity", "HIGH", "OK"],
+                    ["Calcium/magnesium", "HIGH", "OK"],
+                    ["Sodium", "HIGH", "OK"],
+                    ["Ammonium (NH₄⁺)", "HIGH", "OK"],
+                    ["Color", "HIGH", "OK"],
+                    ["Odor/taste (organoleptics)", "HIGH", "OK"],
+                    ["Scaling tendency (indicator)", "HIGH", "OK"],
+                    ["Corrosion potential (indicator)", "HIGH", "OK"]
+                ]
+            },
+            ru: {
+                title: "КАЧЕСТВО И СТАНДАРТЫ",
+                saltH: "Фактор снижения солей (pilot)", saltM: "(proxy: Cl⁻ / TDS; feed/config dependent)",
+                recH: "Выход очищенной воды (pilot)", recM: "(feed dependent; typical range disclosed under e-NDA)",
+                clH: "ХЛОРИД-ИОН (Cl⁻)", naH: "НАТРИЙ (Na⁺)",
+                raw: "Raw:", after: "After:",
+                raw1Val: "48 000 mg/L", raw2Val: "23 200 mg/L",
+                guide1: "Guideline (WHO/EU/US EPA):", guide2: "Guideline (WHO/EU/US EPA):",
+                st1: "ниже ориентира", st2: "ниже ориентира",
+                dualLegend: "Raw — исходная проба • After — после AQUINTAQA • Guideline — ориентир WHO/EU/US EPA",
+                expandBtn: "Показать больше параметров",
+                collapseBtn: "Свернуть",
+                badgeWho: "Всемирная организация здравоохранения\nРекомендации по питьевой воде используются здесь как референсный ориентир.",
+                badgeEu: "Европейский союз\nРеференсные лимиты/ориентиры для питьевой воды (зависит от юрисдикции).",
+                badgeEpa: "Агентство по охране окружающей среды США\nСтандарты/ориентиры для питьевой воды используются здесь как референс.",
+                badgeLab: "Измерено независимыми лабораториями. Полные отчёты и методы: e-NDA (Data Room).\n(Не является заявлением о сертификации.)",
+                badgeCoc: "Происхождение и обработка образца задокументированы (трекинг и логи). Полный пакет: e-NDA\n(Data Room).",
+                partH: "Удаление частиц (pilot)", partM: "(proxy: particle-size / turbidity; feed/config dependent)",
+                salH: "Допустимая минерализация фида (pilot)", salM: "(basis: TDS; feed/config dependent)",
+                tableH: "ЛАБОРАТОРНАЯ ВЫЖИМКА — ДО / ПОСЛЕ",
+                tableSubtitle: "Репрезентативная пилотная проба; результаты варьируются в зависимости от фида и условий. Полный датасет доступен под e-NDA (Data Room).",
+                thP: "Parameter", thR: "Raw (status)", thA: "After (status)", thB: "Benchmark: WHO / EU / US EPA",
+                tableLabel: "Trends: public status view (no numbers)",
+                tableNotes: "RED = outside benchmark • GREEN = within benchmark. Полные \"до/после\" таблицы, методики и отчёты доступны под e-NDA (Data Room).",
+                rows: [
+                    ["TDS (общая минерализация)", "HIGH", "OK"],
+                    ["Жёсткость (Ca/Mg)", "HIGH", "OK"],
+                    ["Нитраты/нитриты", "HIGH", "OK"],
+                    ["Хлориды", "HIGH", "OK"],
+                    ["NTU (мутность)", "HIGH", "OK"],
+                    ["Сульфаты (SO₄²⁻)", "HIGH", "OK"],
+                    ["Щёлочность", "HIGH", "OK"],
+                    ["Кальций/магний", "HIGH", "OK"],
+                    ["Натрий", "HIGH", "OK"],
+                    ["Аммоний (NH₄⁺)", "HIGH", "OK"],
+                    ["Цветность", "HIGH", "OK"],
+                    ["Запах/вкус (органолептика)", "HIGH", "OK"],
+                    ["Склонность к накипи (indicator)", "HIGH", "OK"],
+                    ["Коррозионный потенциал (indicator)", "HIGH", "OK"]
+                ]
+            }
+        };
+
+        let currentLang = 'en';
+
+        function setLang(lang) {
+            currentLang = lang;
+            const l = content[lang];
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.toLowerCase() === lang));
+            
+            document.body.className = lang === 'ru' ? 'lang-ru' : 'lang-en';
+            
+            document.getElementById('txt-title').innerText = l.title;
+            document.getElementById('txt-salt-h').innerText = l.saltH;
+            document.getElementById('txt-salt-m').innerText = l.saltM;
+            document.getElementById('txt-rec-h').innerText = l.recH;
+            document.getElementById('txt-rec-m').innerText = l.recM;
+            document.getElementById('txt-cl-h').innerHTML = l.clH;
+            document.getElementById('txt-na-h').innerHTML = l.naH;
+            document.getElementById('txt-raw1').innerText = l.raw; 
+            document.getElementById('txt-raw2').innerText = l.raw;
+            document.getElementById('txt-raw1-val').innerText = l.raw1Val;
+            document.getElementById('txt-raw2-val').innerText = l.raw2Val;
+            document.getElementById('txt-after1').innerText = l.after; 
+            document.getElementById('txt-after2').innerText = l.after;
+            document.getElementById('txt-guide1').innerText = l.guide1;
+            document.getElementById('txt-guide2').innerText = l.guide2;
+            document.getElementById('txt-st1-text').innerText = l.st1; 
+            document.getElementById('txt-st2-text').innerText = l.st2;
+            document.getElementById('txt-dual-legend').innerText = l.dualLegend;
+            
+            const container = document.getElementById('table-container');
+            const isExpanded = container.classList.contains('expanded');
+            document.getElementById('expand-btn-text').innerText = isExpanded ? l.collapseBtn : l.expandBtn;
+            
+            document.getElementById('txt-part-h').innerText = l.partH;
+            document.getElementById('txt-part-m').innerText = l.partM;
+            document.getElementById('txt-sal-h').innerText = l.salH;
+            document.getElementById('txt-sal-m').innerText = l.salM;
+            document.getElementById('txt-table-h').innerText = l.tableH;
+            document.getElementById('txt-table-subtitle').innerText = l.tableSubtitle;
+            document.getElementById('th-p').innerText = l.thP; 
+            document.getElementById('th-r').innerText = l.thR; 
+            document.getElementById('th-a').innerText = l.thA;
+            document.getElementById('th-b').innerText = l.thB;
+            document.getElementById('txt-table-label').innerText = l.tableLabel;
+            document.getElementById('txt-table-notes').innerText = l.tableNotes;
+            
+            document.getElementById('badge-who').dataset.tooltip = l.badgeWho;
+            document.getElementById('badge-eu').dataset.tooltip = l.badgeEu;
+            document.getElementById('badge-epa').dataset.tooltip = l.badgeEpa;
+            document.getElementById('badge-lab').dataset.tooltip = l.badgeLab;
+            document.getElementById('badge-coc').dataset.tooltip = l.badgeCoc;
+
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+            l.rows.forEach((row, index) => {
+                const hiddenClass = index >= 7 ? ' hidden-row' : '';
+                tbody.innerHTML += `
+                    <tr class="table-row${hiddenClass}">
+                        <td>${row[0]}</td>
+                        <td><div class="status-cell"><span class="dot red"></span>${row[1]}</div></td>
+                        <td><div class="status-cell"><span class="dot green"></span>${row[2]}</div></td>
+                        <td></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function toggleTable() {
+            const container = document.getElementById('table-container');
+            const btn = document.getElementById('expand-btn');
+            const isExpanded = container.classList.contains('expanded');
+            
+            if (isExpanded) {
+                container.classList.remove('expanded');
+                btn.classList.remove('expanded');
+                document.getElementById('expand-btn-text').innerText = content[currentLang].expandBtn;
+            } else {
+                container.classList.add('expanded');
+                btn.classList.add('expanded');
+                document.getElementById('expand-btn-text').innerText = content[currentLang].collapseBtn;
+            }
+        }
+
+        setLang('en');
+    </script>
+</body>
+</html>

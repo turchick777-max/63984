@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AQUINTAQA — Screen 5 (TRL Snapshot)</title>
+  <style>
+    :root{
+      --page:#FAFAFA;
+      --scheme:#D3D3D3;
+
+      --text:#0b0b0b;
+      --muted:#6f6f6f;
+
+      --chipBorder: rgba(0,0,0,.18);
+      --tickOpacity: .12;
+
+      --focus: rgb(43,127,255);
+
+      --radius: 28px;
+      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 2px 6px rgba(0,0,0,.05);
+
+      --btnSize: 42px;
+      --railH: 170px;
+      --tickH: 9px;
+      --markerW: 1px;
+
+      --contentMax: 1200px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      background: var(--page);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+
+    .screen{
+      min-height: 100vh;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding: 56px 32px;
+    }
+
+    .wrap{
+      width:100%;
+      max-width: var(--contentMax);
+    }
+
+    /* Top: headline + micro (как в ТЗ) */
+    .top{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items:start;
+      margin-bottom: 80px;
+    }
+
+    .micro{
+      font-size: 14px;
+      line-height: 1.4;
+      letter-spacing: .01em;
+      color: var(--muted);
+      margin: 12px 0 0 0;
+    }
+
+    .headline{
+      margin:0;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1.02;
+    }
+    .headline .l1{
+      display:block;
+      font-size: 64px;
+      opacity: .95;
+      margin-bottom: 12px;
+    }
+    .headline .l2{
+      display:block;
+      font-size: 48px;
+      white-space: nowrap;
+    }
+
+    /* Right column intentionally minimal (как реф: пустое пространство/текст можно добавить позже) */
+    .topRight{
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 20px;
+      padding-top: 22px;
+    }
+
+    /* Scheme card */
+    .card{
+      background: var(--scheme);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 60px 36px 60px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Timeline layout */
+    .timeline{
+      display:grid;
+      grid-template-columns: auto 1fr auto;
+      align-items:center;
+      gap: 20px;
+    }
+
+    .tbtn{
+      width: var(--btnSize);
+      height: var(--btnSize);
+      border-radius: 999px;
+      border: 0;
+      background: rgba(255,255,255,.7);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition: transform .25s ease, background .25s ease;
+      user-select:none;
+    }
+    .tbtn:hover{ background: rgba(255,255,255,.9); }
+    .tbtn:active{ transform: scale(.98); }
+    .tbtn:disabled{ opacity:.45; cursor:not-allowed; }
+    .tbtn:focus-visible{
+      outline: 1.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .railWrap{
+      position: relative;
+      height: 300px;
+      width: 100%;
+    }
+
+    /* ticks line */
+    .ticks{
+      position:absolute;
+      left: 8%;
+      right: 8%;
+      top: calc(50% - (var(--tickH) / 2));
+      height: var(--tickH);
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Crect width='0.5' height='9' fill='black' opacity='0.12'/%3E%3Crect width='0.5' x='8.5' height='9' fill='black' opacity='0.12'/%3E%3C/svg%3E");
+      background-size: 9px 9px;
+      background-position: top center;
+    }
+
+    /* markers container */
+    .markers{
+      position:absolute;
+      left: 8%;
+      right: 8%;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+    }
+
+    .marker{
+      position:absolute;
+      top: 0;
+      width: 24px; /* click target */
+      height: 100%;
+      margin-left: -12px;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      pointer-events: auto;
+      cursor: pointer;
+      outline: none;
+    }
+
+    .marker .bar{
+      position:absolute;
+      left: 50%;
+      top: 50%;
+      width: var(--markerW);
+      height: var(--tickH);
+      margin-left: calc(-1 * var(--markerW) / 2);
+      margin-top: calc(-1 * var(--tickH) / 2);
+      background: #000;
+      opacity: .9;
+      transform-origin: center;
+      transition: transform .3s ease;
+      transform: scale(1);
+    }
+
+    .marker .halo{
+      position:absolute;
+      left: 50%;
+      top: 50%;
+      width: 1.1875rem;
+      height: 160px;
+      margin-left: calc(-1.1875rem/2);
+      margin-top: -80px;
+      border-radius: 999px;
+      border: 1px solid var(--chipBorder);
+      opacity: 0;
+      transition: opacity .25s ease;
+      background: rgba(255,255,255,.15);
+    }
+
+    .marker.is-active{
+      z-index: 10;
+    }
+    .marker.is-active .bar{
+      transform: scale(1.6, 13.5);
+    }
+    .marker.is-active .halo{
+      opacity: 1;
+    }
+    /* Inactive markers - dimmed bar */
+    .marker.is-inactive.is-active .bar{
+      opacity: 0.25;
+    }
+    .marker.is-inactive.is-active .halo{
+      opacity: 0.3;
+    }
+
+    .marker:focus-visible .halo{
+      outline: 1.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Tooltip - disabled */
+    .tip{
+      display: none;
+    }
+    .tip .t1{
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 600;
+      margin: 0 0 6px 0;
+      color: var(--text);
+    }
+    .tip .t2{
+      font-size: 12px;
+      line-height: 16px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    /* Text panel inside card (title above marker + desc under) */
+    .markerTitle{
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 4px);
+      transform: translateX(-50%);
+      font-size: 17px;
+      line-height: 22px;
+      font-weight: 500;
+      margin: 0;
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity .3s ease;
+      pointer-events: none;
+      color: var(--text);
+    }
+    .markerDesc{
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 4px);
+      transform: translateX(-50%);
+      font-size: 15px;
+      line-height: 20px;
+      margin: 0;
+      color: var(--text);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity .3s ease;
+      pointer-events: none;
+    }
+    /* Only active marker shows text */
+    .marker.is-active .markerTitle,
+    .marker.is-active .markerDesc{
+      opacity: 1;
+    }
+    /* Inactive markers when active - slightly dimmed text */
+    .marker.is-inactive.is-active .markerTitle,
+    .marker.is-inactive.is-active .markerDesc{
+      opacity: 0.75;
+      color: var(--muted);
+    }
+    /* Last marker — right-align title so it doesn't overflow the card */
+    .marker:last-child .markerTitle{
+      left: auto;
+      right: -150px;
+      transform: none;
+      text-align: right;
+    }
+    .panelDate{
+      font-size: 13px;
+      line-height: 18px;
+      margin: 0;
+      color: var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 860px){
+      .top{
+        grid-template-columns: 1fr;
+      }
+      .topRight{ padding-top: 0; }
+      .card{ padding: 26px 20px 20px 20px; }
+      .ticks, .markers{ left: 10%; right: 10%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="screen">
+    <section class="wrap">
+      <div class="top">
+        <div>
+          <h1 class="headline">
+            <span class="l1">INVESTOR TEASER</span>
+            <span class="l2">TRL SNAPSHOT • AQUINTAQA</span>
+          </h1>
+          <p class="micro">Pre-NDA view. Evidence package: Data Room (e-NDA).</p>
+        </div>
+        <div class="topRight">
+          <!-- В ТЗ нет отдельного правого текста — оставил минимально.
+               Если надо, сюда можно вставить любой copy. -->
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="timeline" id="trlTimeline">
+          <button class="tbtn" id="prevBtn" aria-label="Previous">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none">
+              <path stroke="currentColor" stroke-width="1.5" d="M10 4 6 8l4 4"/>
+            </svg>
+          </button>
+
+          <div class="railWrap" aria-label="TRL timeline">
+            <div class="ticks" aria-hidden="true"></div>
+            <div class="markers" id="markers"></div>
+          </div>
+
+          <button class="tbtn" id="nextBtn" aria-label="Next">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none">
+              <path stroke="currentColor" stroke-width="1.5" d="m6 12 4-4-4-4"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // TRL text — из ТЗ
+    const TRL = [
+      {
+        id: 1,
+        active: false,
+        title: "TRL-1 — Basic principles observed",
+        desc: "TRL framework shown for reference.<br>Active checkpoints: TRL-3 to TRL-8"
+      },
+      {
+        id: 2,
+        active: false,
+        title: "TRL-2 — Technology concept formulated",
+        desc: "TRL framework shown for reference.<br>Active checkpoints: TRL-3 to TRL-8"
+      },
+      {
+        id: 3,
+        active: true,
+        title: "TRL-3 — Core principle proven",
+        desc: "controlled samples • repeatable directional effect •<br>baseline conditions"
+      },
+      {
+        id: 4,
+        active: true,
+        title: "TRL-4 — Bench prototype validated",
+        desc: "instrumented bench runs • stable control loop •<br>repeatability confirmed"
+      },
+      {
+        id: 5,
+        active: true,
+        title: "TRL-5 — Pilot subsystem validated (relevant feeds)",
+        desc: "relevant feed classes • config-dependent •<br>before/after results"
+      },
+      {
+        id: 6,
+        active: true,
+        title: "TRL-6 — Integrated pilot demonstrated (≥300h, multi-feed)",
+        desc: "≥300h continuous runs • multi-feed •<br>independent lab before/after (e-NDA)"
+      },
+      {
+        id: 7,
+        active: true,
+        title: "TRL-7 — Field pilot (site integration)",
+        desc: "host site integration • utilities/controls/monitoring •<br>uptime targets"
+      },
+      {
+        id: 8,
+        active: true,
+        title: "TRL-8 — Pre-commercial system",
+        desc: "engineered package • QA/QC & service model •<br>deployment readiness"
+      },
+      {
+        id: 9,
+        active: false,
+        title: "TRL-9 — Actual system proven in operational environment",
+        desc: "TRL framework shown for reference.<br>Active checkpoints: TRL-3 to TRL-8"
+      },
+    ];
+
+    const ACTIVE_MICRO = "Pre-NDA view. Evidence package: Data Room (e-NDA).";
+    const markersEl = document.getElementById("markers");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
+    // По умолчанию выберем TRL-3 (первый активный), как логично для "active checkpoints"
+    let activeIndex = TRL.findIndex(x => x.id === 3);
+    if (activeIndex < 0) activeIndex = 0;
+
+    function setPanel(idx){
+      // update markers
+      [...markersEl.children].forEach((node, i) => {
+        node.classList.toggle("is-active", i === idx);
+        node.setAttribute("aria-selected", i === idx ? "true" : "false");
+        node.tabIndex = i === idx ? 0 : -1;
+      });
+
+      prevBtn.disabled = idx === 0;
+      nextBtn.disabled = idx === TRL.length - 1;
+    }
+
+    function render(){
+      markersEl.innerHTML = "";
+
+      // Равномерное расстояние между TRL: 1..9 равномерно по ширине
+      // left% = i/(n-1) * 100
+      const n = TRL.length;
+
+      TRL.forEach((t, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "marker" + (i === activeIndex ? " is-active" : "") + (!t.active ? " is-inactive" : "");
+        btn.style.left = (i / (n - 1) * 100) + "%";
+        btn.setAttribute("aria-label", t.title);
+        btn.addEventListener("click", () => { activeIndex = i; setPanel(activeIndex); });
+
+        btn.addEventListener("keydown", (e) => {
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            activeIndex = i;
+            setPanel(activeIndex);
+          }
+          if(e.key === "ArrowLeft"){
+            e.preventDefault();
+            activeIndex = Math.max(0, activeIndex - 1);
+            setPanel(activeIndex);
+          }
+          if(e.key === "ArrowRight"){
+            e.preventDefault();
+            activeIndex = Math.min(n - 1, activeIndex + 1);
+            setPanel(activeIndex);
+          }
+        });
+
+        const bar = document.createElement("div");
+        bar.className = "bar";
+
+        const halo = document.createElement("div");
+        halo.className = "halo";
+
+        const tip = document.createElement("div");
+        tip.className = "tip";
+        tip.innerHTML = `
+          <p class="t1">${t.title}</p>
+          <p class="t2">${t.active ? t.desc : t.desc}</p>
+        `;
+
+        const markerTitle = document.createElement("div");
+        markerTitle.className = "markerTitle";
+        markerTitle.textContent = t.title;
+
+        const markerDesc = document.createElement("div");
+        markerDesc.className = "markerDesc";
+        markerDesc.innerHTML = t.desc.replace(/ •/g, '&nbsp;•');
+
+        btn.appendChild(bar);
+        btn.appendChild(halo);
+        btn.appendChild(tip);
+        btn.appendChild(markerTitle);
+        btn.appendChild(markerDesc);
+
+        markersEl.appendChild(btn);
+      });
+
+      prevBtn.addEventListener("click", () => {
+        activeIndex = Math.max(0, activeIndex - 1);
+        setPanel(activeIndex);
+      });
+      nextBtn.addEventListener("click", () => {
+        activeIndex = Math.min(TRL.length - 1, activeIndex + 1);
+        setPanel(activeIndex);
+      });
+
+      setPanel(activeIndex);
+    }
+
+    render();
+  </script>
+</body>
+</html>
