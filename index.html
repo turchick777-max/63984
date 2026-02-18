@@ -350,6 +350,43 @@
       iframeObserver.observe(iframe);
     });
   })();
+
+  // PERF: Show/hide video section only when scrolled into view
+  (function() {
+    'use strict';
+    var videoSection = document.getElementById('video-embed');
+    var videoIframe  = document.getElementById('video-iframe');
+    if (!videoSection || !videoIframe || !('IntersectionObserver' in window)) return;
+
+    // Start hidden
+    videoSection.style.opacity = '0';
+    videoSection.style.transition = 'opacity 0.45s ease';
+
+    var videoObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          videoSection.style.opacity = '1';
+          // Pause → play video inside iframe
+          try {
+            var v = videoIframe.contentDocument && videoIframe.contentDocument.querySelector('video');
+            if (v) v.play().catch(function(){});
+          } catch(e) {}
+        } else {
+          videoSection.style.opacity = '0';
+          // Pause video when not visible to save resources
+          try {
+            var v = videoIframe.contentDocument && videoIframe.contentDocument.querySelector('video');
+            if (v) v.pause();
+          } catch(e) {}
+        }
+      });
+    }, {
+      rootMargin: '0px',
+      threshold: 0.15
+    });
+
+    videoObserver.observe(videoSection);
+  })();
   </script>
 
   <!--  FOOTER CODE  -->
