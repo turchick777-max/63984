@@ -5,10 +5,33 @@
 		<meta name="viewport" content="width=1440, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" />
 		<title>Investor Overview — Pre-NDA</title>
 		<script>
-			// Gate: redirect to access form if not authenticated
-			if (localStorage.getItem('investor_access') !== 'true') {
-				window.location.href = 'investor-access.html';
-			}
+			// Gate: hide page until HMAC token is verified
+			document.documentElement.style.visibility = 'hidden';
+			(async function() {
+				try {
+					const _S = 'aq\x2dinv\x2d2026\x2dx7k2m9p4';
+					const token = localStorage.getItem('investor_token');
+					const email = localStorage.getItem('investor_email');
+					if (!token || !email) throw new Error();
+					const day = Math.floor(Date.now() / 86400000);
+					for (const d of [day, day - 1]) {
+						const msg = email.toLowerCase().trim() + '|' + d;
+						const key = await crypto.subtle.importKey(
+							'raw', new TextEncoder().encode(_S),
+							{ name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+						);
+						const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(msg));
+						const expected = Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2, '0')).join('');
+						if (expected === token) {
+							document.documentElement.style.visibility = 'visible';
+							return;
+						}
+					}
+					throw new Error();
+				} catch(e) {
+					window.location.href = 'investor-access.html';
+				}
+			})();
 		</script>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

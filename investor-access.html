@@ -335,15 +335,46 @@
 
   <script>
   (() => {
+    const _S = 'aq\x2dinv\x2d2026\x2dx7k2m9p4';
+
+    async function _hmac(email) {
+      const day = Math.floor(Date.now() / 86400000);
+      const msg = email.toLowerCase().trim() + '\x7c' + day;
+      const key = await crypto.subtle.importKey(
+        'raw', new TextEncoder().encode(_S),
+        { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+      );
+      const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(msg));
+      return Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function _verify(email, token) {
+      const day = Math.floor(Date.now() / 86400000);
+      for (const d of [day, day - 1]) {
+        const msg = email.toLowerCase().trim() + '\x7c' + d;
+        const key = await crypto.subtle.importKey(
+          'raw', new TextEncoder().encode(_S),
+          { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']
+        );
+        const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(msg));
+        const expected = Array.from(new Uint8Array(sig)).map(b => b.toString(16).padStart(2, '0')).join('');
+        if (expected === token) return true;
+      }
+      return false;
+    }
+
     const form = document.getElementById('access-form');
     const formCard = document.getElementById('form-card');
     const confirmation = document.getElementById('confirmation');
 
-    // If already has access, go straight to investor page
-    if (localStorage.getItem('investor_access') === 'true') {
-      window.location.href = 'investor.html';
-      return;
-    }
+    // If already has valid token, go straight to investor page
+    (async () => {
+      const token = localStorage.getItem('investor_token');
+      const email = localStorage.getItem('investor_email');
+      if (token && email && await _verify(email, token)) {
+        window.location.href = 'investor.html';
+      }
+    })();
 
     function validateEmail(email) {
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -366,7 +397,7 @@
     });
     document.getElementById('nda').addEventListener('change', () => clearError('err-nda'));
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const fullname = document.getElementById('fullname');
@@ -396,13 +427,15 @@
       var errCaptchaEl = document.getElementById('err-hcaptcha');
       if (errCaptchaEl) errCaptchaEl.classList.remove('visible');
 
-      // Store in localStorage
-      localStorage.setItem('investor_access', 'true');
+      // Generate HMAC token and store in localStorage
+      const token = await _hmac(email.value.trim());
+      localStorage.setItem('investor_token', token);
       localStorage.setItem('investor_email', email.value.trim());
       localStorage.setItem('investor_name', fullname.value.trim());
       localStorage.setItem('investor_company', company.value.trim());
       localStorage.setItem('investor_role', role.value.trim());
       localStorage.setItem('nda_accepted', 'true');
+      localStorage.removeItem('investor_access');
 
       // Show confirmation
       formCard.style.display = 'none';
