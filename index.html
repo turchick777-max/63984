@@ -307,9 +307,11 @@
       <div class="footer-2">
         <div class="text-block-3">AQUINTAQA — Freshwater from seawater. A new desalination technology — no membranes, no high-salinity brine.</div>
         <div class="div-block-3">
-          <a href="#">Legal</a>
-          <a href="#">Privacy</a>
-          <a href="#">Contact</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="privacy.html#cookies">Cookies Policy</a>
+          <a href="legal.html">Terms of Use</a>
+          <a href="contact.html">Contact</a>
+          <a href="#" onclick="openCookieSettings();return false;" style="opacity:.7">Cookie Settings</a>
         </div>
       </div>
     </div>
@@ -472,5 +474,11 @@
 
   <!--  FOOTER CODE  -->
   <script src="js/consent.js"></script>
+  <script>
+  function openCookieSettings(){
+    var o=document.getElementById('cc-overlay');
+    if(o){o.classList.add('visible')}else{try{localStorage.removeItem('cookie_consent_v2')}catch(e){}window.location.reload()}
+  }
+  </script>
 </body>
 </html>

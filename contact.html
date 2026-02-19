@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Contact — AQUINTAQA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon" />
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    :root{--bg:#0D1117;--card-bg:#161B22;--card-border:rgba(255,255,255,.08);--text:#E6EDF3;--text-dim:rgba(230,237,243,.65);--text-muted:rgba(230,237,243,.35);--accent:#2eb5d0;--error:#f85149;--success:#3fb950;--radius:4px;--font:'Inter',system-ui,-apple-system,sans-serif}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+    .site-header{position:sticky;top:0;z-index:100;background:rgba(13,17,23,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--card-border);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+    .header-left{display:flex;align-items:center;gap:20px}
+    .header-logo{font-size:15px;font-weight:600;color:var(--text);text-decoration:none;letter-spacing:.05em}
+    .header-back{font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .2s}
+    .header-back:hover{color:var(--text-dim)}
+    .lang-btn{background:transparent;border:1px solid var(--card-border);border-radius:var(--radius);color:var(--text-muted);font-size:12px;font-weight:600;padding:5px 10px;cursor:pointer;letter-spacing:.06em;font-family:var(--font);transition:border-color .2s,color .2s}
+    .lang-btn:hover{border-color:rgba(255,255,255,.2);color:var(--text-dim)}
+    .page-wrap{max-width:1040px;margin:0 auto;padding:52px 32px 88px;display:grid;grid-template-columns:1fr 340px;gap:52px;align-items:start}
+    .page-eyebrow{font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
+    .page-title{font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1.15;margin-bottom:10px}
+    .page-subtitle{font-size:15px;color:var(--text-dim);line-height:1.6;margin-bottom:36px}
+    .form-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);padding:36px 32px}
+    .field{margin-bottom:20px}
+    .field label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px}
+    .field label .opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted);opacity:.7}
+    .field input,.field textarea,.field select{width:100%;padding:11px 14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);color:var(--text);font-family:var(--font);font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none}
+    .field textarea{resize:vertical;min-height:120px;line-height:1.6}
+    .field select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(230,237,243,.4)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+    .field input::placeholder,.field textarea::placeholder{color:var(--text-muted)}
+    .field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(255,255,255,.25);box-shadow:0 0 0 3px rgba(255,255,255,.04)}
+    .field input.err,.field textarea.err,.field select.err{border-color:var(--error)}
+    .err-msg{font-size:12px;color:var(--error);margin-top:5px;display:none}
+    .err-msg.show{display:block}
+    .hp-field{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
+    .submit-btn{width:100%;padding:13px;background:rgba(255,255,255,.9);color:#0D1117;border:none;border-radius:var(--radius);font-family:var(--font);font-size:14px;font-weight:600;letter-spacing:.01em;cursor:pointer;transition:background .2s,transform .1s;margin-top:8px}
+    .submit-btn:hover{background:#fff}
+    .submit-btn:active{transform:scale(0.985)}
+    .submit-btn:disabled{opacity:.5;cursor:not-allowed}
+    .gdpr-note{font-size:12px;color:var(--text-muted);line-height:1.55;margin-top:16px}
+    .gdpr-note a{color:var(--text-muted);text-decoration:underline;text-decoration-color:rgba(255,255,255,.2)}
+    .success-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);padding:48px 32px;text-align:center;display:none}
+    .success-card.show{display:block}
+    .success-icon{font-size:36px;margin-bottom:18px;color:var(--success)}
+    .success-card h2{font-size:20px;font-weight:600;margin-bottom:10px}
+    .success-card p{font-size:14px;color:var(--text-dim);line-height:1.6}
+    .contact-info{position:sticky;top:80px}
+    .info-block{padding:24px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);margin-bottom:16px}
+    .info-block h3{font-size:12px;font-weight:600;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+    .info-row{display:flex;flex-direction:column;gap:3px;margin-bottom:14px}
+    .info-row:last-child{margin-bottom:0}
+    .info-label{font-size:11px;color:var(--text-muted)}
+    .info-value{font-size:13px;color:var(--text-dim)}
+    .info-value a{color:var(--text-dim);text-decoration:none}
+    .info-value a:hover{color:var(--text);text-decoration:underline}
+    .response-note{padding:14px 16px;background:rgba(46,181,208,.06);border:1px solid rgba(46,181,208,.15);border-radius:var(--radius);font-size:13px;color:var(--text-dim);line-height:1.55}
+    .site-footer{border-top:1px solid var(--card-border);padding:22px 32px;background:var(--bg)}
+    .footer-inner{max-width:1040px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+    .footer-brand{font-size:12px;color:var(--text-muted)}
+    .footer-links{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+    .footer-links a{font-size:12px;color:var(--text-muted);text-decoration:none;transition:color .2s}
+    .footer-links a:hover,.footer-links a.active{color:var(--text-dim)}
+    .footer-links button{background:none;border:none;font-size:12px;color:var(--text-muted);cursor:pointer;font-family:var(--font);transition:color .2s;padding:0}
+    .footer-links button:hover{color:var(--text-dim)}
+    @media(max-width:860px){.page-wrap{grid-template-columns:1fr;gap:36px}.contact-info{position:static}}
+    @media(max-width:767px){.site-header,.site-footer{padding-left:20px;padding-right:20px}.page-wrap{padding:36px 20px 64px}.form-card{padding:24px 20px}.footer-inner{flex-direction:column;align-items:flex-start}}
+  </style>
+  <link rel="stylesheet" href="css/consent.css" />
+</head>
+<body>
+<header class="site-header">
+  <div class="header-left">
+    <a href="index.html" class="header-logo">AQUINTAQA</a>
+    <a href="index.html" class="header-back lang-en">← Home</a>
+    <a href="index.html" class="header-back lang-ru" style="display:none">← Главная</a>
+  </div>
+  <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">RU</button>
+</header>
+
+<main><div class="page-wrap">
+
+  <!-- Left: form section -->
+  <div>
+    <div class="lang-en">
+      <div class="page-eyebrow">Contact</div>
+      <h1 class="page-title">Get in touch</h1>
+      <p class="page-subtitle">Use the form below or email us directly. We respond to all enquiries within 2 business days.</p>
+    </div>
+    <div class="lang-ru" style="display:none">
+      <div class="page-eyebrow">Контакты</div>
+      <h1 class="page-title">Свяжитесь с нами</h1>
+      <p class="page-subtitle">Используйте форму ниже или напишите нам напрямую. Мы отвечаем на все запросы в течение 2 рабочих дней.</p>
+    </div>
+
+    <!-- Form card -->
+    <div class="form-card" id="form-card">
+      <form id="contact-form" novalidate>
+        <!-- Honeypot (anti-spam) -->
+        <div class="hp-field" aria-hidden="true">
+          <input type="text" name="website" id="hp-website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label for="cf-name"><span class="lang-en">Full Name</span><span class="lang-ru" style="display:none">Полное имя</span></label>
+          <input type="text" id="cf-name" name="name" placeholder="John Doe" required autocomplete="name" />
+          <div class="err-msg" id="err-name"><span class="lang-en">Please enter your full name</span><span class="lang-ru" style="display:none">Введите ваше полное имя</span></div>
+        </div>
+
+        <div class="field">
+          <label for="cf-email">Email</label>
+          <input type="email" id="cf-email" name="email" placeholder="john@company.com" required autocomplete="email" />
+          <div class="err-msg" id="err-email"><span class="lang-en">Please enter a valid email address</span><span class="lang-ru" style="display:none">Введите корректный адрес email</span></div>
+        </div>
+
+        <div class="field">
+          <label for="cf-company"><span class="lang-en">Company / Role</span><span class="lang-ru" style="display:none">Компания / Должность</span></label>
+          <input type="text" id="cf-company" name="company" placeholder="Company — Role" required autocomplete="organization" />
+          <div class="err-msg" id="err-company"><span class="lang-en">Please enter your company and role</span><span class="lang-ru" style="display:none">Укажите компанию и должность</span></div>
+        </div>
+
+        <div class="field">
+          <label for="cf-subject">
+            <span class="lang-en">Subject <span class="opt">(optional)</span></span>
+            <span class="lang-ru" style="display:none">Тема <span class="opt">(необязательно)</span></span>
+          </label>
+          <select id="cf-subject" name="subject">
+            <option value="" class="lang-en">Select a subject…</option>
+            <option value="" class="lang-ru" style="display:none">Выберите тему…</option>
+            <option value="general" data-en="General inquiry" data-ru="Общий запрос">General inquiry</option>
+            <option value="investment" data-en="Investment" data-ru="Инвестиции">Investment</option>
+            <option value="partnership" data-en="Partnership" data-ru="Партнёрство">Partnership</option>
+            <option value="press" data-en="Press" data-ru="Пресса">Press</option>
+            <option value="other" data-en="Other" data-ru="Другое">Other</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="cf-message"><span class="lang-en">Message</span><span class="lang-ru" style="display:none">Сообщение</span></label>
+          <textarea id="cf-message" name="message" rows="5" required
+            placeholder="How can we help you?"></textarea>
+          <div class="err-msg" id="err-message"><span class="lang-en">Please enter your message</span><span class="lang-ru" style="display:none">Введите сообщение</span></div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span class="lang-en">Send Request</span>
+          <span class="lang-ru" style="display:none">Отправить запрос</span>
+        </button>
+
+        <p class="gdpr-note lang-en">By submitting this form you agree to our <a href="privacy.html">Privacy Policy</a>. We will only use your data to respond to your enquiry.</p>
+        <p class="gdpr-note lang-ru" style="display:none">Отправляя форму, вы соглашаетесь с нашей <a href="privacy.html">Политикой конфиденциальности</a>. Мы используем ваши данные только для ответа на запрос.</p>
+      </form>
+    </div>
+
+    <!-- Success message (hidden until submit) -->
+    <div class="success-card" id="success-card">
+      <div class="success-icon">✓</div>
+      <h2 class="lang-en">Thank you!</h2>
+      <h2 class="lang-ru" style="display:none">Спасибо!</h2>
+      <p class="lang-en">We will be in touch within 2 business days.</p>
+      <p class="lang-ru" style="display:none">Мы свяжемся с вами в течение 2 рабочих дней.</p>
+    </div>
+  </div>
+
+  <!-- Right: contact info -->
+  <aside class="contact-info">
+    <div class="info-block">
+      <h3 class="lang-en">Contact details</h3>
+      <h3 class="lang-ru" style="display:none">Контактные данные</h3>
+
+      <div class="info-row">
+        <span class="info-label lang-en">Legal &amp; compliance</span>
+        <span class="info-label lang-ru" style="display:none">Правовые вопросы</span>
+        <span class="info-value"><a href="mailto:legal@aquintaqa.com">legal@aquintaqa.com</a></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label lang-en">Privacy &amp; data</span>
+        <span class="info-label lang-ru" style="display:none">Конфиденциальность и данные</span>
+        <span class="info-value"><a href="mailto:privacy@aquintaqa.com">privacy@aquintaqa.com</a></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label lang-en">Operational entity</span>
+        <span class="info-label lang-ru" style="display:none">Операционная компания</span>
+        <span class="info-value">AQUINTAQA Technologies Ltd</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label lang-en">IP holding</span>
+        <span class="info-label lang-ru" style="display:none">IP-холдинг</span>
+        <span class="info-value">AQUINTAQA IP Ltd</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label lang-en">Jurisdiction</span>
+        <span class="info-label lang-ru" style="display:none">Юрисдикция</span>
+        <span class="info-value lang-en">England and Wales</span>
+        <span class="info-value lang-ru" style="display:none">Англия и Уэльс</span>
+      </div>
+    </div>
+
+    <div class="response-note lang-en">We typically respond within <strong>2 business days</strong>. For urgent investor enquiries, please indicate this in your message subject.</div>
+    <div class="response-note lang-ru" style="display:none">Мы обычно отвечаем в течение <strong>2 рабочих дней</strong>. По срочным инвесторским запросам укажите это в теме сообщения.</div>
+  </aside>
+
+</div></main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-brand">© 2025 AQUINTAQA Technologies Ltd</span>
+    <div class="footer-links">
+      <a href="privacy.html" class="lang-en">Privacy Policy</a>
+      <a href="privacy.html" class="lang-ru" style="display:none">Политика конфиденциальности</a>
+      <a href="privacy.html#cookies" class="lang-en">Cookies Policy</a>
+      <a href="privacy.html#cookies" class="lang-ru" style="display:none">Политика cookies</a>
+      <a href="legal.html" class="lang-en">Terms of Use</a>
+      <a href="legal.html" class="lang-ru" style="display:none">Условия использования</a>
+      <a href="contact.html" class="active lang-en">Contact</a>
+      <a href="contact.html" class="active lang-ru" style="display:none">Контакты</a>
+      <button onclick="openCookieSettings()" class="lang-en">Cookie Settings</button>
+      <button onclick="openCookieSettings()" class="lang-ru" style="display:none">Настройки cookies</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Language switching ──
+(function(){
+  var lang=(function(){try{return localStorage.getItem('ui_lang')||'en'}catch(e){return'en'}})();
+  function applyLang(l){
+    lang=l;try{localStorage.setItem('ui_lang',l)}catch(e){}
+    var en=document.querySelectorAll('.lang-en'),ru=document.querySelectorAll('.lang-ru');
+    for(var i=0;i<en.length;i++)en[i].style.display=l==='en'?'':'none';
+    for(var i=0;i<ru.length;i++)ru[i].style.display=l==='ru'?'':'none';
+    var b=document.getElementById('lang-toggle');if(b)b.textContent=l==='en'?'RU':'EN';
+    document.documentElement.lang=l==='ru'?'ru':'en';
+    // Update select options text
+    var sel=document.getElementById('cf-subject');
+    if(sel){
+      var opts=sel.querySelectorAll('option[data-en]');
+      opts.forEach(function(o){o.textContent=l==='ru'?o.getAttribute('data-ru'):o.getAttribute('data-en')});
+      // Update placeholder option
+      var ph=sel.querySelector('option:not([data-en])');
+      if(ph)ph.textContent=l==='ru'?'Выберите тему…':'Select a subject…';
+    }
+    // Update textarea placeholder
+    var ta=document.getElementById('cf-message');
+    if(ta)ta.placeholder=l==='ru'?'Чем мы можем вам помочь?':'How can we help you?';
+  }
+  window.toggleLang=function(){applyLang(lang==='en'?'ru':'en')};
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',function(){applyLang(lang)})}else{applyLang(lang)}
+})();
+
+// ── Form validation & submission ──
+(function(){
+  var form=document.getElementById('contact-form');
+  var formCard=document.getElementById('form-card');
+  var successCard=document.getElementById('success-card');
+
+  function ve(email){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)}
+  function showErr(id,el){
+    var e=document.getElementById(id);if(e)e.classList.add('show');
+    if(el)el.classList.add('err');
+  }
+  function clearErr(id,el){
+    var e=document.getElementById(id);if(e)e.classList.remove('show');
+    if(el)el.classList.remove('err');
+  }
+
+  // Clear errors on input
+  [['cf-name','err-name'],['cf-email','err-email'],['cf-company','err-company'],['cf-message','err-message']].forEach(function(pair){
+    var el=document.getElementById(pair[0]);
+    if(el)el.addEventListener('input',function(){clearErr(pair[1],el)});
+  });
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var valid=true;
+    var name=document.getElementById('cf-name');
+    var email=document.getElementById('cf-email');
+    var company=document.getElementById('cf-company');
+    var msg=document.getElementById('cf-message');
+    var hp=document.getElementById('hp-website');
+
+    // Honeypot check
+    if(hp&&hp.value){return}
+
+    if(!name.value.trim()){showErr('err-name',name);valid=false}else{clearErr('err-name',name)}
+    if(!email.value.trim()||!ve(email.value.trim())){showErr('err-email',email);valid=false}else{clearErr('err-email',email)}
+    if(!company.value.trim()){showErr('err-company',company);valid=false}else{clearErr('err-company',company)}
+    if(!msg.value.trim()){showErr('err-message',msg);valid=false}else{clearErr('err-message',msg)}
+
+    if(!valid)return;
+
+    var btn=document.getElementById('submit-btn');
+    btn.disabled=true;
+
+    // ── Form submission ──
+    // TODO: Replace with actual MailerLite or backend endpoint when configured.
+    // Example: fetch('https://api.mailerlite.com/...', {method:'POST', body: JSON.stringify({...})})
+    // For now: show success state after brief delay (client-side only).
+    setTimeout(function(){
+      formCard.style.display='none';
+      successCard.classList.add('show');
+    },400);
+  });
+})();
+
+function openCookieSettings(){
+  var o=document.getElementById('cc-overlay');
+  if(o){o.classList.add('visible')}else{try{localStorage.removeItem('cookie_consent_v2')}catch(e){}window.location.reload()}
+}
+</script>
+<script src="js/consent.js"></script>
+</body>
+</html>

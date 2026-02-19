@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Terms of Use — AQUINTAQA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="images/favicon.png" rel="shortcut icon" type="image/x-icon" />
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    :root {
+      --bg: #0D1117;
+      --card-bg: #161B22;
+      --card-border: rgba(255,255,255,.08);
+      --text: #E6EDF3;
+      --text-dim: rgba(230,237,243,.65);
+      --text-muted: rgba(230,237,243,.35);
+      --accent: #2eb5d0;
+      --radius: 4px;
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { min-height: 100vh; background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+
+    /* ── Header ── */
+    .site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,17,23,.92); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 32px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header-left { display: flex; align-items: center; gap: 20px; }
+    .header-logo { font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; letter-spacing: .05em; }
+    .header-back { font-size: 13px; color: var(--text-muted); text-decoration: none; transition: color .2s; }
+    .header-back:hover { color: var(--text-dim); }
+    .lang-btn {
+      background: transparent; border: 1px solid var(--card-border); border-radius: var(--radius);
+      color: var(--text-muted); font-size: 12px; font-weight: 600; padding: 5px 10px;
+      cursor: pointer; letter-spacing: .06em; font-family: var(--font); transition: border-color .2s, color .2s;
+    }
+    .lang-btn:hover { border-color: rgba(255,255,255,.2); color: var(--text-dim); }
+
+    /* ── Page content ── */
+    .page-wrap { max-width: 740px; margin: 0 auto; padding: 52px 32px 88px; }
+    .page-eyebrow { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 14px; }
+    .page-title { font-size: 34px; font-weight: 700; letter-spacing: -.025em; line-height: 1.15; margin-bottom: 10px; }
+    .page-meta { font-size: 13px; color: var(--text-muted); margin-bottom: 52px; padding-bottom: 28px; border-bottom: 1px solid var(--card-border); }
+
+    /* ── Sections ── */
+    .section { margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,.05); }
+    .section:last-of-type { border-bottom: none; }
+    .section-num { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 7px; }
+    .section h3 { font-size: 16px; font-weight: 600; margin-bottom: 14px; line-height: 1.35; }
+    .section p { font-size: 14px; line-height: 1.8; color: var(--text-dim); margin-bottom: 12px; }
+    .section p:last-child { margin-bottom: 0; }
+    .section ul { padding-left: 20px; margin: 8px 0 12px; }
+    .section li { font-size: 14px; line-height: 1.75; color: var(--text-dim); margin-bottom: 5px; }
+    .section a { color: var(--text-dim); text-decoration: underline; text-decoration-color: rgba(255,255,255,.22); text-underline-offset: 2px; }
+    .section a:hover { color: var(--text); }
+    strong { color: var(--text); font-weight: 600; }
+    .highlight-box {
+      margin: 14px 0 0; padding: 16px 18px;
+      background: rgba(46,181,208,.06); border-left: 3px solid rgba(46,181,208,.4);
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .highlight-box p { font-size: 13px; color: var(--text-dim); margin: 0; line-height: 1.65; }
+
+    /* ── Contact block ── */
+    .contact-block {
+      margin-top: 52px; padding: 24px 28px;
+      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);
+    }
+    .contact-block p { font-size: 13px; color: var(--text-dim); line-height: 1.6; margin-bottom: 6px; }
+    .contact-block p:last-child { margin-bottom: 0; }
+    .contact-block a { color: var(--text); text-decoration: none; }
+    .contact-block a:hover { text-decoration: underline; }
+
+    /* ── Footer ── */
+    .site-footer { border-top: 1px solid var(--card-border); padding: 22px 32px; background: var(--bg); }
+    .footer-inner { max-width: 740px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+    .footer-brand { font-size: 12px; color: var(--text-muted); }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+    .footer-links a { font-size: 12px; color: var(--text-muted); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--text-dim); }
+    .footer-links a.active { color: var(--text-dim); }
+    .footer-links button { background: none; border: none; font-size: 12px; color: var(--text-muted); cursor: pointer; font-family: var(--font); transition: color .2s; padding: 0; }
+    .footer-links button:hover { color: var(--text-dim); }
+
+    /* ── Mobile ── */
+    @media (max-width: 767px) {
+      .site-header { padding: 0 20px; }
+      .page-wrap { padding: 36px 20px 64px; }
+      .page-title { font-size: 26px; }
+      .site-footer { padding: 20px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .footer-links { gap: 12px; }
+    }
+  </style>
+  <link rel="stylesheet" href="css/consent.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-left">
+      <a href="index.html" class="header-logo">AQUINTAQA</a>
+      <a href="index.html" class="header-back lang-en">← Home</a>
+      <a href="index.html" class="header-back lang-ru" style="display:none">← Главная</a>
+    </div>
+    <button class="lang-btn" id="lang-toggle" onclick="toggleLang()">RU</button>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="page-wrap">
+
+      <!-- EN: Page header -->
+      <div class="lang-en">
+        <div class="page-eyebrow">Legal</div>
+        <h1 class="page-title">Terms of Use</h1>
+        <p class="page-meta">Last updated: 05 December 2025</p>
+      </div>
+      <!-- RU: Page header -->
+      <div class="lang-ru" style="display:none">
+        <div class="page-eyebrow">Правовая информация</div>
+        <h1 class="page-title">Условия использования</h1>
+        <p class="page-meta">Последнее обновление: 05 декабря 2025 г.</p>
+      </div>
+
+      <!-- Section 1 -->
+      <div class="section">
+        <div class="section-num">01</div>
+        <div class="lang-en">
+          <h3>Operator and Contact Details</h3>
+          <p>The website <strong>aquintaqa.com</strong> is operated by <strong>AQUINTAQA Technologies Ltd</strong>, a company registered in England and Wales. The operational entity responsible for this website is AQUINTAQA Technologies Ltd; intellectual property rights in the technology, brand, and associated materials are held by <strong>AQUINTAQA IP Ltd</strong>.</p>
+          <p>The website is hosted on <strong>Vercel</strong> (EU regions — Frankfurt and Amsterdam). Content is delivered and protected via <strong>Cloudflare</strong> (CDN, DNS, and DDoS mitigation). Contact form submissions may be processed via <strong>MailerLite</strong> (EU data centre).</p>
+          <p>For legal enquiries, please contact: <a href="mailto:legal@aquintaqa.com">legal@aquintaqa.com</a></p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Оператор сайта и контактные данные</h3>
+          <p>Сайт <strong>aquintaqa.com</strong> управляется компанией <strong>AQUINTAQA Technologies Ltd</strong>, зарегистрированной в Англии и Уэльсе. Операционной компанией, ответственной за работу сайта, является AQUINTAQA Technologies Ltd; права на интеллектуальную собственность в отношении технологии, бренда и сопутствующих материалов принадлежат <strong>AQUINTAQA IP Ltd</strong>.</p>
+          <p>Сайт размещён на платформе <strong>Vercel</strong> (регионы ЕС — Франкфурт и Амстердам). Доставка и защита контента осуществляется через <strong>Cloudflare</strong> (CDN, DNS, защита от DDoS-атак). Обработка данных, переданных через формы обратной связи, может осуществляться через <strong>MailerLite</strong> (центр обработки данных в ЕС).</p>
+          <p>По правовым вопросам обращайтесь: <a href="mailto:legal@aquintaqa.com">legal@aquintaqa.com</a></p>
+        </div>
+      </div>
+
+      <!-- Section 2 -->
+      <div class="section">
+        <div class="section-num">02</div>
+        <div class="lang-en">
+          <h3>Acceptance of Terms</h3>
+          <p>By accessing or using aquintaqa.com (the "Site"), you confirm that you have read, understood, and agree to be bound by these Terms of Use ("Terms") and our <a href="privacy.html">Privacy Policy</a>. If you do not accept these Terms in full, you must immediately cease using the Site.</p>
+          <p>These Terms apply to all visitors, users, and any other persons who access or use the Site.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Принятие условий</h3>
+          <p>Получая доступ к сайту aquintaqa.com («Сайт») или используя его, вы подтверждаете, что ознакомились с настоящими Условиями использования («Условия») и нашей <a href="privacy.html">Политикой конфиденциальности</a>, поняли их и согласны с ними. Если вы не принимаете настоящие Условия в полном объёме, вы обязаны немедленно прекратить использование Сайта.</p>
+          <p>Настоящие Условия распространяются на всех посетителей, пользователей и иных лиц, получающих доступ к Сайту или использующих его.</p>
+        </div>
+      </div>
+
+      <!-- Section 3 -->
+      <div class="section">
+        <div class="section-num">03</div>
+        <div class="lang-en">
+          <h3>Changes to Terms and Site</h3>
+          <p>We reserve the right to amend these Terms at any time. Material changes will be indicated by updating the "Last updated" date at the top of this page. We encourage you to review these Terms periodically.</p>
+          <p>Your continued use of the Site following any changes constitutes your acceptance of the revised Terms. We also reserve the right to modify, suspend, or discontinue the Site (or any part of it) at any time without notice.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Изменения условий и сайта</h3>
+          <p>Мы оставляем за собой право в любое время вносить изменения в настоящие Условия. Существенные изменения отражаются посредством обновления даты «Последнее обновление» в верхней части данной страницы. Рекомендуем периодически проверять актуальность Условий.</p>
+          <p>Продолжение использования Сайта после внесения изменений означает ваше согласие с обновлёнными Условиями. Мы также оставляем за собой право в любое время без предварительного уведомления изменять, приостанавливать или прекращать работу Сайта (или любой его части).</p>
+        </div>
+      </div>
+
+      <!-- Section 4 -->
+      <div class="section">
+        <div class="section-num">04</div>
+        <div class="lang-en">
+          <h3>Access to the Site</h3>
+          <p>We grant you a limited, non-exclusive, non-transferable, revocable licence to access and use the Site for lawful, personal, and non-commercial purposes in accordance with these Terms.</p>
+          <p>We reserve the right to withdraw or amend access to the Site at any time without notice. We will not be liable if, for any reason, the Site is unavailable at any time or for any period.</p>
+          <p>You are responsible for ensuring that all persons who access the Site through your internet connection are aware of these Terms and comply with them.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Доступ к сайту</h3>
+          <p>Мы предоставляем вам ограниченную, неисключительную, непередаваемую и отзывную лицензию на доступ к Сайту и его использование в законных, личных и некоммерческих целях в соответствии с настоящими Условиями.</p>
+          <p>Мы оставляем за собой право в любое время без предварительного уведомления ограничить или прекратить доступ к Сайту. Мы не несём ответственности в случае, если по каким-либо причинам Сайт недоступен в течение какого-либо времени или периода.</p>
+          <p>Вы несёте ответственность за информирование всех лиц, получающих доступ к Сайту через ваше интернет-соединение, об условиях настоящего документа и за их соблюдение.</p>
+        </div>
+      </div>
+
+      <!-- Section 5 -->
+      <div class="section">
+        <div class="section-num">05</div>
+        <div class="lang-en">
+          <h3>No Advice and No Offer of Securities</h3>
+          <p>Nothing on this Site constitutes, or should be construed as, engineering, technical, legal, financial, tax, investment, or any other form of professional advice. All content is provided for general informational purposes only.</p>
+          <p>Nothing on this Site constitutes an offer, invitation, or solicitation to buy or sell any security, financial instrument, or investment product in any jurisdiction. AQUINTAQA Technologies Ltd and AQUINTAQA IP Ltd are not registered as investment advisers, broker-dealers, or financial institutions in any jurisdiction.</p>
+          <div class="highlight-box">
+            <p>You should seek independent professional advice before making any engineering, legal, commercial, or investment decisions based on information obtained from this Site.</p>
+          </div>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Отсутствие консультаций и предложений ценных бумаг</h3>
+          <p>Ничто на данном Сайте не является и не должно толковаться как инженерная, техническая, юридическая, финансовая, налоговая, инвестиционная или иная профессиональная консультация. Весь контент предоставляется исключительно в общих информационных целях.</p>
+          <p>Ничто на данном Сайте не является предложением, приглашением или побуждением к покупке или продаже каких-либо ценных бумаг, финансовых инструментов или инвестиционных продуктов в какой-либо юрисдикции. Компании AQUINTAQA Technologies Ltd и AQUINTAQA IP Ltd не зарегистрированы в качестве инвестиционных консультантов, брокеров-дилеров или финансовых учреждений ни в какой юрисдикции.</p>
+          <div class="highlight-box">
+            <p>Перед принятием инженерных, юридических, коммерческих или инвестиционных решений на основе информации, полученной с данного Сайта, необходимо получить независимую профессиональную консультацию.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 6 -->
+      <div class="section">
+        <div class="section-num">06</div>
+        <div class="lang-en">
+          <h3>Intellectual Property Rights</h3>
+          <p>All content on the Site — including but not limited to text, graphics, logos, images, data, code, and structural know-how — is owned by or licensed to AQUINTAQA Technologies Ltd or AQUINTAQA IP Ltd and is protected by applicable intellectual property laws.</p>
+          <p>You may view and print a single copy of any page solely for your own internal, non-commercial reference purposes, provided you do not modify the content and retain all copyright and proprietary notices.</p>
+          <p>You must not:</p>
+          <ul>
+            <li>copy, reproduce, or distribute any content from the Site for commercial purposes;</li>
+            <li>scrape, crawl, or systematically extract data from the Site by automated means;</li>
+            <li>reverse-engineer, decompile, or disassemble any technology, software, or process described on the Site;</li>
+            <li>use any AQUINTAQA trade marks, logos, or trade names without prior written permission;</li>
+            <li>frame or mirror any part of the Site without prior written consent.</li>
+          </ul>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Права интеллектуальной собственности</h3>
+          <p>Весь контент Сайта — включая, помимо прочего, тексты, графику, логотипы, изображения, данные, код и структурные ноу-хау — принадлежит AQUINTAQA Technologies Ltd или AQUINTAQA IP Ltd либо используется на условиях лицензии и охраняется применимым законодательством об интеллектуальной собственности.</p>
+          <p>Вы вправе просматривать и распечатывать одну копию любой страницы исключительно для собственного внутреннего некоммерческого использования при условии, что вы не изменяете контент и сохраняете все уведомления об авторских и иных правах.</p>
+          <p>Вам запрещается:</p>
+          <ul>
+            <li>копировать, воспроизводить или распространять любой контент Сайта в коммерческих целях;</li>
+            <li>осуществлять парсинг, краулинг или систематическое извлечение данных с Сайта с помощью автоматизированных средств;</li>
+            <li>проводить обратную разработку, декомпилировать или дизассемблировать любые технологии, программное обеспечение или процессы, описанные на Сайте;</li>
+            <li>использовать товарные знаки, логотипы или коммерческие наименования AQUINTAQA без предварительного письменного разрешения;</li>
+            <li>встраивать или зеркалировать любую часть Сайта без предварительного письменного согласия.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Section 7 -->
+      <div class="section">
+        <div class="section-num">07</div>
+        <div class="lang-en">
+          <h3>Acceptable Use</h3>
+          <p>You agree to use the Site only for lawful purposes and in a manner that does not infringe the rights of, or restrict or inhibit the use of the Site by, any third party. In particular, you must not:</p>
+          <ul>
+            <li>attempt to gain unauthorised access to the Site, servers, or networks connected to the Site;</li>
+            <li>transmit or upload any viruses, malware, ransomware, or other malicious code;</li>
+            <li>conduct or facilitate any distributed denial-of-service (DDoS) attack;</li>
+            <li>submit false, misleading, or fraudulent information via any form;</li>
+            <li>use the Site to transmit any unsolicited commercial communications (spam);</li>
+            <li>use the Site in any way that violates applicable local, national, or international law or regulation;</li>
+            <li>collect or harvest personal data of other users without their consent.</li>
+          </ul>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Допустимое использование</h3>
+          <p>Вы соглашаетесь использовать Сайт исключительно в законных целях и таким образом, чтобы не нарушать права третьих лиц и не ограничивать их использование Сайта. В частности, вам запрещается:</p>
+          <ul>
+            <li>предпринимать попытки несанкционированного доступа к Сайту, серверам или сетям, связанным с Сайтом;</li>
+            <li>передавать или загружать вирусы, вредоносное программное обеспечение, программы-вымогатели или иной вредоносный код;</li>
+            <li>организовывать или содействовать атакам типа «распределённый отказ в обслуживании» (DDoS);</li>
+            <li>предоставлять через формы ложную, вводящую в заблуждение или мошенническую информацию;</li>
+            <li>использовать Сайт для отправки незапрошенных коммерческих сообщений (спама);</li>
+            <li>использовать Сайт любым способом, нарушающим применимое местное, национальное или международное законодательство;</li>
+            <li>собирать или хранить персональные данные других пользователей без их согласия.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Section 8 -->
+      <div class="section">
+        <div class="section-num">08</div>
+        <div class="lang-en">
+          <h3>User Content (Form Submissions)</h3>
+          <p>When you submit information through any form on the Site, you represent and warrant that all information provided is accurate, current, and complete to the best of your knowledge.</p>
+          <p>By submitting content or information, you grant AQUINTAQA Technologies Ltd a non-exclusive, royalty-free licence to use such information for the purposes for which it was submitted (e.g. responding to your enquiry, processing your investor access request, sending newsletters where consented).</p>
+          <p>You must not submit any content that is defamatory, offensive, obscene, or in violation of any applicable law or third-party right.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Пользовательский контент (отправка форм)</h3>
+          <p>Отправляя информацию через любую форму на Сайте, вы заявляете и гарантируете, что все предоставленные сведения являются точными, актуальными и полными в той мере, в какой вам это известно.</p>
+          <p>Отправляя контент или информацию, вы предоставляете AQUINTAQA Technologies Ltd неисключительную безвозмездную лицензию на использование таких сведений в целях, для которых они были переданы (например, для ответа на ваш запрос, обработки заявки на получение доступа к материалам для инвесторов, рассылки информационных сообщений при наличии согласия).</p>
+          <p>Вам запрещается отправлять контент, содержащий клевету, оскорбления, непристойные материалы или нарушающий применимое законодательство либо права третьих лиц.</p>
+        </div>
+      </div>
+
+      <!-- Section 9 -->
+      <div class="section">
+        <div class="section-num">09</div>
+        <div class="lang-en">
+          <h3>Third-Party Links</h3>
+          <p>The Site may contain links to third-party websites or resources. These links are provided for your convenience only. We have no control over the content of those sites and accept no responsibility for them or for any loss or damage that may arise from your use of them.</p>
+          <p>The inclusion of any link does not imply our endorsement of the linked site or any association with its operators.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Ссылки на сторонние сайты</h3>
+          <p>Сайт может содержать ссылки на веб-сайты или ресурсы третьих лиц. Такие ссылки предоставляются исключительно для вашего удобства. Мы не контролируем содержимое этих сайтов и не несём ответственности за них или за любые убытки или ущерб, которые могут возникнуть в результате их использования.</p>
+          <p>Наличие ссылки не означает нашего одобрения связанного сайта или какой-либо связи с его операторами.</p>
+        </div>
+      </div>
+
+      <!-- Section 10 -->
+      <div class="section">
+        <div class="section-num">10</div>
+        <div class="lang-en">
+          <h3>Disclaimers</h3>
+          <p>The Site and its content are provided on an <strong>"as is"</strong> and <strong>"as available"</strong> basis without any representation or warranty, express or implied. To the fullest extent permitted by law, we disclaim all warranties, including but not limited to implied warranties of merchantability, fitness for a particular purpose, and non-infringement.</p>
+          <p>We do not warrant that: (a) the Site will be uninterrupted, timely, secure, or error-free; (b) any defects will be corrected; (c) the Site or the servers that make it available are free of viruses or other harmful components; or (d) the information on the Site is accurate, complete, or current.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Отказ от гарантий</h3>
+          <p>Сайт и его контент предоставляются <strong>«как есть»</strong> и <strong>«по мере доступности»</strong> без каких-либо явных или подразумеваемых заявлений или гарантий. В максимально допустимой законом мере мы отказываемся от всех гарантий, включая, помимо прочего, подразумеваемые гарантии товарного качества, пригодности для определённой цели и ненарушения прав.</p>
+          <p>Мы не гарантируем, что: (а) работа Сайта будет непрерывной, своевременной, безопасной или безошибочной; (б) любые неисправности будут устранены; (в) Сайт или серверы, обеспечивающие его работу, не содержат вирусов или иных вредоносных компонентов; (г) информация на Сайте является точной, полной или актуальной.</p>
+        </div>
+      </div>
+
+      <!-- Section 11 -->
+      <div class="section">
+        <div class="section-num">11</div>
+        <div class="lang-en">
+          <h3>Limitation of Liability</h3>
+          <p>To the fullest extent permitted by applicable law, AQUINTAQA Technologies Ltd and AQUINTAQA IP Ltd, their directors, employees, and agents shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or in connection with your use of, or inability to use, the Site or its content.</p>
+          <p>The aggregate liability of AQUINTAQA Technologies Ltd to you for all claims arising out of or relating to these Terms or the Site shall not exceed <strong>£100 (one hundred pounds sterling)</strong>.</p>
+          <p>Nothing in these Terms limits liability for: (a) death or personal injury caused by negligence; (b) fraud or fraudulent misrepresentation; or (c) any other matter where liability cannot be excluded or limited by law.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Ограничение ответственности</h3>
+          <p>В максимально допустимой применимым законодательством мере компании AQUINTAQA Technologies Ltd и AQUINTAQA IP Ltd, их директора, сотрудники и агенты не несут ответственности за косвенный, случайный, специальный, последующий или штрафной ущерб, возникающий в связи с использованием или невозможностью использования Сайта или его контента.</p>
+          <p>Совокупная ответственность AQUINTAQA Technologies Ltd перед вами по всем претензиям, возникающим в связи с настоящими Условиями или Сайтом, не может превышать <strong>£100 (сто фунтов стерлингов)</strong>.</p>
+          <p>Ничто в настоящих Условиях не ограничивает ответственность за: (а) смерть или причинение вреда здоровью вследствие небрежности; (б) мошенничество или обманные заявления; (в) любые иные случаи, в которых ответственность не может быть исключена или ограничена законом.</p>
+        </div>
+      </div>
+
+      <!-- Section 12 -->
+      <div class="section">
+        <div class="section-num">12</div>
+        <div class="lang-en">
+          <h3>Privacy and Data Protection</h3>
+          <p>Your use of the Site is also governed by our <a href="privacy.html">Privacy Policy</a> and <a href="privacy.html#cookies">Cookies Policy</a>, which are incorporated into these Terms by reference. By using the Site, you consent to the processing of your personal data as described in those policies.</p>
+          <p>We are committed to protecting your privacy in accordance with UK GDPR and the Data Protection Act 2018. Please review our Privacy Policy for full details of how we collect, use, and protect your personal information.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Конфиденциальность и защита данных</h3>
+          <p>Использование вами Сайта также регулируется нашей <a href="privacy.html">Политикой конфиденциальности</a> и <a href="privacy.html#cookies">Политикой использования файлов cookie</a>, которые включены в настоящие Условия путём ссылки. Используя Сайт, вы даёте согласие на обработку ваших персональных данных в соответствии с этими политиками.</p>
+          <p>Мы обязуемся защищать вашу конфиденциальность в соответствии с UK GDPR и Законом о защите данных 2018 года. Полные сведения о том, как мы собираем, используем и защищаем вашу персональную информацию, содержатся в нашей Политике конфиденциальности.</p>
+        </div>
+      </div>
+
+      <!-- Section 13 -->
+      <div class="section">
+        <div class="section-num">13</div>
+        <div class="lang-en">
+          <h3>Termination and Suspension</h3>
+          <p>We may terminate or suspend your access to the Site immediately, without prior notice or liability, for any reason, including if you breach these Terms. Upon termination, your right to use the Site will immediately cease.</p>
+          <p>All provisions of these Terms which by their nature should survive termination shall survive, including ownership provisions, warranty disclaimers, indemnity, and limitations of liability.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Прекращение и приостановление доступа</h3>
+          <p>Мы вправе немедленно, без предварительного уведомления и без какой-либо ответственности прекратить или приостановить ваш доступ к Сайту по любой причине, включая нарушение настоящих Условий. При прекращении доступа ваше право на использование Сайта немедленно утрачивает силу.</p>
+          <p>Все положения настоящих Условий, которые по своей природе должны сохранять силу после прекращения, продолжают действовать, включая положения о праве собственности, отказе от гарантий, возмещении убытков и ограничении ответственности.</p>
+        </div>
+      </div>
+
+      <!-- Section 14 -->
+      <div class="section">
+        <div class="section-num">14</div>
+        <div class="lang-en">
+          <h3>Governing Law and Jurisdiction</h3>
+          <p>These Terms and any dispute or claim arising out of or in connection with them (including non-contractual disputes or claims) shall be governed by and construed in accordance with the law of <strong>England and Wales</strong>.</p>
+          <p>The courts of England and Wales shall have <strong>exclusive jurisdiction</strong> to settle any dispute or claim that arises out of or in connection with these Terms or their subject matter or formation.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Применимое право и юрисдикция</h3>
+          <p>Настоящие Условия и любые споры или претензии, возникающие из них или в связи с ними (включая внедоговорные споры или претензии), регулируются и толкуются в соответствии с законодательством <strong>Англии и Уэльса</strong>.</p>
+          <p>Суды Англии и Уэльса обладают <strong>исключительной юрисдикцией</strong> для разрешения любых споров или претензий, возникающих из настоящих Условий или в связи с ними, а также их предметом или заключением.</p>
+        </div>
+      </div>
+
+      <!-- Section 15 -->
+      <div class="section">
+        <div class="section-num">15</div>
+        <div class="lang-en">
+          <h3>Miscellaneous</h3>
+          <p><strong>Severability.</strong> If any provision of these Terms is found to be invalid, illegal, or unenforceable by a court of competent jurisdiction, the remaining provisions shall continue in full force and effect.</p>
+          <p><strong>No waiver.</strong> Our failure to enforce any right or provision of these Terms shall not constitute a waiver of such right or provision unless acknowledged and agreed to by us in writing.</p>
+          <p><strong>Entire agreement.</strong> These Terms, together with the Privacy Policy and Cookies Policy, constitute the entire agreement between you and AQUINTAQA Technologies Ltd regarding your use of the Site and supersede all prior agreements, representations, and understandings.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <h3>Прочие условия</h3>
+          <p><strong>Делимость.</strong> Если какое-либо положение настоящих Условий будет признано недействительным, незаконным или не имеющим исковой силы судом компетентной юрисдикции, остальные положения продолжают действовать в полном объёме.</p>
+          <p><strong>Отказ от права.</strong> Неприменение нами какого-либо права или положения настоящих Условий не является отказом от такого права или положения, если только это не признано и не согласовано нами в письменной форме.</p>
+          <p><strong>Полнота соглашения.</strong> Настоящие Условия вместе с Политикой конфиденциальности и Политикой использования файлов cookie составляют полное соглашение между вами и AQUINTAQA Technologies Ltd в отношении использования Сайта и заменяют все предшествующие соглашения, заявления и договорённости.</p>
+        </div>
+      </div>
+
+      <!-- Contact block -->
+      <div class="contact-block">
+        <div class="lang-en">
+          <p>For any questions regarding these Terms of Use, please contact us at <a href="mailto:legal@aquintaqa.com">legal@aquintaqa.com</a>.</p>
+          <p>AQUINTAQA Technologies Ltd &amp; AQUINTAQA IP Ltd — registered in England and Wales.</p>
+        </div>
+        <div class="lang-ru" style="display:none">
+          <p>По любым вопросам, связанным с настоящими Условиями использования, обращайтесь к нам по адресу <a href="mailto:legal@aquintaqa.com">legal@aquintaqa.com</a>.</p>
+          <p>AQUINTAQA Technologies Ltd &amp; AQUINTAQA IP Ltd — зарегистрированы в Англии и Уэльсе.</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-brand lang-en">© 2025 AQUINTAQA Technologies Ltd</span>
+      <span class="footer-brand lang-ru" style="display:none">© 2025 AQUINTAQA Technologies Ltd</span>
+      <div class="footer-links">
+        <a href="privacy.html" class="lang-en">Privacy Policy</a>
+        <a href="privacy.html" class="lang-ru" style="display:none">Политика конфиденциальности</a>
+        <a href="privacy.html#cookies" class="lang-en">Cookies Policy</a>
+        <a href="privacy.html#cookies" class="lang-ru" style="display:none">Политика cookies</a>
+        <a href="legal.html" class="active lang-en">Terms of Use</a>
+        <a href="legal.html" class="active lang-ru" style="display:none">Условия использования</a>
+        <a href="contact.html" class="lang-en">Contact</a>
+        <a href="contact.html" class="lang-ru" style="display:none">Контакты</a>
+        <button onclick="openCookieSettings()" class="lang-en">Cookie Settings</button>
+        <button onclick="openCookieSettings()" class="lang-ru" style="display:none">Настройки cookies</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Language switching -->
+  <script>
+  (function() {
+    var lang = (function() {
+      try { return localStorage.getItem('ui_lang') || 'en'; } catch(e) { return 'en'; }
+    })();
+
+    function applyLang(l) {
+      lang = l;
+      try { localStorage.setItem('ui_lang', l); } catch(e) {}
+      var enEls = document.querySelectorAll('.lang-en');
+      var ruEls = document.querySelectorAll('.lang-ru');
+      for (var i = 0; i < enEls.length; i++) enEls[i].style.display = l === 'en' ? '' : 'none';
+      for (var i = 0; i < ruEls.length; i++) ruEls[i].style.display = l === 'ru' ? '' : 'none';
+      var btn = document.getElementById('lang-toggle');
+      if (btn) btn.textContent = l === 'en' ? 'RU' : 'EN';
+      document.documentElement.lang = l === 'ru' ? 'ru' : 'en';
+    }
+
+    window.toggleLang = function() { applyLang(lang === 'en' ? 'ru' : 'en'); };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { applyLang(lang); });
+    } else {
+      applyLang(lang);
+    }
+  })();
+
+  function openCookieSettings() {
+    var overlay = document.getElementById('cc-overlay');
+    if (overlay) {
+      overlay.classList.add('visible');
+    } else {
+      try { localStorage.removeItem('cookie_consent_v2'); } catch(e) {}
+      window.location.reload();
+    }
+  }
+  </script>
+
+  <script src="js/consent.js"></script>
+</body>
+</html>
