@@ -41,6 +41,19 @@
       height: 100vh;
     }
 
+    /* ── Back link ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-bottom: 16px;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--text); }
+
     /* ── Header ── */
     .header {
       flex-shrink: 0;
@@ -251,6 +264,7 @@
   <div class="page">
     <!-- Header -->
     <div class="header">
+      <a href="index.html" class="back-link">← Back</a>
       <h1>QUALITY & VALIDATION</h1>
       <div class="subtitle">Process Control, Testing Discipline, and External Verification</div>
       <div class="hint">Scroll horizontally or use <span>← →</span> arrows</div>
