@@ -81,108 +81,21 @@
        MOBILE LAYOUT START
        Breakpoint: max-width 767px
        Desktop/tablet remain pixel-identical.
+       SpaceX-style: clean, dark, native mobile.
        ============================================= */
     @media screen and (max-width: 767px) {
 
-      /* ── HERO: hide 3D Spline, use CSS sphere ── */
+      /* ── HERO: hide sphere + marker completely ── */
       .spline-content,
       .sphere-marker {
         display: none !important;
       }
-
-      /* ── Show left column: text + CSS sphere ── */
-      .se1 .colum-l {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        position: relative !important;
-        z-index: 5 !important;
-        padding: 70px 24px 0 !important;
-        width: 100% !important;
-        flex: 1 1 auto !important;
-      }
-
-      .se1 .content-img {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        position: static !important;
-        padding: 0 !important;
-        width: 100% !important;
-      }
-
-      /* Stats text visible */
-      .se1 .content-img > .text-block,
-      .se1 .content-img > .text-block._2 {
-        display: block !important;
-        font-size: clamp(0.72rem, 3.2vw, 0.95rem) !important;
-        text-align: center !important;
-        position: static !important;
-        transform: none !important;
-        left: auto !important;
-        top: auto !important;
-        width: auto !important;
-        margin-bottom: 4px !important;
-        letter-spacing: 1px !important;
-        color: rgba(255,255,255,0.7) !important;
-        font-weight: 300 !important;
-      }
-
-      /* Hide desktop-only elements */
-      .se1 .div-block-17,
-      .se1 .div-block-5,
-      .se1 .podpis {
+      .se1 .sfera,
+      .se1 .sfera.no {
         display: none !important;
       }
 
-      /* ── CSS Sphere: visible on mobile ── */
-      .se1 .sfera,
-      .se1 .sfera.no {
-        display: block !important;
-        width: 52vw !important;
-        max-width: 230px !important;
-        aspect-ratio: 1 / 1 !important;
-        margin: 16px auto !important;
-        position: relative !important;
-        z-index: 2 !important;
-        border-radius: 50% !important;
-        filter: drop-shadow(0 0 40px rgba(66,207,242,0.45)) !important;
-      }
-
-      /* ── Bottom text: in flow, not absolute ── */
-      .se1 .colum-r {
-        position: relative !important;
-        bottom: auto !important;
-        left: auto !important;
-        right: auto !important;
-        width: 100% !important;
-        z-index: 10 !important;
-        padding: 0 24px 36px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        background: transparent !important;
-        flex-shrink: 0 !important;
-      }
-
-      .se1 .h1,
-      .se1 h1 {
-        text-align: center !important;
-        font-size: clamp(1.4rem, 6.5vw, 2rem) !important;
-        margin-bottom: 10px !important;
-      }
-
-      .se1 .colum-r .text {
-        text-align: center !important;
-        max-width: 100% !important;
-      }
-
-      .se1 .div-block-4 {
-        justify-content: center !important;
-      }
-
-      /* ── Iframe sections: scaled desktop preview ── */
+      /* ── Iframe sections: native mobile width ── */
       section[id$="-embed"] {
         min-height: auto !important;
         overflow: hidden !important;
@@ -191,11 +104,27 @@
       }
 
       section[id$="-embed"] iframe {
-        width: 1440px !important;
-        transform-origin: top left;
+        width: 100% !important;
+        transform: none !important;
         display: block !important;
         border: none !important;
       }
+
+      /* Section heights for mobile content */
+      #how-it-works-embed { min-height: 560px !important; }
+      #hiw-iframe { height: 560px !important; }
+
+      #quality-standards-embed { min-height: 700px !important; }
+      #quality-iframe { height: 700px !important; }
+
+      #validation-faq-embed { min-height: 750px !important; }
+      #validation-iframe { height: 750px !important; }
+
+      #trl-snapshot-embed { min-height: 520px !important; }
+      #trl-iframe { height: 520px !important; }
+
+      #video-embed { min-height: auto !important; }
+      #video-iframe { height: auto !important; min-height: 480px !important; }
 
       /* ── Footer ── */
       .footer2 {
@@ -539,48 +468,6 @@
     videoObserver.observe(videoSection);
   })();
 
-  // ─── MOBILE: Scale iframe sections to fit viewport ───
-  (function() {
-    'use strict';
-    if (screen.width >= 768) return; // Desktop/tablet: skip
-
-    var DESIGN_W = 1440;
-    var vw = window.innerWidth || screen.width;
-    var scale = vw / DESIGN_W;
-
-    var iframes = document.querySelectorAll('section[id$="-embed"] iframe');
-    iframes.forEach(function(iframe) {
-      // Read original height from inline style
-      var origH = parseInt(iframe.style.height) || 900;
-      var scaledH = Math.ceil(origH * scale);
-
-      // Scale iframe: render at desktop width, zoom to fit
-      iframe.style.width = DESIGN_W + 'px';
-      iframe.style.height = origH + 'px';
-      iframe.style.transform = 'scale(' + scale + ')';
-      iframe.style.transformOrigin = 'top left';
-
-      // Fix parent section height (transform doesn't affect layout)
-      var section = iframe.parentElement;
-      section.style.height = scaledH + 'px';
-      section.style.minHeight = scaledH + 'px';
-      section.style.overflow = 'hidden';
-    });
-
-    // Recalculate on orientation change
-    window.addEventListener('orientationchange', function() {
-      setTimeout(function() {
-        var newVw = window.innerWidth;
-        var newScale = newVw / DESIGN_W;
-        iframes.forEach(function(iframe) {
-          var origH = parseInt(iframe.getAttribute('data-orig-h')) || parseInt(iframe.style.height) || 900;
-          iframe.style.transform = 'scale(' + newScale + ')';
-          iframe.parentElement.style.height = Math.ceil(origH * newScale) + 'px';
-          iframe.parentElement.style.minHeight = Math.ceil(origH * newScale) + 'px';
-        });
-      }, 300);
-    });
-  })();
   </script>
 
   <!--  FOOTER CODE  -->

@@ -346,8 +346,7 @@ html, body {
   overflow-x: hidden !important;
 }
 
-/* Disabled responsive media queries - always show desktop version */
-/*
+/* Mobile responsive — active for iframe rendering at mobile width */
 @media (max-width: 1100px) {
   .hiw__main { flex-direction: column; }
   .hiw__left-sidebar { width: 100%; flex-direction: row; }
@@ -355,10 +354,14 @@ html, body {
 }
 
 @media (max-width: 768px) {
-  .hiw__title { font-size: 20px; letter-spacing: 0.2em; }
+  .hiw__title { font-size: 18px; letter-spacing: 0.15em; }
   .hiw__legend { align-items: flex-start; }
+  .hiw__sheet { padding: 16px; }
+  .hiw__left-sidebar { padding: 10px 8px; }
+  .hiw__stage-nav { gap: 8px; margin-top: 12px; }
+  .hiw__right-content { padding: 12px; }
+  body { overflow-y: auto; }
 }
-*/
 </style>
 </head>
 <body>

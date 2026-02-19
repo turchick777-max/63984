@@ -517,16 +517,23 @@
             overflow-x: hidden !important;
         }
 
-        /* Disabled responsive media queries - always show desktop version */
-        /*
+        /* Mobile responsive — active for iframe rendering at mobile width */
         @media (max-width: 1200px) {
             main { flex-direction: column; }
-            .col { width: 100%; padding: 30px 40px; }
+            .col { width: 100%; padding: 24px 20px; }
             .center-line { display: none; }
+            .horizontal-line { display: none; }
         }
-        @media (min-width: 768px) and (max-width: 1200px) { ... }
-        @media (max-width: 768px) { ... }
-        */
+        @media (max-width: 768px) {
+            header { padding: 16px 20px; }
+            header h1 { font-size: 16px; letter-spacing: 0.15em; }
+            .metric-block { padding: 14px 16px; }
+            .metric-block .value { font-size: 26px; }
+            .metric-block .label { font-size: 10px; }
+            footer { padding: 16px 20px; height: auto; min-height: 60px; }
+            footer .logo-text { font-size: 10px; }
+            body { overflow-y: auto; }
+        }
     </style>
 </head>
 <body>
