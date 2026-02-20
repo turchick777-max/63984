@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1440, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>HOW IT WORKS - AQUINTAQA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -346,21 +346,172 @@ html, body {
   overflow-x: hidden !important;
 }
 
-/* Mobile responsive — active for iframe rendering at mobile width */
-@media (max-width: 1100px) {
-  .hiw__main { flex-direction: column; }
-  .hiw__left-sidebar { width: 100%; flex-direction: row; }
-  .hiw__stage-nav { flex-direction: row; flex-wrap: wrap; }
-}
+/* ── MOBILE ONLY  ≤ 767px ── */
+@media (max-width: 767px) {
 
-@media (max-width: 768px) {
-  .hiw__title { font-size: 18px; letter-spacing: 0.15em; }
-  .hiw__legend { align-items: flex-start; }
-  .hiw__sheet { padding: 16px; }
-  .hiw__left-sidebar { padding: 10px 8px; }
-  .hiw__stage-nav { gap: 8px; margin-top: 12px; }
-  .hiw__right-content { padding: 12px; }
-  body { overflow-y: auto; }
+  body { overflow: hidden !important; }
+
+  .hiw { padding: 0; }
+
+  .hiw__sheet { padding: 8px 8px 0; }
+
+  .hiw__header { padding: 10px 12px 6px; }
+  .hiw__title  { font-size: 14px; letter-spacing: 0.2em; }
+
+  /* ── MAIN: vertical stack ── */
+  .hiw__main {
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0;
+  }
+
+  /* ── STAGE CHIPS: horizontal scroll row ── */
+  .hiw__left-sidebar {
+    width: 100%;
+    height: auto !important;
+    padding: 0;
+    background: transparent;
+    border: none;
+    overflow: visible;
+  }
+
+  .hiw__stage-nav {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 6px;
+    margin-top: 0;
+    padding: 4px 8px 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .hiw__stage-nav::-webkit-scrollbar { display: none; }
+  .hiw__stage-nav::before { display: none; }
+
+  .hiw__stage-btn {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 9px 14px;
+    background: rgba(255,255,255,0.72);
+    border: 1px solid rgba(15,23,42,0.1);
+    border-radius: 2px;
+    flex-shrink: 0;
+    min-width: 76px;
+    text-align: center;
+    transition: background 0.18s, border-color 0.18s;
+  }
+  .hiw__stage-btn.is-active {
+    background: rgba(0,158,186,0.10);
+    border-color: rgba(0,158,186,0.5);
+  }
+  .hiw__stage-dot { display: none !important; }
+  .hiw__stage-name {
+    font-size: 9.5px;
+    line-height: 1.3;
+    color: rgba(15,23,42,0.65);
+  }
+  .hiw__stage-btn.is-active .hiw__stage-name { color: var(--accent); }
+
+  /* ── DIAGRAM AREA ── */
+  .hiw__diagram-area  { position: relative; }
+  .hiw__diagram-wrapper {
+    padding: 0 !important;
+    min-height: 0 !important;
+    background: transparent;
+    border: none;
+    margin-bottom: 0;
+    overflow: visible;
+  }
+
+  /* pan-zoom viewport – injected by JS */
+  .hiw-mobile-vp {
+    width: 100%;
+    height: 265px;
+    overflow: hidden;
+    touch-action: none;
+    position: relative;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(15,23,42,0.1);
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .hiw-mobile-vp.is-grabbing { cursor: grabbing; }
+
+  .hiw-mobile-inner {
+    transform-origin: 0 0;
+    will-change: transform;
+    position: absolute;
+    top: 0; left: 0;
+  }
+
+  /* SVG fixed size so scale math works */
+  .hiw-mobile-inner .hiw__svg {
+    width: 900px !important;
+    height: 620px !important;
+    display: block !important;
+  }
+
+  /* zoom +/- buttons */
+  .hiw-zoom-bar {
+    position: absolute;
+    top: 8px; right: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    z-index: 20;
+  }
+  .hiw-zoom-btn {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(15,23,42,0.12);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1;
+    color: rgba(15,23,42,0.6);
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* hint below viewport */
+  .hiw-mobile-hint {
+    text-align: center;
+    padding: 5px 8px 2px;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: rgba(15,23,42,0.3);
+    text-transform: uppercase;
+  }
+
+  /* ── DETAIL PANEL ── */
+  .hiw__panel {
+    flex-direction: column;
+    gap: 0;
+    margin-top: 6px !important;
+    position: static !important;
+    z-index: auto !important;
+  }
+  .hiw__panel-header {
+    width: 100% !important;
+    margin-top: 0 !important;
+    padding: 4px 12px 2px;
+    background: transparent !important;
+    border: none !important;
+  }
+  .hiw__panel-body {
+    padding: 2px 12px 14px !important;
+    background: transparent !important;
+    border: none !important;
+  }
+  .hiw__detail-kicker { display: block !important; margin-bottom: 3px; }
+  .hiw__detail-title  { font-size: 14px; margin: 0 0 5px; }
+  .hiw__detail-text   { font-size: 12.5px; line-height: 1.55; }
 }
 </style>
 </head>
@@ -582,6 +733,169 @@ html, body {
   sideBtns.forEach((btn, i) => btn.addEventListener('click', () => setActiveStage(i)));
 
   setActiveStage(0);
+})();
+</script>
+
+<!-- MOBILE ONLY: pan / zoom for the diagram ──────────────────── -->
+<script>
+(function () {
+  if (!window.matchMedia('(max-width: 767px)').matches) return;
+
+  var wrapper = document.querySelector('.hiw__diagram-wrapper');
+  var svg    = document.querySelector('.hiw__svg');
+  if (!wrapper || !svg) return;
+
+  /* ── Build DOM ── */
+  var vp    = document.createElement('div');  vp.className    = 'hiw-mobile-vp';
+  var inner = document.createElement('div');  inner.className = 'hiw-mobile-inner';
+  inner.appendChild(svg);
+  vp.appendChild(inner);
+
+  /* zoom buttons */
+  var bar = document.createElement('div');
+  bar.className = 'hiw-zoom-bar';
+  bar.innerHTML =
+    '<button class="hiw-zoom-btn" id="hiwZoomIn"  aria-label="Zoom in">+</button>' +
+    '<button class="hiw-zoom-btn" id="hiwZoomOut" aria-label="Zoom out">&#8722;</button>';
+  vp.appendChild(bar);
+
+  /* hint */
+  var hint = document.createElement('div');
+  hint.className = 'hiw-mobile-hint';
+  hint.textContent = 'drag to pan · pinch to zoom · double-tap to reset';
+
+  wrapper.innerHTML = '';
+  wrapper.appendChild(vp);
+  wrapper.appendChild(hint);
+
+  /* ── State ── */
+  var scale = 1, tx = 0, ty = 0;
+  var SVG_W = 900, SVG_H = 620;
+
+  function applyT() {
+    inner.style.transform =
+      'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')';
+  }
+
+  function clamp(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
+
+  function clampPan() {
+    var vpW = vp.clientWidth, vpH = vp.clientHeight;
+    var sw  = SVG_W * scale,  sh  = SVG_H * scale;
+    var ox  = Math.max(sw * 0.25, 40);
+    var oy  = Math.max(sh * 0.25, 30);
+    tx = clamp(tx, vpW - sw - ox,  ox);
+    ty = clamp(ty, vpH - sh - oy,  oy);
+  }
+
+  /* initial transform: fit diagram width into viewport, centre vertically */
+  function initT() {
+    var vpW = vp.clientWidth, vpH = vp.clientHeight;
+    scale = vpW / SVG_W;
+    var sh = SVG_H * scale;
+    tx = 0;
+    ty = sh < vpH ? (vpH - sh) / 2 : 0;
+    applyT();
+  }
+
+  /* zoom toward a point (cx, cy) in viewport-local coords */
+  function zoomAt(cx, cy, factor) {
+    var ns = clamp(scale * factor, 0.3, 3.5);
+    tx = cx - (cx - tx) * (ns / scale);
+    ty = cy - (cy - ty) * (ns / scale);
+    scale = ns;
+    clampPan();
+    applyT();
+  }
+
+  /* ── Pointer events (covers mouse + touch via Pointer API) ── */
+  var ptrs = {};          /* pointerId → {x,y} */
+  var lastDist = 0;
+  var lastPX = 0, lastPY = 0;
+
+  vp.addEventListener('pointerdown', function (e) {
+    vp.setPointerCapture(e.pointerId);
+    ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+    lastPX = e.clientX; lastPY = e.clientY;
+    lastDist = 0;
+    vp.classList.add('is-grabbing');
+    e.preventDefault();
+  });
+
+  vp.addEventListener('pointermove', function (e) {
+    if (!ptrs[e.pointerId]) return;
+    ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+
+    var ids = Object.keys(ptrs);
+
+    if (ids.length === 2) {
+      /* ── pinch ── */
+      var a = ptrs[ids[0]], b = ptrs[ids[1]];
+      var dx = b.x - a.x, dy = b.y - a.y;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (lastDist > 0 && dist > 0) {
+        var cx = (a.x + b.x) / 2 - vp.getBoundingClientRect().left;
+        var cy = (a.y + b.y) / 2 - vp.getBoundingClientRect().top;
+        zoomAt(cx, cy, dist / lastDist);
+      }
+      lastDist = dist;
+    } else if (ids.length === 1) {
+      /* ── pan ── */
+      tx += e.clientX - lastPX;
+      ty += e.clientY - lastPY;
+      clampPan();
+      applyT();
+    }
+
+    lastPX = e.clientX; lastPY = e.clientY;
+    e.preventDefault();
+  });
+
+  function ptrUp(e) {
+    delete ptrs[e.pointerId];
+    lastDist = 0;
+    if (Object.keys(ptrs).length === 0) vp.classList.remove('is-grabbing');
+    e.preventDefault();
+  }
+  vp.addEventListener('pointerup',     ptrUp);
+  vp.addEventListener('pointercancel', ptrUp);
+
+  /* ── Wheel zoom (desktop / devtools) ── */
+  vp.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    var r  = vp.getBoundingClientRect();
+    zoomAt(e.clientX - r.left, e.clientY - r.top, e.deltaY < 0 ? 1.12 : 0.89);
+  }, { passive: false });
+
+  /* ── Double-tap → reset ── */
+  var lastTap = 0, tapTimer = null;
+  vp.addEventListener('pointerup', function (e) {
+    if (Object.keys(ptrs).length !== 0) return;
+    var now = Date.now();
+    if (now - lastTap < 320) {
+      clearTimeout(tapTimer);
+      initT();
+    }
+    lastTap = now;
+  });
+
+  /* ── + / – buttons ── */
+  document.getElementById('hiwZoomIn').addEventListener('click', function (e) {
+    e.stopPropagation();
+    zoomAt(vp.clientWidth / 2, vp.clientHeight / 2, 1.3);
+  });
+  document.getElementById('hiwZoomOut').addEventListener('click', function (e) {
+    e.stopPropagation();
+    zoomAt(vp.clientWidth / 2, vp.clientHeight / 2, 0.77);
+  });
+
+  /* prevent native page scroll while inside viewport */
+  vp.addEventListener('touchstart', function (e) { e.preventDefault(); }, { passive: false });
+  vp.addEventListener('touchmove',  function (e) { e.preventDefault(); }, { passive: false });
+
+  /* ── Init ── */
+  setTimeout(initT, 0);               /* wait for layout */
+  window.addEventListener('resize', initT);
 })();
 </script>
 
