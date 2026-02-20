@@ -49,15 +49,12 @@
     .navbar .w-dropdown { transform: translateY(-6px) !important; }
     
     /* PERF: Performance optimizations */
-    html { scroll-behavior: smooth; }
     body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
     iframe { overflow: hidden !important; }
     section { overflow: hidden !important; }
 
-    /* Desktop-only GPU hints — disabled on mobile to save memory */
+    /* Desktop: lightweight containment, no will-change (handled by WebGL/iframe natively) */
     @media screen and (min-width: 768px) {
-      iframe { will-change: transform; contain: content; }
-      .spline-scene { will-change: transform; contain: layout style paint; }
       section { contain: layout; }
     }
     
@@ -66,10 +63,7 @@
       overflow-x: hidden !important;
     }
     
-    /* Smooth hide for Spline when scrolled away */
-    .spline-content { 
-      transition: opacity 0.6s ease-out, visibility 0.6s ease-out; 
-    }
+    /* Hide Spline instantly when scrolled away — no transition = no composite during scroll */
     .spline-content.hidden { 
       opacity: 0; 
       visibility: hidden; 
@@ -348,6 +342,7 @@
     if (splineEl && !isMobile) {
       var splineContainer = document.querySelector('.spline-content');
       var splineUrl = splineEl.getAttribute('data-spline-url-lazy');
+      var markerEl = document.querySelector('.sphere-marker');
       var isLoaded = false;
       var isVisible = true;
 
@@ -362,22 +357,28 @@
         }
       }
 
+      function setHeroVisible(vis) {
+        isVisible = vis;
+        var canvas = splineEl.querySelector('canvas');
+        if (splineContainer) splineContainer.classList.toggle('hidden', !vis);
+        if (canvas) canvas.style.visibility = vis ? 'visible' : 'hidden';
+        // Pause/resume marker animations to save CPU when off-screen
+        if (markerEl) markerEl.style.animationPlayState = vis ? 'running' : 'paused';
+        var markers = document.querySelectorAll('.marker-outer-glow,.marker-core,.marker-flare');
+        markers.forEach(function(m) { m.style.animationPlayState = vis ? 'running' : 'paused'; });
+      }
+
       var obs = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
-          isVisible = entry.isIntersecting;
-          var canvas = splineEl.querySelector('canvas');
-          if (splineContainer) splineContainer.classList.toggle('hidden', !isVisible);
-          if (canvas) canvas.style.visibility = isVisible ? 'visible' : 'hidden';
-          if (isVisible && !isLoaded) initSpline();
+          setHeroVisible(entry.isIntersecting);
+          if (entry.isIntersecting && !isLoaded) initSpline();
         });
       }, { rootMargin: '0px', threshold: 0.05 });
       obs.observe(splineEl);
       setTimeout(function() { if (!isLoaded) initSpline(); }, 100);
 
       document.addEventListener('visibilitychange', function() {
-        var canvas = splineEl.querySelector('canvas');
-        if (canvas && isLoaded) canvas.style.visibility = document.hidden ? 'hidden' : (isVisible ? 'visible' : 'hidden');
-        if (splineContainer) { if (document.hidden) splineContainer.classList.add('hidden'); else if (isVisible) splineContainer.classList.remove('hidden'); }
+        setHeroVisible(!document.hidden && isVisible);
       }, false);
     }
 
