@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover">
 <title>HOW IT WORKS - AQUINTAQA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -349,9 +349,13 @@ html, body {
 /* ── MOBILE ONLY  ≤ 767px ── */
 @media (max-width: 767px) {
 
-  body { overflow: hidden !important; }
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+  body { overflow-y: hidden !important; }
 
-  .hiw { padding: 0; }
+  .hiw { padding: 0; contain: layout paint; }
 
   .hiw__sheet { padding: 8px 8px 0; }
 
@@ -368,22 +372,26 @@ html, body {
   /* ── STAGE CHIPS: horizontal scroll row ── */
   .hiw__left-sidebar {
     width: 100%;
+    max-width: 100%;
     height: auto !important;
     padding: 0;
     background: transparent;
     border: none;
-    overflow: visible;
+    overflow: hidden;            /* prevent sidebar itself from expanding */
   }
 
   .hiw__stage-nav {
+    display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: nowrap;           /* single row, always */
     gap: 6px;
     margin-top: 0;
     padding: 4px 8px 10px;
     overflow-x: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    max-width: 100%;
   }
   .hiw__stage-nav::-webkit-scrollbar { display: none; }
   .hiw__stage-nav::before { display: none; }
@@ -391,13 +399,14 @@ html, body {
   .hiw__stage-btn {
     flex-direction: column;
     align-items: center;
-    gap: 5px;
-    padding: 9px 14px;
+    flex-shrink: 0;              /* chips never shrink */
+    gap: 4px;
+    padding: 10px 14px;
+    min-height: 44px;            /* Apple HIG: 44 px tap target */
+    min-width: 80px;
     background: rgba(255,255,255,0.72);
     border: 1px solid rgba(15,23,42,0.1);
     border-radius: 2px;
-    flex-shrink: 0;
-    min-width: 76px;
     text-align: center;
     transition: background 0.18s, border-color 0.18s;
   }
@@ -410,6 +419,7 @@ html, body {
     font-size: 9.5px;
     line-height: 1.3;
     color: rgba(15,23,42,0.65);
+    white-space: normal;         /* allow <br> inside chip */
   }
   .hiw__stage-btn.is-active .hiw__stage-name { color: var(--accent); }
 
@@ -427,7 +437,10 @@ html, body {
   /* pan-zoom viewport – injected by JS */
   .hiw-mobile-vp {
     width: 100%;
-    height: 265px;
+    max-width: 100%;
+    box-sizing: border-box;
+    height: 300px;               /* comfortable on 390px iPhone */
+    max-height: 52vh;            /* never taller than 52 % of iframe vp */
     overflow: hidden;
     touch-action: none;
     position: relative;
@@ -436,6 +449,7 @@ html, body {
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
+    contain: layout paint;
   }
   .hiw-mobile-vp.is-grabbing { cursor: grabbing; }
 
@@ -451,32 +465,34 @@ html, body {
     width: 900px !important;
     height: 620px !important;
     display: block !important;
+    max-width: none !important;  /* override the global max-width:100% rule */
   }
 
-  /* zoom +/- buttons */
+  /* zoom +/- buttons — 44 × 44 px tap target */
   .hiw-zoom-bar {
     position: absolute;
     top: 8px; right: 8px;
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 4px;
     z-index: 20;
   }
   .hiw-zoom-btn {
-    width: 32px; height: 32px;
-    background: rgba(255,255,255,0.92);
+    width: 44px; height: 44px;  /* Apple HIG minimum */
+    background: rgba(255,255,255,0.93);
     border: 1px solid rgba(15,23,42,0.12);
-    border-radius: 2px;
+    border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 300;
     line-height: 1;
     color: rgba(15,23,42,0.6);
     cursor: pointer;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+    box-shadow: 0 1px 4px rgba(15,23,42,0.08);
   }
 
   .hiw-mobile-hint { display: none !important; }
@@ -497,13 +513,37 @@ html, body {
     border: none !important;
   }
   .hiw__panel-body {
-    padding: 2px 12px 14px !important;
+    padding: 2px 12px !important;
+    /* safe-area: keep content above iPhone home bar */
+    padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
     background: transparent !important;
     border: none !important;
   }
   .hiw__detail-kicker { display: block !important; margin-bottom: 3px; }
   .hiw__detail-title  { font-size: 14px; margin: 0 0 5px; }
   .hiw__detail-text   { font-size: 12.5px; line-height: 1.55; }
+}
+
+/* ── iPhone SE / small phones ≤ 375px ── */
+@media (max-width: 375px) {
+  .hiw-mobile-vp { height: 260px; }
+  .hiw__stage-btn { padding: 9px 10px; min-width: 70px; }
+  .hiw__stage-name { font-size: 9px; }
+}
+
+/* ── TABLET  768–1024px ── */
+@media (min-width: 768px) and (max-width: 1024px) {
+  html, body { overflow-x: hidden !important; }
+
+  .hiw__sheet { max-width: 100%; padding: 10px 16px; }
+
+  /* Sidebar a bit narrower on tablet */
+  .hiw__left-sidebar { width: 220px; }
+
+  .hiw__stage-name { font-size: 13px; }
+
+  /* Diagram stays flexible */
+  .hiw__diagram-wrapper { min-height: 420px; }
 }
 </style>
 </head>
