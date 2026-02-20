@@ -402,6 +402,10 @@
 
 @media screen and (max-width: 767px) {
 
+  /* Reset desktop translateY so icons align with logo text on mobile */
+  .navbar .menu-button { transform: none !important; }
+  .navbar .w-dropdown   { transform: none !important; }
+
   section {
     max-width: 100vw !important;
     overflow-x: hidden !important;
