@@ -446,22 +446,8 @@
 
   .se1::before { display: none !important; }
 
-  /* Thin cyan horizontal accent line at top */
   .se1::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(39, 169, 204, 0.5) 35%,
-      rgba(39, 169, 204, 0.5) 65%,
-      transparent 100%
-    );
-    z-index: 1;
+    display: none !important;
   }
 
   .se1 .noize {
