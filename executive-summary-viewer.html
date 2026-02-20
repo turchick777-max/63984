@@ -2,16 +2,187 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Executive Summary</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Executive Summary — AQUINTAQA</title>
   <style>
-    *{ margin:0; padding:0; }
-    html,body{ height:100%; background:#F7F7F7; }
-    embed{ display:block; width:100%; height:100%; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      background: #1a1a1a;
+      color: #fff;
+      font-family: system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Top bar ── */
+    #topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 48px;
+      background: rgba(10, 10, 10, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 100;
+    }
+
+    #topbar .title {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65);
+    }
+
+    #topbar .page-counter {
+      font-size: 11px;
+      font-variant-numeric: tabular-nums;
+      color: rgba(255,255,255,0.4);
+      min-width: 60px;
+      text-align: right;
+    }
+
+    /* ── Download button ── */
+    #topbar a.dl-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 5px 10px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    #topbar a.dl-btn:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+    /* ── PDF container ── */
+    #pdf-container {
+      padding-top: 48px;
+      padding-bottom: max(24px, env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      min-height: 100vh;
+    }
+
+    .pdf-page {
+      display: block;
+      max-width: 100%;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+
+    /* ── Loading / error states ── */
+    #status {
+      padding: 80px 24px 24px;
+      text-align: center;
+      color: rgba(255,255,255,0.45);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .spinner {
+      width: 32px; height: 32px;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-top-color: rgba(255,255,255,0.5);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
-  <link rel="stylesheet" href="css/mobile.css" />
 </head>
 <body>
-  <embed src="executive-summary.pdf" type="application/pdf" />
+
+  <div id="topbar">
+    <span class="title">Executive Summary</span>
+    <span class="page-counter" id="page-counter"></span>
+    <a class="dl-btn" href="executive-summary.pdf" download="AQUINTAQA-Executive-Summary.pdf">
+      ↓ PDF
+    </a>
+  </div>
+
+  <div id="pdf-container">
+    <div id="status">
+      <div class="spinner"></div>
+      Loading…
+    </div>
+  </div>
+
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    const container  = document.getElementById('pdf-container');
+    const statusEl   = document.getElementById('status');
+    const counterEl  = document.getElementById('page-counter');
+    const PDF_URL    = 'executive-summary.pdf';
+
+    /* Scale: fill viewport width on mobile, cap on desktop */
+    function getScale(viewport) {
+      const maxW = Math.min(window.innerWidth, 900);
+      return maxW / viewport.width;
+    }
+
+    async function renderPDF() {
+      try {
+        const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
+        const total = pdf.numPages;
+
+        statusEl.remove();
+        counterEl.textContent = '1 / ' + total;
+
+        for (let pageNum = 1; pageNum <= total; pageNum++) {
+          const page     = await pdf.getPage(pageNum);
+          const scale    = getScale(page.getViewport({ scale: 1 }));
+          const viewport = page.getViewport({ scale });
+
+          const canvas   = document.createElement('canvas');
+          canvas.className = 'pdf-page';
+          canvas.width  = viewport.width;
+          canvas.height = viewport.height;
+          container.appendChild(canvas);
+
+          await page.render({
+            canvasContext: canvas.getContext('2d'),
+            viewport
+          }).promise;
+        }
+
+        /* Update page counter while scrolling */
+        const canvases = container.querySelectorAll('.pdf-page');
+        const observer = new IntersectionObserver(entries => {
+          let topmost = null;
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              const idx = Array.from(canvases).indexOf(e.target) + 1;
+              if (!topmost || idx < topmost) topmost = idx;
+            }
+          });
+          if (topmost) counterEl.textContent = topmost + ' / ' + total;
+        }, { threshold: 0.3 });
+
+        canvases.forEach(c => observer.observe(c));
+
+      } catch (err) {
+        statusEl.innerHTML =
+          '<p style="color:rgba(255,255,255,0.5)">Could not load PDF.<br>' +
+          '<a href="executive-summary.pdf" style="color:#4ac8dc;margin-top:12px;display:inline-block">Open directly ↗</a></p>';
+        console.error(err);
+      }
+    }
+
+    renderPDF();
+  </script>
 </body>
 </html>
