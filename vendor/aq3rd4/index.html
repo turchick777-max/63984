@@ -531,10 +531,10 @@
            ═══════════════════════════════════════════ */
         @media (max-width: 767px) {
 
-            /* Reduce grid noise */
+            /* ── Grid: far less visual noise ── */
             :root {
-                --line: rgba(74, 144, 164, 0.10);
-                --line-bright: rgba(74, 144, 164, 0.22);
+                --line: rgba(74, 144, 164, 0.05);
+                --line-bright: rgba(74, 144, 164, 0.12);
             }
 
             html, body {
@@ -543,44 +543,47 @@
             }
             body {
                 overflow-y: auto !important;
-                background-size: 80px 80px;
+                background-size: 120px 120px;
             }
 
             .center-line,
             .horizontal-line { display: none !important; }
 
-            /* ── Header ── */
+            /* ── Header: sticky, compact ── */
             header {
                 height: 56px;
                 padding: 0 16px;
+                position: sticky;
+                top: 0;
+                z-index: 20;
             }
             h1 {
-                font-size: 14px;
-                letter-spacing: 0.15em;
+                font-size: 13px;
+                letter-spacing: 0.18em;
             }
             .lang-switch { right: 16px; }
 
-            /* ── Tab bar (injected by JS) ── */
+            /* ── Tab bar: sticky below header, full-width, clear active ── */
             .m-tabs {
                 display: flex;
                 background: var(--bg);
                 border-bottom: 1px solid var(--line-bright);
-                padding: 0 16px;
+                padding: 0;
                 position: sticky;
-                top: 0;
+                top: 56px;
                 z-index: 10;
             }
             .m-tab {
                 flex: 1;
-                padding: 12px 8px;
+                padding: 14px 8px;
                 background: transparent;
                 border: none;
                 border-bottom: 2px solid transparent;
-                color: var(--text-dim);
-                font-size: 10px;
+                color: rgba(255, 255, 255, 0.38);
+                font-size: 11px;
                 font-family: var(--font-mono);
                 text-transform: uppercase;
-                letter-spacing: 0.1em;
+                letter-spacing: 0.12em;
                 cursor: pointer;
                 transition: color 0.2s, border-color 0.2s;
                 margin-bottom: -1px;
@@ -593,43 +596,92 @@
 
             /* ── Columns ── */
             main { flex-direction: column; }
-            .col { width: 100%; padding: 20px 16px; }
+            .col { width: 100%; padding: 28px 16px 40px; }
 
-            /* ── Metrics: stack value below label ── */
+            /* ─────────────────────────────────────────────
+               METRICS SECTION
+               ───────────────────────────────────────────── */
+
+            .tech-block {
+                padding: 28px 0;
+                border-bottom: 1px solid rgba(74, 144, 164, 0.10);
+            }
+
+            /* Stack label then value, generous gap */
             .metric-row {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 8px;
+                gap: 14px;
             }
-            .metric-value {
-                font-size: clamp(22px, 7.5vw, 34px);
-                white-space: normal;
-                word-break: break-word;
-            }
+
             .metric-label .headline {
-                font-size: 14px;
-                letter-spacing: 0.06em;
+                font-size: 11px;
+                letter-spacing: 0.14em;
+                color: rgba(255, 255, 255, 0.45);
+                text-transform: uppercase;
+                margin-bottom: 4px;
             }
             .metric-label .micro {
                 font-size: 10px;
                 max-width: 100%;
+                color: rgba(255, 255, 255, 0.25);
+                line-height: 1.5;
             }
 
-            /* Cl/Na dual grid: keep 2 cols, tighter */
-            .dual-metrics { gap: 14px; }
-            .dual-col h3 { font-size: 12px; letter-spacing: 0.5px; }
+            /* Big, prominent values */
+            .metric-value {
+                font-size: clamp(28px, 9vw, 40px);
+                font-weight: 300;
+                letter-spacing: -0.02em;
+                white-space: normal;
+                word-break: break-word;
+                color: rgba(255, 255, 255, 0.95);
+                line-height: 1.1;
+            }
+
+            /* Cl / Na dual columns */
+            .dual-metrics {
+                gap: 20px;
+                padding: 24px 0 16px;
+            }
+            .dual-col h3 {
+                font-size: 11px;
+                letter-spacing: 0.08em;
+                margin-bottom: 12px;
+            }
             .data-point {
                 white-space: normal;
                 flex-wrap: wrap;
-                gap: 3px;
+                gap: 4px;
+                margin-bottom: 7px;
             }
-            .data-point > span:first-child { font-size: 11px; }
-            .data-point > span:last-child  { font-size: 12px; }
-            .dual-legend { font-size: 8px; line-height: 1.5; }
+            .data-point > span:first-child {
+                font-size: 10px;
+                color: rgba(255, 255, 255, 0.35);
+            }
+            .data-point > span:last-child { font-size: 12px; }
 
-            /* ── Lab Extract: badge chips horizontal scroll ── */
+            .dual-legend {
+                font-size: 9px;
+                line-height: 1.6;
+                color: rgba(255, 255, 255, 0.25);
+                padding-bottom: 0;
+                border-bottom: none;
+                margin-top: 0;
+            }
+
+            .status-check {
+                font-size: 10px;
+                margin-top: 8px;
+            }
+
+            /* ─────────────────────────────────────────────
+               LAB EXTRACT SECTION
+               ───────────────────────────────────────────── */
+
+            /* Badge chips: horizontal scroll */
             .badge-row {
-                display: flex !important;       /* override grid */
+                display: flex !important;
                 grid-template-columns: none;
                 flex-wrap: nowrap;
                 overflow-x: auto;
@@ -637,121 +689,153 @@
                 scrollbar-width: none;
                 gap: 8px;
                 margin-bottom: 16px;
-                padding-bottom: 4px;
+                padding-bottom: 2px;
             }
             .badge-row::-webkit-scrollbar { display: none; }
             .badge {
                 flex-shrink: 0;
                 white-space: nowrap;
-                padding: 8px 12px;
-                min-height: 36px;
+                padding: 8px 14px;
+                min-height: 34px;
                 font-size: 9px;
+                border-radius: 6px;
             }
 
-            /* ── Badge description panel (injected by JS, avoids overflow clip) ── */
+            /* Badge description panel */
             .m-badge-desc {
                 display: none;
                 font-size: 11px;
                 font-family: var(--font-main);
-                color: rgba(255, 255, 255, 0.55);
-                background: rgba(10, 10, 10, 0.9);
+                color: rgba(255, 255, 255, 0.50);
+                background: rgba(8, 8, 8, 0.92);
                 border: 1px solid var(--line-bright);
-                padding: 10px 12px;
-                margin-bottom: 14px;
-                line-height: 1.5;
+                border-radius: 8px;
+                padding: 12px 14px;
+                margin-bottom: 16px;
+                line-height: 1.6;
                 white-space: pre-line;
             }
             .m-badge-desc.is-open { display: block; }
 
-            /* Disable CSS hover tooltip on mobile (overflow clips it) */
+            /* Disable CSS hover tooltip on mobile */
             .badge[data-tooltip]::after { display: none !important; }
 
-            /* ── Table → Card list (CSS-only, desktop untouched) ── */
-            .table-container {
-                max-height: 420px !important;   /* scroll cards, not page */
-                overflow-y: auto  !important;
-                overflow-x: hidden !important;
-                border: 1px solid var(--line-bright) !important;
-                border-radius: 0;
-                /* Fade at bottom to hint scrollability */
-                -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
-                mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+            /* Section heading + subtitle */
+            h2.table-h {
+                font-size: 14px;
+                letter-spacing: 0.14em;
+                margin-bottom: 8px;
             }
-            /* Remove mask when fully expanded */
+            .table-subtitle {
+                font-size: 11px;
+                line-height: 1.65;
+                color: rgba(255, 255, 255, 0.45);
+                margin-bottom: 18px;
+            }
+
+            /* Table container: no internal scroll, cards flow with page */
+            .table-container {
+                max-height: none !important;
+                overflow-y: visible !important;
+                overflow-x: hidden !important;
+                border: none !important;
+                border-radius: 0 !important;
+                -webkit-mask-image: none !important;
+                mask-image: none !important;
+                background: transparent;
+                margin-bottom: 0;
+            }
             .table-container.expanded {
                 -webkit-mask-image: none;
                 mask-image: none;
             }
+
             /* Flatten table into block elements */
             table, tbody, tr, td { display: block; }
             thead { display: none !important; }
             th    { display: none !important; }
 
-            /* Each row becomes a card */
+            /* ── Each row → premium card ── */
             .table-row {
-                border: 1px solid var(--line-bright);
-                margin-bottom: 8px;
-                padding: 12px;
-                background: rgba(255, 255, 255, 0.02);
+                border: 1px solid rgba(0, 200, 220, 0.13);
+                border-radius: 10px;
+                margin-bottom: 10px;
+                padding: 16px 18px 14px;
+                background: rgba(255, 255, 255, 0.025);
+                transition: border-color 0.2s;
             }
-            /* Hidden rows still respect expand state */
-            tbody tr.hidden-row            { display: none !important; }
-            .table-container.expanded
-              tbody tr.hidden-row          { display: block !important; }
+            .table-row:active {
+                border-color: rgba(0, 200, 220, 0.28);
+            }
 
-            /* Parameter name */
+            /* Hidden rows respect expand state */
+            tbody tr.hidden-row              { display: none !important; }
+            .table-container.expanded
+              tbody tr.hidden-row            { display: block !important; }
+
+            /* Card title (parameter name) */
             td:nth-child(1) {
-                font-size: 13px;
+                font-size: 15px;
                 font-weight: 600;
-                color: rgba(255, 255, 255, 0.90);
-                padding: 0 0 8px;
+                color: rgba(255, 255, 255, 0.88);
+                padding: 0 0 10px;
                 border: none;
+                letter-spacing: 0.01em;
+                line-height: 1.3;
             }
-            /* Raw */
+
+            /* Raw row */
             td:nth-child(2) {
-                padding: 3px 0;
+                padding: 4px 0 3px;
                 border: none;
                 font-size: 11px;
             }
             td:nth-child(2)::before {
-                content: "Raw: ";
+                content: "Raw:";
                 font-family: var(--font-mono);
                 font-size: 9px;
-                color: var(--text-dim);
-                letter-spacing: 0.05em;
+                color: rgba(255, 255, 255, 0.28);
+                letter-spacing: 0.07em;
                 display: inline-block;
-                min-width: 44px;
+                min-width: 42px;
             }
-            /* After */
+
+            /* After row */
             td:nth-child(3) {
-                padding: 3px 0;
+                padding: 4px 0 0;
                 border: none;
             }
             td:nth-child(3)::before {
-                content: "After: ";
+                content: "After:";
                 font-family: var(--font-mono);
                 font-size: 9px;
-                color: var(--text-dim);
-                letter-spacing: 0.05em;
+                color: rgba(255, 255, 255, 0.28);
+                letter-spacing: 0.07em;
                 display: inline-block;
-                min-width: 44px;
+                min-width: 42px;
             }
-            /* Benchmark column: hidden on mobile */
+
+            /* Hide benchmark column */
             td:nth-child(4) { display: none !important; }
 
-            /* ── Misc text ── */
-            h2.table-h    { font-size: 13px; letter-spacing: 0.12em; }
-            .table-subtitle { font-size: 11px; }
-            .table-label  { font-size: 9px; }
-            .table-notes  { font-size: 10px; }
-            .nda-note     { font-size: 10px; padding: 12px; }
-            .expand-btn   { font-size: 10px; min-height: 44px; }
+            /* Status cell text */
+            .status-cell {
+                font-size: 11px;
+                letter-spacing: 0.04em;
+                gap: 7px;
+            }
 
-            /* ── Footer logo: no overlap, fully visible ── */
+            /* Bottom meta */
+            .table-label  { font-size: 9px; margin-top: 18px; letter-spacing: 0.08em; }
+            .table-notes  { font-size: 10px; line-height: 1.65; margin-top: 6px; color: rgba(255,255,255,0.3); }
+            .nda-note     { font-size: 10px; padding: 12px 14px; border-radius: 8px; margin-top: 16px; }
+            .expand-btn   { font-size: 10px; min-height: 44px; border-radius: 8px; margin-top: 6px; }
+
+            /* ── Footer ── */
             footer {
                 height: auto;
                 min-height: 130px;
-                padding: 20px 0 max(32px, env(safe-area-inset-bottom));
+                padding: 24px 0 max(32px, env(safe-area-inset-bottom));
                 justify-content: center;
                 align-items: center;
             }
@@ -1144,8 +1228,8 @@
                     c.classList.toggle('m-hidden', i !== idx);
                 });
 
-                /* Scroll back to tab bar */
-                bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                /* Scroll back so the header stays visible */
+                document.querySelector('header').scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         })();
     </script>
