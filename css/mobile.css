@@ -570,6 +570,8 @@
     height: 100vh !important;
     height: 100dvh !important;
     min-height: 100vh !important;
+    position: relative !important;
+    overflow: hidden !important;
   }
 
   .se1.sphere-playing .noize {
