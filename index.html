@@ -487,19 +487,6 @@
     videoObserver.observe(videoSection);
   })();
 
-  // Mobile: sphere poster play → load real Spline animation
-  (function(){
-    if(!window.matchMedia('(max-width:767px)').matches) return;
-    var btn = document.getElementById('sphere-poster-play');
-    var poster = document.getElementById('sphere-poster');
-    if(!btn || !poster) return;
-
-    btn.addEventListener('click', function(){
-      var hero = document.querySelector('.se1');
-      if(hero) hero.classList.add('sphere-playing');
-      poster.classList.add('sphere-expanded');
-    });
-  })();
 
   </script>
 
