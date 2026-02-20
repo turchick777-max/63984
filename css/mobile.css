@@ -410,9 +410,9 @@
     visibility: visible !important;
   }
 
-  /* Ensure fixed positioning sticks to top on all mobile browsers */
+  /* Navbar: transparent, absolute (only visible over hero, scrolls away with page) */
   .navbar {
-    position: fixed !important;
+    position: absolute !important;
     top: 0 !important;
     left: 0 !important;
     right: 0 !important;
@@ -420,9 +420,8 @@
     width: 100% !important;
     max-width: 100% !important;
     border-radius: 0 !important;
-    z-index: 9999 !important;
-    /* Solid bg instead of backdrop-filter (very expensive on Android during scroll) */
-    background: rgba(0, 0, 0, 0.94) !important;
+    z-index: 100 !important;
+    background: transparent !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     padding: 0 16px !important;
@@ -502,7 +501,7 @@
 
 @media screen and (max-width: 767px) {
 
-  /* Hero: full viewport, centered content — pad top to clear fixed navbar (52px) */
+  /* Hero: full viewport, centered content */
   .se1 {
     height: 100vh !important;
     height: 100dvh !important;
@@ -511,7 +510,6 @@
     overflow: hidden !important;
     display: flex !important;
     align-items: center !important;
-    padding-top: 52px !important;
   }
 
   .se1::before { display: none !important; }
