@@ -51,15 +51,14 @@
     /* PERF: Performance optimizations */
     html { scroll-behavior: smooth; }
     body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-    iframe { 
-      will-change: transform; 
-      contain: content; 
-      overflow: hidden !important;
-    }
-    .spline-scene { will-change: transform; contain: layout style paint; }
-    section { 
-      contain: layout;
-      overflow: hidden !important;
+    iframe { overflow: hidden !important; }
+    section { overflow: hidden !important; }
+
+    /* Desktop-only GPU hints — disabled on mobile to save memory */
+    @media screen and (min-width: 768px) {
+      iframe { will-change: transform; contain: content; }
+      .spline-scene { will-change: transform; contain: layout style paint; }
+      section { contain: layout; }
     }
     
     /* Force desktop view on all devices - viewport only, no scroll */
@@ -167,8 +166,8 @@
          data-animation-type="spline"
          data-spline-url-lazy="https://prod.spline.design/8z6pBDvGF-zx6ta3/scene.splinecode?v=2"><canvas></canvas></div>
   </div>
-  <!-- MOBILE: prevent Spline auto-load on phones (perf: no WebGL until user clicks Play) -->
-  <script>(function(){if(!window.matchMedia('(max-width:767px)').matches)return;var el=document.getElementById('spline-scene');if(el){window.__splineUrlDeferred=el.getAttribute('data-spline-url-lazy');el.removeAttribute('data-spline-url-lazy');}})();</script>
+  <!-- MOBILE: kill Spline entirely on phones — no WebGL, no canvas, no GPU load -->
+  <script>(function(){if(window.innerWidth>=768)return;var el=document.getElementById('spline-scene');if(el){el.removeAttribute('data-spline-url-lazy');el.removeAttribute('data-spline-url');var c=el.querySelector('canvas');if(c)c.remove();el.style.display='none';}var sc=document.querySelector('.spline-content');if(sc)sc.style.display='none';})();</script>
   <!-- Embedded Marker - точка на сфере -->
 <div class="sphere-marker">
   <div class="marker-occlusion"></div>
@@ -342,150 +341,142 @@
   <script>
   (function() {
     'use strict';
+    var isMobile = window.innerWidth < 768;
     var splineEl = document.getElementById('spline-scene');
-    if (!splineEl) return;
 
-    var splineContainer = document.querySelector('.spline-content');
-    var splineUrl = splineEl.getAttribute('data-spline-url-lazy');
-    var isLoaded = false;
-    var isVisible = true;
+    // ─── SPLINE (desktop only) ───
+    if (splineEl && !isMobile) {
+      var splineContainer = document.querySelector('.spline-content');
+      var splineUrl = splineEl.getAttribute('data-spline-url-lazy');
+      var isLoaded = false;
+      var isVisible = true;
 
-    // Ensure sphere is visible on page load
-    if (splineContainer) {
-      splineContainer.classList.remove('hidden');
-    }
+      if (splineContainer) splineContainer.classList.remove('hidden');
 
-    // Lazy-load Spline when hero section enters viewport
-    function initSpline() {
-      if (isLoaded || !splineUrl) return;
-      isLoaded = true;
-      splineEl.setAttribute('data-spline-url', splineUrl);
-      if (window.Webflow && window.Webflow.require) {
-        try {
-          var spline = window.Webflow.require('spline');
-          if (spline && spline.init) spline.init();
-        } catch(e) {}
+      function initSpline() {
+        if (isLoaded || !splineUrl) return;
+        isLoaded = true;
+        splineEl.setAttribute('data-spline-url', splineUrl);
+        if (window.Webflow && window.Webflow.require) {
+          try { var s = window.Webflow.require('spline'); if (s && s.init) s.init(); } catch(e) {}
+        }
       }
-    }
 
-    // Hide sphere when scrolled away to save GPU
-    function handleVisibility(entries) {
-      entries.forEach(function(entry) {
-        isVisible = entry.isIntersecting;
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          isVisible = entry.isIntersecting;
+          var canvas = splineEl.querySelector('canvas');
+          if (splineContainer) splineContainer.classList.toggle('hidden', !isVisible);
+          if (canvas) canvas.style.visibility = isVisible ? 'visible' : 'hidden';
+          if (isVisible && !isLoaded) initSpline();
+        });
+      }, { rootMargin: '0px', threshold: 0.05 });
+      obs.observe(splineEl);
+      setTimeout(function() { if (!isLoaded) initSpline(); }, 100);
+
+      document.addEventListener('visibilitychange', function() {
         var canvas = splineEl.querySelector('canvas');
-        
-        // Hide entire container and pause canvas
-        if (splineContainer) {
-          if (isVisible) {
-            splineContainer.classList.remove('hidden');
-          } else {
-            splineContainer.classList.add('hidden');
-          }
-        }
-        
-        if (canvas) {
-          // Pause/resume by hiding canvas (stops WebGL render loop)
-          canvas.style.visibility = isVisible ? 'visible' : 'hidden';
-        }
-        if (isVisible && !isLoaded) initSpline();
-      });
+        if (canvas && isLoaded) canvas.style.visibility = document.hidden ? 'hidden' : (isVisible ? 'visible' : 'hidden');
+        if (splineContainer) { if (document.hidden) splineContainer.classList.add('hidden'); else if (isVisible) splineContainer.classList.remove('hidden'); }
+      }, false);
     }
 
-    // Use IntersectionObserver for visibility detection
+    // ─── IFRAME LAZY LOADER ───
+    // Mobile: load only when close, unload when far away (saves RAM on Android)
+    // Desktop: load once when near, never unload
     if ('IntersectionObserver' in window) {
-      var observer = new IntersectionObserver(handleVisibility, {
-        rootMargin: '0px',
-        threshold: 0.05
-      });
-      observer.observe(splineEl);
-      
-      // Also load immediately to ensure sphere shows
-      setTimeout(function() {
-        if (!isLoaded) initSpline();
-      }, 100);
-    } else {
-      // Fallback: load immediately for old browsers
-      initSpline();
-    }
+      var loadMargin  = isMobile ? '300px'  : '200px';
+      var unloadMargin = '800px';
 
-    // Also pause when tab is hidden (Page Visibility API)
-    document.addEventListener('visibilitychange', function() {
-      var canvas = splineEl.querySelector('canvas');
-      if (canvas && isLoaded) {
-        canvas.style.visibility = document.hidden ? 'hidden' : (isVisible ? 'visible' : 'hidden');
-      }
-      if (splineContainer) {
-        if (document.hidden) {
-          splineContainer.classList.add('hidden');
-        } else if (isVisible) {
-          splineContainer.classList.remove('hidden');
-        }
-      }
-    }, false);
-  })();
-
-  // PERF: Lazy load iframes only when they become visible
-  (function() {
-    'use strict';
-    if (!('IntersectionObserver' in window)) return;
-
-    var iframeObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
+      // Load observer
+      var iframeLoadObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
           var iframe = entry.target;
           var src = iframe.getAttribute('data-src');
           if (src && !iframe.src) {
             iframe.src = src;
-            iframeObserver.unobserve(iframe);
           }
-        }
+          if (!isMobile) iframeLoadObs.unobserve(iframe);
+        });
+      }, { rootMargin: loadMargin, threshold: 0 });
+
+      document.querySelectorAll('iframe[data-src]').forEach(function(iframe) {
+        iframeLoadObs.observe(iframe);
       });
-    }, {
-      rootMargin: '200px',
-      threshold: 0
-    });
 
-    // Observe all iframes with data-src
-    document.querySelectorAll('iframe[data-src]').forEach(function(iframe) {
-      iframeObserver.observe(iframe);
-    });
-  })();
+      // Mobile: unload iframes that are far off-screen
+      if (isMobile) {
+        var iframeUnloadObs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) return;
+            var iframe = entry.target;
+            // Don't unload if it was never loaded
+            if (iframe.src && iframe.getAttribute('data-src')) {
+              iframe.removeAttribute('src');
+            }
+          });
+        }, { rootMargin: unloadMargin, threshold: 0 });
 
-  // PERF: Show/hide video section only when scrolled into view
-  (function() {
-    'use strict';
-    var videoSection = document.getElementById('video-embed');
-    var videoIframe  = document.getElementById('video-iframe');
-    if (!videoSection || !videoIframe || !('IntersectionObserver' in window)) return;
+        document.querySelectorAll('iframe[data-src]').forEach(function(iframe) {
+          iframeUnloadObs.observe(iframe);
+        });
+      }
+    }
 
-    // Start hidden
-    videoSection.style.opacity = '0';
-    videoSection.style.transition = 'opacity 0.45s ease';
+    // ─── VIDEO SECTION ───
+    // Mobile: completely remove/restore iframe src (no decode overhead when hidden)
+    // Desktop: just fade opacity and pause/play
+    (function() {
+      var videoSection = document.getElementById('video-embed');
+      var videoIframe  = document.getElementById('video-iframe');
+      if (!videoSection || !videoIframe || !('IntersectionObserver' in window)) return;
 
-    var videoObserver = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          videoSection.style.opacity = '1';
-          // Pause → play video inside iframe
-          try {
-            var v = videoIframe.contentDocument && videoIframe.contentDocument.querySelector('video');
-            if (v) v.play().catch(function(){});
-          } catch(e) {}
-        } else {
-          videoSection.style.opacity = '0';
-          // Pause video when not visible to save resources
-          try {
-            var v = videoIframe.contentDocument && videoIframe.contentDocument.querySelector('video');
-            if (v) v.pause();
-          } catch(e) {}
-        }
-      });
-    }, {
-      rootMargin: '0px',
-      threshold: 0.15
-    });
+      var videoSrc = videoIframe.getAttribute('data-src') || videoIframe.getAttribute('src');
+      var videoLoaded = false;
 
-    videoObserver.observe(videoSection);
+      if (isMobile) {
+        // Start completely unloaded on mobile
+        videoIframe.removeAttribute('src');
+        videoSection.style.opacity = '1';
+
+        var mobileVideoObs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              if (!videoIframe.src && videoSrc) {
+                videoIframe.src = videoSrc;
+                videoLoaded = true;
+              }
+            } else {
+              // Unload video when scrolled away — free decoder + RAM
+              if (videoIframe.src) {
+                videoIframe.removeAttribute('src');
+                videoLoaded = false;
+              }
+            }
+          });
+        }, { rootMargin: '150px', threshold: 0 });
+        mobileVideoObs.observe(videoSection);
+
+      } else {
+        // Desktop: smooth fade, play/pause
+        videoSection.style.opacity = '0';
+        videoSection.style.transition = 'opacity 0.45s ease';
+
+        var desktopVideoObs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              videoSection.style.opacity = '1';
+              try { var v = videoIframe.contentDocument && videoIframe.contentDocument.querySelector('video'); if (v) v.play().catch(function(){}); } catch(e) {}
+            } else {
+              videoSection.style.opacity = '0';
+              try { var v = videoIframe.contentDocument && videoIframe.contentDocument.querySelector('video'); if (v) v.pause(); } catch(e) {}
+            }
+          });
+        }, { rootMargin: '0px', threshold: 0.15 });
+        desktopVideoObs.observe(videoSection);
+      }
+    })();
   })();
 
 

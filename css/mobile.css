@@ -421,12 +421,54 @@
     max-width: 100% !important;
     border-radius: 0 !important;
     z-index: 9999 !important;
-    /* Frosted glass effect for readability over content */
-    background: rgba(0, 0, 0, 0.85) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
+    /* Solid bg instead of backdrop-filter (very expensive on Android during scroll) */
+    background: rgba(0, 0, 0, 0.94) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     padding: 0 16px !important;
     height: 52px !important;
+  }
+
+  /* Kill sphere marker animations on mobile — infinite keyframes drain battery */
+  .sphere-marker,
+  .marker-outer-glow,
+  .marker-inner-glow,
+  .marker-core,
+  .marker-flare,
+  .marker-occlusion {
+    display: none !important;
+    animation: none !important;
+  }
+
+  /* Disable smooth scroll on mobile — causes jank on low-end Android */
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  /* ── ANDROID PERFORMANCE ──
+     Reduce GPU composite layers and paint complexity */
+
+  /* Remove expensive glow/shadow effects */
+  .sfera,
+  .sfera.no,
+  ._1.no,
+  .podpis {
+    display: none !important;
+  }
+
+  /* Simplify box-shadows */
+  .link.button._2 {
+    box-shadow: none !important;
+  }
+
+  /* Disable will-change on mobile to reduce GPU memory */
+  * {
+    will-change: auto !important;
+  }
+
+  /* Reduce transition complexity */
+  .spline-content {
+    transition: none !important;
   }
 
   /* Reset desktop translateY so icons align with logo text on mobile */
