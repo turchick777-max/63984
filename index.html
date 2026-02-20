@@ -495,30 +495,9 @@
     if(!btn || !poster) return;
 
     btn.addEventListener('click', function(){
-      poster.style.display = 'none';
-
-      var sc = document.querySelector('.spline-content');
       var hero = document.querySelector('.se1');
-
-      if(sc && hero) {
-        hero.insertBefore(sc, hero.firstChild);
-      }
-
-      if(sc) sc.classList.add('sphere-active');
       if(hero) hero.classList.add('sphere-playing');
-
-      var el = document.getElementById('spline-scene');
-      var url = window.__splineUrlDeferred;
-      if(el && url){
-        el.setAttribute('data-spline-url', url);
-        el.setAttribute('data-spline-url-lazy', url);
-        try {
-          if(window.Webflow && window.Webflow.require){
-            var s = window.Webflow.require('spline');
-            if(s && s.init) s.init();
-          }
-        } catch(e){}
-      }
+      poster.classList.add('sphere-expanded');
     });
   })();
 

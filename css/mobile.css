@@ -565,7 +565,7 @@
     font-family: Onest, Arial, sans-serif;
   }
 
-  /* --- AFTER PLAY: show real Spline, SpaceX overlay layout --- */
+  /* --- AFTER PLAY: CSS sphere expands fullscreen --- */
   .se1.sphere-playing {
     height: 100vh !important;
     height: 100dvh !important;
@@ -580,6 +580,8 @@
     padding-top: 0 !important;
     padding-bottom: 0 !important;
     justify-content: flex-end !important;
+    position: relative !important;
+    z-index: 2 !important;
   }
 
   .se1.sphere-playing .div1 {
@@ -587,25 +589,8 @@
     justify-content: flex-end !important;
   }
 
+  /* Poster stays visible but expands to fill hero */
   .se1.sphere-playing .sphere-poster {
-    display: none !important;
-  }
-
-  .se1.sphere-playing .colum-r {
-    position: relative !important;
-    z-index: 20 !important;
-    padding: 30px 24px 50px !important;
-    background: linear-gradient(
-      to top,
-      rgba(0,0,0,1) 0%,
-      rgba(0,0,0,0.85) 40%,
-      rgba(0,0,0,0.4) 70%,
-      transparent 100%
-    ) !important;
-  }
-
-  /* Spline visible after play (overrides inline display:none !important) */
-  .spline-content.sphere-active {
     display: flex !important;
     position: absolute !important;
     top: 0 !important;
@@ -614,11 +599,40 @@
     bottom: 0 !important;
     width: 100% !important;
     height: 100% !important;
+    padding: 0 !important;
     z-index: 1 !important;
-    pointer-events: none !important;
     justify-content: center !important;
     align-items: center !important;
-    overflow: visible !important;
+  }
+
+  /* Hide stats and caption, hide play button */
+  .sphere-poster.sphere-expanded .sphere-poster__stats,
+  .sphere-poster.sphere-expanded .sphere-poster__caption,
+  .sphere-poster.sphere-expanded .sphere-poster__play {
+    display: none !important;
+  }
+
+  /* Orb expands to fill the screen */
+  .sphere-poster.sphere-expanded .sphere-poster__visual {
+    width: 110vw !important;
+    max-width: 110vw !important;
+    height: 110vw !important;
+    transition: width 0.9s cubic-bezier(0.4,0,0.2,1),
+                height 0.9s cubic-bezier(0.4,0,0.2,1) !important;
+  }
+
+  /* Text/CTA overlay at bottom */
+  .se1.sphere-playing .colum-r {
+    position: relative !important;
+    z-index: 20 !important;
+    padding: 30px 24px 50px !important;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.85) 40%,
+      rgba(0,0,0,0.3) 70%,
+      transparent 100%
+    ) !important;
   }
 }
 
