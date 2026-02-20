@@ -418,6 +418,11 @@
         color: var(--muted);
         line-height: 1.5;
       }
+
+      /* Inactive markers (TRL-1, TRL-2, TRL-9) — dimmed panel */
+      .m-trl-panel--inactive {
+        opacity: 0.45;
+      }
     }
 
     /* ── Extra small phones ≤ 479px ── */
@@ -665,6 +670,7 @@
     function updatePanel(idx) {
       var t = TRL[idx];
       if (!t) return;
+      panel.classList.toggle('m-trl-panel--inactive', !t.active);
       panel.innerHTML =
         '<div class="m-trl-title">' + t.title + '</div>' +
         '<div class="m-trl-desc">'  + t.desc.replace(/<br\s*\/?>/gi, ' ') + '</div>';
