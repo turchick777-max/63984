@@ -549,25 +549,32 @@
             .center-line,
             .horizontal-line { display: none !important; }
 
-            /* ── Header ── */
+            /* ── Header: sticky so it never scrolls away ── */
             header {
                 height: 56px;
                 padding: 0 16px;
+                position: sticky;
+                top: 0;
+                z-index: 20;
             }
             h1 {
                 font-size: 14px;
                 letter-spacing: 0.15em;
             }
             .lang-switch { right: 16px; }
+            .lang-btn {
+                padding: 3px 7px;
+                font-size: 9px;
+            }
 
-            /* ── Tab bar (injected by JS) ── */
+            /* ── Tab bar: sticks below header ── */
             .m-tabs {
                 display: flex;
                 background: var(--bg);
                 border-bottom: 1px solid var(--line-bright);
                 padding: 0 16px;
                 position: sticky;
-                top: 0;
+                top: 56px;
                 z-index: 10;
             }
             .m-tab {
@@ -1144,8 +1151,8 @@
                     c.classList.toggle('m-hidden', i !== idx);
                 });
 
-                /* Scroll back to tab bar */
-                bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                /* Scroll to header so it stays visible above the sticky tab bar */
+                document.querySelector('header').scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         })();
     </script>
