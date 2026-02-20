@@ -167,6 +167,8 @@
          data-animation-type="spline"
          data-spline-url-lazy="https://prod.spline.design/8z6pBDvGF-zx6ta3/scene.splinecode?v=2"><canvas></canvas></div>
   </div>
+  <!-- MOBILE: prevent Spline auto-load on phones (perf: no WebGL until user clicks Play) -->
+  <script>(function(){if(!window.matchMedia('(max-width:767px)').matches)return;var el=document.getElementById('spline-scene');if(el){window.__splineUrlDeferred=el.getAttribute('data-spline-url-lazy');el.removeAttribute('data-spline-url-lazy');}})();</script>
   <!-- Embedded Marker - точка на сфере -->
 <div class="sphere-marker">
   <div class="marker-occlusion"></div>
@@ -225,6 +227,21 @@
               <div data-w-id="b53a1e5d-6fdc-98e4-ec17-a2080318ba1a" class="sfera no"></div>
             </div>
           </div>
+          <!-- Mobile: sphere poster + play (hidden on desktop) -->
+          <div class="sphere-poster" id="sphere-poster">
+            <div class="sphere-poster__stats">
+              <p>Planet of 8+ billion people.</p>
+              <p>~97.5% of water is not drinkable without desalination.</p>
+            </div>
+            <div class="sphere-poster__visual">
+              <div class="sphere-poster__orb"></div>
+              <button class="sphere-poster__play" id="sphere-poster-play" aria-label="Explore">
+                <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="27" stroke="rgba(255,255,255,0.2)" stroke-width="1"/><path d="M23 18L41 28L23 38V18Z" fill="rgba(255,255,255,0.85)"/></svg>
+              </button>
+            </div>
+            <span class="sphere-poster__caption">&lt;1% of Earth's water is quickly accessible freshwater</span>
+          </div>
+
           <div class="colum-r">
             <h1 class="h1"><span class="spa">Next-generation desalination. </span></h1>
             <div class="text">No RO. No thermal desalination.</div>
@@ -469,6 +486,37 @@
     });
 
     videoObserver.observe(videoSection);
+  })();
+
+  // Mobile: sphere poster play → load real Spline animation
+  (function(){
+    if(!window.matchMedia('(max-width:767px)').matches) return;
+    var btn = document.getElementById('sphere-poster-play');
+    var poster = document.getElementById('sphere-poster');
+    if(!btn || !poster) return;
+
+    btn.addEventListener('click', function(){
+      poster.style.display = 'none';
+
+      var sc = document.querySelector('.spline-content');
+      if(sc) sc.classList.add('sphere-active');
+
+      var hero = document.querySelector('.se1');
+      if(hero) hero.classList.add('sphere-playing');
+
+      var el = document.getElementById('spline-scene');
+      var url = window.__splineUrlDeferred;
+      if(el && url){
+        el.setAttribute('data-spline-url', url);
+        el.setAttribute('data-spline-url-lazy', url);
+        try {
+          if(window.Webflow && window.Webflow.require){
+            var s = window.Webflow.require('spline');
+            if(s && s.init) s.init();
+          }
+        } catch(e){}
+      }
+    });
   })();
 
   </script>

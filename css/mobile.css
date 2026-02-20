@@ -415,3 +415,229 @@
     padding: 4px 0 !important;
   }
 }
+
+
+/* ─────────────────────────────────────────────
+   G. MOBILE HERO — SpaceX-style poster + play
+      Static sphere visual, click to load WebGL.
+      Layout: stats → sphere → H1 + CTA (vertical)
+   ───────────────────────────────────────────── */
+
+/* Hidden on desktop (no media query = always applies) */
+.sphere-poster {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+
+  /* --- Hero container: auto-height vertical flow --- */
+  .se1 {
+    height: auto !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+  }
+
+  .se1 .noize {
+    padding-top: 72px !important;
+    padding-bottom: 40px !important;
+    height: auto !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    overflow: visible !important;
+  }
+
+  .se1 .div1 {
+    height: auto !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    width: 100% !important;
+  }
+
+  /* --- colum-r: flowing below poster, no gradient --- */
+  .se1 .colum-r {
+    position: static !important;
+    background: none !important;
+    background-image: none !important;
+    width: 100% !important;
+    padding: 0 24px 0 !important;
+    z-index: auto !important;
+  }
+
+  /* --- SPHERE POSTER: visible on mobile --- */
+  .sphere-poster {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 0 24px 32px !important;
+  }
+
+  .sphere-poster__stats {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .sphere-poster__stats p {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    letter-spacing: 0.06em;
+    margin: 0;
+    font-weight: 300;
+    font-family: Onest, Arial, sans-serif;
+  }
+
+  .sphere-poster__visual {
+    position: relative;
+    width: 58vw;
+    max-width: 280px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .sphere-poster__orb {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-image:
+      radial-gradient(circle at 81% 29%, rgba(162,237,255,0.73), rgba(0,11,32,0.85) 55%),
+      linear-gradient(18deg, #5991b9, rgba(39,169,204,0.49));
+    box-shadow:
+      0 0 26px -3px rgba(255,255,255,0.37),
+      inset 0 2px 5px 5px rgba(255,255,255,0.03);
+    animation: sphere-poster-glow 5s ease-in-out infinite;
+  }
+
+  @keyframes sphere-poster-glow {
+    0%, 100% { filter: drop-shadow(0 0 40px rgba(66,207,242,0.2)); }
+    50%      { filter: drop-shadow(0 0 70px rgba(66,207,242,0.4)); }
+  }
+
+  .sphere-poster__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.25);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    cursor: pointer;
+    padding: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .sphere-poster__play:active {
+    transform: translate(-50%, -50%) scale(0.93);
+  }
+
+  .sphere-poster__play svg {
+    width: 44px;
+    height: 44px;
+    margin-left: 3px;
+  }
+
+  .sphere-poster__caption {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    color: rgba(255,255,255,0.25);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-family: Onest, Arial, sans-serif;
+  }
+
+  /* --- AFTER PLAY: show real Spline, SpaceX overlay layout --- */
+  .se1.sphere-playing {
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
+  }
+
+  .se1.sphere-playing .noize {
+    height: 100% !important;
+    min-height: auto !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    justify-content: flex-end !important;
+  }
+
+  .se1.sphere-playing .div1 {
+    height: 100% !important;
+    justify-content: flex-end !important;
+  }
+
+  .se1.sphere-playing .sphere-poster {
+    display: none !important;
+  }
+
+  .se1.sphere-playing .colum-r {
+    position: relative !important;
+    z-index: 20 !important;
+    padding: 30px 24px 50px !important;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,1) 0%,
+      rgba(0,0,0,0.85) 40%,
+      rgba(0,0,0,0.4) 70%,
+      transparent 100%
+    ) !important;
+  }
+
+  /* Spline visible after play (overrides inline display:none !important) */
+  .spline-content.sphere-active {
+    display: flex !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+    justify-content: center !important;
+    align-items: center !important;
+    overflow: visible !important;
+  }
+}
+
+/* Poster sphere smaller on tiny phones */
+@media screen and (max-width: 390px) {
+  .sphere-poster__visual {
+    width: 52vw !important;
+    max-width: 220px !important;
+  }
+
+  .sphere-poster__stats p {
+    font-size: 0.72rem !important;
+  }
+
+  .sphere-poster__play {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .sphere-poster__play svg {
+    width: 38px !important;
+    height: 38px !important;
+  }
+}
