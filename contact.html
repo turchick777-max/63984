@@ -69,7 +69,7 @@
     @media(max-width:860px){.page-wrap{grid-template-columns:1fr;gap:36px}.contact-info{position:static}}
     @media(max-width:767px){.site-header,.site-footer{padding-left:20px;padding-right:20px}.page-wrap{padding:36px 20px 64px}.form-card{padding:24px 20px}.footer-inner{flex-direction:column;align-items:flex-start}}
   </style>
-
+  <link rel="stylesheet" href="css/consent.css" />
 </head>
 <body>
 <header class="site-header">
@@ -217,6 +217,8 @@
       <a href="legal.html" class="lang-ru" style="display:none">Условия использования</a>
       <a href="contact.html" class="active lang-en">Contact</a>
       <a href="contact.html" class="active lang-ru" style="display:none">Контакты</a>
+      <button onclick="openCookieSettings()" class="lang-en">Cookie Settings</button>
+      <button onclick="openCookieSettings()" class="lang-ru" style="display:none">Настройки cookies</button>
     </div>
   </div>
 </footer>
@@ -304,7 +306,11 @@
   });
 })();
 
+function openCookieSettings(){
+  var o=document.getElementById('cc-overlay');
+  if(o){o.classList.add('visible')}else{try{localStorage.removeItem('cookie_consent_v2')}catch(e){}window.location.reload()}
+}
 </script>
-
+<script src="js/consent.js"></script>
 </body>
 </html>

@@ -99,7 +99,7 @@
       .footer-links { gap: 12px; }
     }
   </style>
-
+  <link rel="stylesheet" href="css/consent.css" />
 </head>
 <body>
 
@@ -432,6 +432,8 @@
         <a href="legal.html" class="active lang-ru" style="display:none">Условия использования</a>
         <a href="contact.html" class="lang-en">Contact</a>
         <a href="contact.html" class="lang-ru" style="display:none">Контакты</a>
+        <button onclick="openCookieSettings()" class="lang-en">Cookie Settings</button>
+        <button onclick="openCookieSettings()" class="lang-ru" style="display:none">Настройки cookies</button>
       </div>
     </div>
   </footer>
@@ -464,8 +466,17 @@
     }
   })();
 
+  function openCookieSettings() {
+    var overlay = document.getElementById('cc-overlay');
+    if (overlay) {
+      overlay.classList.add('visible');
+    } else {
+      try { localStorage.removeItem('cookie_consent_v2'); } catch(e) {}
+      window.location.reload();
+    }
+  }
   </script>
 
-
+  <script src="js/consent.js"></script>
 </body>
 </html>
