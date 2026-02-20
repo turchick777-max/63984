@@ -648,11 +648,39 @@
                 font-size: 9px;
             }
 
+            /* ── Badge description panel (injected by JS, avoids overflow clip) ── */
+            .m-badge-desc {
+                display: none;
+                font-size: 11px;
+                font-family: var(--font-main);
+                color: rgba(255, 255, 255, 0.55);
+                background: rgba(10, 10, 10, 0.9);
+                border: 1px solid var(--line-bright);
+                padding: 10px 12px;
+                margin-bottom: 14px;
+                line-height: 1.5;
+                white-space: pre-line;
+            }
+            .m-badge-desc.is-open { display: block; }
+
+            /* Disable CSS hover tooltip on mobile (overflow clips it) */
+            .badge[data-tooltip]::after { display: none !important; }
+
             /* ── Table → Card list (CSS-only, desktop untouched) ── */
             .table-container {
-                max-height: none !important;
-                overflow-y: visible !important;
-                border: none !important;
+                max-height: 420px !important;   /* scroll cards, not page */
+                overflow-y: auto  !important;
+                overflow-x: hidden !important;
+                border: 1px solid var(--line-bright) !important;
+                border-radius: 0;
+                /* Fade at bottom to hint scrollability */
+                -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+                mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+            }
+            /* Remove mask when fully expanded */
+            .table-container.expanded {
+                -webkit-mask-image: none;
+                mask-image: none;
             }
             /* Flatten table into block elements */
             table, tbody, tr, td { display: block; }
@@ -1036,6 +1064,43 @@
         }
 
         setLang('en');
+
+        /* ── Mobile badge tap: show description below badge row ────────
+           CSS hover tooltips are clipped by overflow-x:auto on .badge-row.
+           This injects a .m-badge-desc panel below the row and populates
+           it on tap. Desktop: never executes.
+           ──────────────────────────────────────────────────────────── */
+        (function () {
+            if (!window.matchMedia('(max-width: 767px)').matches) return;
+
+            var badgeRow = document.querySelector('.badge-row');
+            if (!badgeRow) return;
+
+            var desc = document.createElement('div');
+            desc.className = 'm-badge-desc';
+            badgeRow.parentNode.insertBefore(desc, badgeRow.nextSibling);
+
+            var activeBadge = null;
+
+            [].forEach.call(document.querySelectorAll('.badge[data-tooltip]'), function (badge) {
+                badge.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    if (activeBadge === badge && desc.classList.contains('is-open')) {
+                        desc.classList.remove('is-open');
+                        activeBadge = null;
+                    } else {
+                        desc.textContent = badge.getAttribute('data-tooltip');
+                        desc.classList.add('is-open');
+                        activeBadge = badge;
+                    }
+                });
+            });
+
+            document.addEventListener('click', function () {
+                desc.classList.remove('is-open');
+                activeBadge = null;
+            });
+        })();
 
         /* ── Mobile tab toggle: Metrics / Lab Extract ──────────────────
            Runs only on mobile (≤ 767px). Injects a tab bar above <main>,
