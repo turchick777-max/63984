@@ -747,17 +747,19 @@
             .nda-note     { font-size: 10px; padding: 12px; }
             .expand-btn   { font-size: 10px; min-height: 44px; }
 
-            /* ── Footer logo: no overlap ── */
+            /* ── Footer logo: no overlap, fully visible ── */
             footer {
                 height: auto;
-                padding: 24px 0;
-                padding-bottom: max(24px, env(safe-area-inset-bottom));
+                min-height: 130px;
+                padding: 20px 0 max(32px, env(safe-area-inset-bottom));
                 justify-content: center;
+                align-items: center;
             }
             .logo-container {
                 width: 90px;
                 height: 90px;
                 margin-top: 0;
+                flex-shrink: 0;
             }
             .logo-img { width: 64px; height: 64px; }
         }
