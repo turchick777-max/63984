@@ -402,6 +402,33 @@
 
 @media screen and (max-width: 767px) {
 
+  /* Force navbar always visible on mobile —
+     overrides Webflow IX2 inline opacity:0 fade-in animation
+     that may not trigger on mobile browsers */
+  .menu.w-nav {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* Ensure fixed positioning sticks to top on all mobile browsers */
+  .navbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin-top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    z-index: 9999 !important;
+    /* Frosted glass effect for readability over content */
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    padding: 0 16px !important;
+    height: 52px !important;
+  }
+
   /* Reset desktop translateY so icons align with logo text on mobile */
   .navbar .menu-button { transform: none !important; }
   .navbar .w-dropdown   { transform: none !important; }
@@ -433,7 +460,7 @@
 
 @media screen and (max-width: 767px) {
 
-  /* Hero: full viewport, centered content */
+  /* Hero: full viewport, centered content — pad top to clear fixed navbar (52px) */
   .se1 {
     height: 100vh !important;
     height: 100dvh !important;
@@ -442,6 +469,7 @@
     overflow: hidden !important;
     display: flex !important;
     align-items: center !important;
+    padding-top: 52px !important;
   }
 
   .se1::before { display: none !important; }
