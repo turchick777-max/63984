@@ -500,53 +500,30 @@
   }
   </script>
 
-  <!-- MOBILE NAV: force navbar always visible & fixed on mobile.
-       Webflow IX2 JS sets style="opacity:0" via animation trigger;
-       MutationObserver intercepts every reset and forces opacity:1. -->
+  <!-- MOBILE NAV: remove data-w-id from navbar BEFORE webflow.js (defer) runs.
+       Inline scripts execute before defer scripts, so IX2 never finds
+       the element and never resets it to opacity:0. No flash, no delay. -->
   <script>
   (function () {
     if (window.innerWidth >= 768) return;
 
-    function fixNav() {
-      var nav = document.querySelector('.menu.w-nav');
-      var bar = document.querySelector('.navbar');
-      if (!nav || !bar) return;
+    var nav = document.querySelector('.menu.w-nav');
+    var bar = document.querySelector('.navbar');
 
-      // Force the outer wrapper visible
-      nav.style.setProperty('opacity', '1', 'important');
-      nav.style.setProperty('visibility', 'visible', 'important');
-
-      // Force .navbar position fixed at top
-      bar.style.setProperty('position', 'fixed', 'important');
-      bar.style.setProperty('top', '0', 'important');
-      bar.style.setProperty('left', '0', 'important');
-      bar.style.setProperty('right', '0', 'important');
-      bar.style.setProperty('margin-top', '0', 'important');
-      bar.style.setProperty('width', '100%', 'important');
-      bar.style.setProperty('max-width', '100%', 'important');
-      bar.style.setProperty('border-radius', '0', 'important');
-      bar.style.setProperty('z-index', '9999', 'important');
-      bar.style.setProperty('background', 'rgba(0,0,0,0.88)', 'important');
-
-      // Watch for Webflow IX2 resetting opacity on the nav wrapper
-      if (!nav._mobileNavObserver) {
-        nav._mobileNavObserver = new MutationObserver(function () {
-          if (parseFloat(nav.style.opacity) < 1) {
-            nav.style.setProperty('opacity', '1', 'important');
-            nav.style.setProperty('visibility', 'visible', 'important');
-          }
-        });
-        nav._mobileNavObserver.observe(nav, { attributes: true, attributeFilter: ['style'] });
-      }
+    if (nav) {
+      // Strip the Webflow IX2 target attribute — IX2 won't animate this element
+      nav.removeAttribute('data-w-id');
+      // Show immediately
+      nav.style.opacity = '1';
+      nav.style.visibility = 'visible';
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', fixNav);
-    } else {
-      fixNav();
+    if (bar) {
+      bar.style.cssText += ';position:fixed!important;top:0!important;left:0!important;' +
+        'right:0!important;margin-top:0!important;width:100%!important;' +
+        'max-width:100%!important;border-radius:0!important;z-index:9999!important;' +
+        'background:rgba(0,0,0,0.88)!important';
     }
-    // Also run after all scripts (Webflow IX2 loads late)
-    window.addEventListener('load', fixNav);
   })();
   </script>
 </body>
