@@ -155,7 +155,7 @@
     }
     /* MOBILE LAYOUT END */
   </style>
-  <link rel="stylesheet" href="css/consent.css" />
+
   <link rel="stylesheet" href="css/mobile.css" />
 </head>
 <body class="body">
@@ -329,7 +329,7 @@
           <a href="privacy.html#cookies">Cookies Policy</a>
           <a href="legal.html">Terms of Use</a>
           <a href="contact.html">Contact</a>
-          <a href="#" onclick="openCookieSettings();return false;" style="opacity:.7">Cookie Settings</a>
+
         </div>
       </div>
     </div>
@@ -489,15 +489,6 @@
   })();
 
 
-  </script>
-
-  <!--  FOOTER CODE  -->
-  <script src="js/consent.js"></script>
-  <script>
-  function openCookieSettings(){
-    var o=document.getElementById('cc-overlay');
-    if(o){o.classList.add('visible')}else{try{localStorage.removeItem('cookie_consent_v2')}catch(e){}window.location.reload()}
-  }
   </script>
 
   <!-- MOBILE NAV: force navbar always visible & fixed on mobile.
