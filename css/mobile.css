@@ -1,0 +1,415 @@
+/* =============================================
+   AQUINTAQA — Mobile Overrides
+   File: css/mobile.css
+
+   BREAKPOINTS:
+     @media (max-width: 767px)  — phones
+     @media (max-width: 479px)  — small phones
+
+   RULES:
+     Desktop / tablet (≥ 768 px) is NOT affected.
+     All rules are additive overrides.
+   ============================================= */
+
+
+/* ─────────────────────────────────────────────
+   A. GLOBAL FOUNDATION
+   ───────────────────────────────────────────── */
+
+@media screen and (max-width: 767px) {
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+
+  html, body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  img, video, iframe, embed, object, canvas, svg {
+    max-width: 100% !important;
+  }
+}
+
+
+/* ─────────────────────────────────────────────
+   B. CARD-RAIL PAGES  (technology.html, quality.html)
+      Horizontal rail  →  Vertical stack
+   ───────────────────────────────────────────── */
+
+@media screen and (max-width: 767px) {
+
+  /* Override inline height:100% + overflow:hidden */
+  .page {
+    height: auto !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
+    overflow: visible !important;
+    overflow-x: hidden !important;
+  }
+
+  /* --- Header --- */
+  .header {
+    padding: 28px 20px 0 !important;
+  }
+
+  .header h1 {
+    font-size: clamp(24px, 7vw, 32px) !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .header .subtitle {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+
+  .header .hint {
+    display: none !important;
+  }
+
+  /* --- Rail → vertical --- */
+  .rail-wrap {
+    flex: none !important;
+    overflow: visible !important;
+    padding: 20px 0 !important;
+  }
+
+  .arrow-btn {
+    display: none !important;
+  }
+
+  .rail {
+    flex-direction: column !important;
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    padding: 0 20px !important;
+    gap: 16px !important;
+    scroll-snap-type: none !important;
+    cursor: default !important;
+  }
+
+  .card {
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    padding: 28px 24px !important;
+  }
+
+  .card-number {
+    font-size: 10px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .card h2 {
+    font-size: 19px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .card p {
+    font-size: 14px !important;
+    line-height: 1.7 !important;
+  }
+
+  .card li {
+    font-size: 14px !important;
+    line-height: 1.65 !important;
+  }
+
+  .card h3 {
+    font-size: 15px !important;
+  }
+
+  .card .note {
+    font-size: 12px !important;
+  }
+
+  .card .comparison-group h4 {
+    font-size: 13px !important;
+  }
+
+  .card .scope-link {
+    font-size: 14px !important;
+  }
+
+  /* --- Progress bar hidden (no horizontal scroll) --- */
+  .bottom-bar {
+    padding: 0 20px 28px !important;
+  }
+
+  .progress-track {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 479px) {
+
+  .header {
+    padding: 24px 16px 0 !important;
+  }
+
+  .header h1 {
+    font-size: 22px !important;
+  }
+
+  .header .subtitle {
+    font-size: 13px !important;
+  }
+
+  .rail {
+    padding: 0 16px !important;
+    gap: 14px !important;
+  }
+
+  .card {
+    padding: 24px 18px !important;
+  }
+
+  .card h2 {
+    font-size: 17px !important;
+  }
+
+  .card p, .card li {
+    font-size: 13.5px !important;
+  }
+}
+
+
+/* ─────────────────────────────────────────────
+   C. INVESTOR PAGE  (investor.html)
+      Tabs — scrollable on mobile
+   ───────────────────────────────────────────── */
+
+@media screen and (max-width: 767px) {
+
+  .analytics-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 16px !important;
+  }
+
+  .u-text-style-h1 {
+    font-size: clamp(24px, 7vw, 36px) !important;
+  }
+
+  .u-text-style-h1.blue._2 {
+    width: 100% !important;
+  }
+
+  .u-text-style-h1.blue._2 .subtitle {
+    font-size: 17px !important;
+  }
+
+  ._2col-grid {
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  ._2col-grid.analytics-header._2 {
+    margin-bottom: 1.5rem !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  /* Force tab menu visible (the mobile-dropdown is empty) */
+  .tabs-2.w-tabs {
+    display: flex !important;
+  }
+
+  .tabs-menu.w-tab-menu {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    flex-wrap: nowrap !important;
+    gap: 0 !important;
+    scrollbar-width: none !important;
+    padding-bottom: 4px !important;
+  }
+
+  .tabs-menu.w-tab-menu::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .tab-link-tab-1,
+  .tab-link-tab-2,
+  .tab-link-tab-3,
+  .tab-link-tab-4,
+  .tab-link-tab-5,
+  .tab-link-tab-6-2,
+  .tab-link-tab-7 {
+    white-space: nowrap !important;
+    padding: 0 12px !important;
+    height: 38px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .u-text-style-large.tab-title {
+    font-size: 12px !important;
+    white-space: nowrap !important;
+  }
+
+  .tabs-content {
+    max-width: 100% !important;
+  }
+
+  .tab-2col-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .tab {
+    padding: 1.5rem 1.25rem !important;
+  }
+
+  .tab.left-tab {
+    min-height: auto !important;
+    height: auto !important;
+    padding-top: 1.5rem !important;
+  }
+
+  .tab.right-tab {
+    padding-top: 1.5rem !important;
+    height: auto !important;
+  }
+
+  .tab-section-title {
+    font-size: 15px !important;
+    margin-top: 1rem !important;
+  }
+
+  .bullet-text {
+    font-size: 14px !important;
+  }
+
+  .bullet-text.white-40 {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+
+  .tab-note {
+    font-size: 0.82rem !important;
+  }
+
+  .analytics-button._2 {
+    font-size: 0.9rem !important;
+    padding: 10px 24px !important;
+  }
+
+  .mobile-dropdown {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 479px) {
+
+  .u-text-style-h1 {
+    font-size: 22px !important;
+  }
+
+  .u-text-style-h1.blue._2 .subtitle {
+    font-size: 15px !important;
+  }
+
+  .tab {
+    padding: 1.25rem 1rem !important;
+  }
+
+  .tab-link-tab-1,
+  .tab-link-tab-2,
+  .tab-link-tab-3,
+  .tab-link-tab-4,
+  .tab-link-tab-5,
+  .tab-link-tab-6-2,
+  .tab-link-tab-7 {
+    padding: 0 10px !important;
+    height: 36px !important;
+  }
+
+  .u-text-style-large.tab-title {
+    font-size: 11px !important;
+  }
+
+  .bullet-text.white-40 {
+    font-size: 13px !important;
+  }
+}
+
+
+/* ─────────────────────────────────────────────
+   D. INVESTOR ACCESS FORM  (investor-access.html)
+   ───────────────────────────────────────────── */
+
+@media screen and (max-width: 767px) {
+
+  .form-header h1 {
+    font-size: clamp(24px, 7vw, 32px) !important;
+    line-height: 1.2 !important;
+  }
+
+  .form-header p {
+    font-size: 14px !important;
+  }
+
+  .form-card {
+    padding: 28px 20px !important;
+  }
+
+  .nda-block {
+    padding: 16px !important;
+  }
+
+  .nda-block .nda-text {
+    font-size: 12.5px !important;
+  }
+
+  .field input {
+    font-size: 16px !important;
+  }
+}
+
+
+/* ─────────────────────────────────────────────
+   E. ERROR PAGES  (401.html, 404.html)
+   ───────────────────────────────────────────── */
+
+@media screen and (max-width: 767px) {
+
+  .w-password-page {
+    padding: 20px !important;
+  }
+
+  .w-password-page h2 {
+    font-size: 22px !important;
+  }
+
+  .w-password-page .w-input {
+    font-size: 16px !important;
+  }
+}
+
+
+/* ─────────────────────────────────────────────
+   F. INDEX.HTML — Supplemental
+      Main mobile styles are in aquintaqa.webflow.css
+      and the index.html inline <style>.
+      Only additions below.
+   ───────────────────────────────────────────── */
+
+@media screen and (max-width: 767px) {
+
+  section {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  .footer2 {
+    padding: 32px 0 env(safe-area-inset-bottom, 20px) !important;
+  }
+
+  .footer-2 .div-block-3 a {
+    padding: 4px 0 !important;
+  }
+}
