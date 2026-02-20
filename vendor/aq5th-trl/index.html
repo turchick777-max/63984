@@ -324,7 +324,6 @@
        ══════════════════════════════════════════════════ */
     @media (max-width: 767px) {
 
-      /* ── Global safety ── */
       *, *::before, *::after { box-sizing: border-box; }
 
       html, body {
@@ -334,10 +333,9 @@
         max-width: 100vw  !important;
       }
 
-      /* ── Prevent section from claiming full viewport ── */
       .screen {
         min-height: auto !important;
-        padding: 28px 16px calc(28px + env(safe-area-inset-bottom, 0px)) !important;
+        padding: 24px 16px calc(24px + env(safe-area-inset-bottom, 0px)) !important;
         position: relative !important;
         overflow-x: hidden;
       }
@@ -347,43 +345,37 @@
         overflow-x: hidden;
       }
 
-      /* ── HEADER: fluid typography, no nowrap overflow ── */
+      /* ── Header ── */
       .top {
         grid-template-columns: 1fr !important;
-        gap: 8px;
-        margin-bottom: clamp(24px, 6vw, 36px) !important;
+        gap: 6px;
+        margin-bottom: 20px !important;
       }
 
-      /* Empty right column — hide on mobile */
       .topRight { display: none !important; }
 
       .headline .l1 {
-        font-size: clamp(28px, 7vw, 50px) !important;
-        margin-bottom: 6px;
+        font-size: clamp(26px, 7vw, 44px) !important;
+        margin-bottom: 4px;
       }
 
       .headline .l2 {
-        font-size: clamp(18px, 5vw, 34px) !important;
+        font-size: clamp(16px, 4.5vw, 28px) !important;
         white-space: normal !important;
         word-break: break-word;
       }
 
-      .micro {
-        font-size: 13px;
-        margin-top: 8px;
-      }
+      .micro { font-size: 12px; margin-top: 6px; }
 
-      /* ── CARD: reduced padding, contained ── */
+      /* ── Card: compact ── */
       .card {
-        padding: 22px 16px 18px !important;
+        padding: 20px 14px 16px !important;
         border-radius: 16px;
         overflow: hidden;
       }
 
-      /* ── TIMELINE: tighter buttons ── */
-      .timeline {
-        gap: 10px;
-      }
+      /* ── Timeline buttons ── */
+      .timeline { gap: 8px; }
 
       .tbtn {
         width: 36px !important;
@@ -391,44 +383,40 @@
         flex-shrink: 0;
       }
 
-      /* ── RAIL: reduce fixed height so text fits inside card ── */
-      .railWrap {
-        height: 180px !important;
-      }
+      /* ── Rail: compact height (text moved to panel below) ── */
+      .railWrap { height: 110px !important; }
 
-      /* Halo: scale proportionally to new rail height */
       .marker .halo {
-        height: 100px;
-        margin-top: -50px;
+        height: 70px;
+        margin-top: -35px;
       }
 
-      /* ── MARKER TEXT: contain within rail/card ── */
-      .markerTitle {
-        font-size: 12px !important;
-        line-height: 16px !important;
-        white-space: normal !important;
-        max-width: 90px !important;
-        text-align: center;
-        overflow: hidden;
-        word-break: break-word;
+      /* ── Floating marker labels: hide — info panel below replaces them ── */
+      .markerTitle,
+      .markerDesc { display: none !important; }
+
+      /* ── Info panel injected by JS ── */
+      .m-trl-panel {
+        margin-top: 14px;
+        padding: 14px 16px;
+        background: rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.09);
+        border-radius: 12px;
+        min-height: 64px;
       }
 
-      .markerDesc {
-        font-size: 11px !important;
-        line-height: 15px !important;
-        white-space: normal !important;
-        max-width: 90px !important;
-        text-align: center;
-        overflow: hidden;
-        word-break: break-word;
+      .m-trl-title {
+        font-size: clamp(13px, 3.5vw, 15px);
+        font-weight: 600;
+        color: var(--text);
+        line-height: 1.35;
+        margin-bottom: 5px;
       }
 
-      /* Fix: last marker title bleeds off right edge on desktop → reset on mobile */
-      .marker:last-child .markerTitle {
-        right: auto !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        text-align: center !important;
+      .m-trl-desc {
+        font-size: clamp(11px, 3vw, 13px);
+        color: var(--muted);
+        line-height: 1.5;
       }
     }
 
@@ -436,51 +424,26 @@
     @media (max-width: 479px) {
 
       .screen {
-        padding: 20px 12px calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+        padding: 18px 12px calc(18px + env(safe-area-inset-bottom, 0px)) !important;
       }
 
-      .headline .l1 {
-        font-size: clamp(24px, 7vw, 36px) !important;
-      }
+      .headline .l1 { font-size: clamp(22px, 7vw, 34px) !important; }
+      .headline .l2 { font-size: clamp(14px, 4.5vw, 22px) !important; }
 
-      .headline .l2 {
-        font-size: clamp(16px, 5vw, 26px) !important;
-      }
+      .railWrap { height: 100px !important; }
 
-      .railWrap {
-        height: 160px !important;
-      }
+      .marker .halo { height: 60px; margin-top: -30px; }
 
-      .marker .halo {
-        height: 86px;
-        margin-top: -43px;
-      }
+      .tbtn { width: 32px !important; height: 32px !important; }
 
-      .tbtn {
-        width: 32px !important;
-        height: 32px !important;
-      }
+      .card { padding: 16px 12px 14px !important; border-radius: 14px; }
 
-      .card {
-        padding: 18px 12px 14px !important;
-        border-radius: 14px;
-      }
-
-      .markerTitle {
-        font-size: 11px !important;
-        max-width: 80px !important;
-      }
-
-      .markerDesc {
-        font-size: 10px !important;
-        max-width: 80px !important;
-      }
+      .m-trl-panel { padding: 12px 14px; }
     }
 
     /* Respect reduced-motion preference */
     @media (prefers-reduced-motion: reduce) {
-      .tbtn, .marker .bar, .marker .halo,
-      .markerTitle, .markerDesc {
+      .tbtn, .marker .bar, .marker .halo {
         transition: none !important;
         animation: none !important;
       }
@@ -683,6 +646,47 @@
     }
 
     render();
+  </script>
+
+  <!-- Mobile: inject info panel below timeline card (replaces floating labels) -->
+  <script>
+  (function () {
+    if (!window.matchMedia('(max-width: 767px)').matches) return;
+
+    var wrap  = document.querySelector('.wrap');
+    var card  = document.querySelector('.card');
+    if (!wrap || !card) return;
+
+    /* Create the panel */
+    var panel = document.createElement('div');
+    panel.className = 'm-trl-panel';
+    wrap.insertBefore(panel, card.nextSibling);
+
+    function updatePanel(idx) {
+      var t = TRL[idx];
+      if (!t) return;
+      panel.innerHTML =
+        '<div class="m-trl-title">' + t.title + '</div>' +
+        '<div class="m-trl-desc">'  + t.desc.replace(/<br\s*\/?>/gi, ' ') + '</div>';
+    }
+
+    /* Patch setPanel so panel updates on every navigation */
+    var _orig = setPanel;
+    setPanel = function (idx) {
+      _orig(idx);
+      updatePanel(idx);
+    };
+
+    /* Also patch button handlers that modify activeIndex directly */
+    document.getElementById('prevBtn').addEventListener('click', function () {
+      updatePanel(activeIndex);
+    });
+    document.getElementById('nextBtn').addEventListener('click', function () {
+      updatePanel(activeIndex);
+    });
+
+    updatePanel(activeIndex);
+  })();
   </script>
 </body>
 </html>
