@@ -531,10 +531,10 @@
            ═══════════════════════════════════════════ */
         @media (max-width: 767px) {
 
-            /* ── Grid: far less visual noise ── */
+            /* Reduce grid noise */
             :root {
-                --line: rgba(74, 144, 164, 0.05);
-                --line-bright: rgba(74, 144, 164, 0.12);
+                --line: rgba(74, 144, 164, 0.10);
+                --line-bright: rgba(74, 144, 164, 0.22);
             }
 
             html, body {
@@ -543,47 +543,44 @@
             }
             body {
                 overflow-y: auto !important;
-                background-size: 120px 120px;
+                background-size: 80px 80px;
             }
 
             .center-line,
             .horizontal-line { display: none !important; }
 
-            /* ── Header: sticky, compact ── */
+            /* ── Header ── */
             header {
                 height: 56px;
                 padding: 0 16px;
-                position: sticky;
-                top: 0;
-                z-index: 20;
             }
             h1 {
-                font-size: 13px;
-                letter-spacing: 0.18em;
+                font-size: 14px;
+                letter-spacing: 0.15em;
             }
             .lang-switch { right: 16px; }
 
-            /* ── Tab bar: sticky below header, full-width, clear active ── */
+            /* ── Tab bar (injected by JS) ── */
             .m-tabs {
                 display: flex;
                 background: var(--bg);
                 border-bottom: 1px solid var(--line-bright);
-                padding: 0;
+                padding: 0 16px;
                 position: sticky;
-                top: 56px;
+                top: 0;
                 z-index: 10;
             }
             .m-tab {
                 flex: 1;
-                padding: 14px 8px;
+                padding: 12px 8px;
                 background: transparent;
                 border: none;
                 border-bottom: 2px solid transparent;
-                color: rgba(255, 255, 255, 0.38);
-                font-size: 11px;
+                color: var(--text-dim);
+                font-size: 10px;
                 font-family: var(--font-mono);
                 text-transform: uppercase;
-                letter-spacing: 0.12em;
+                letter-spacing: 0.1em;
                 cursor: pointer;
                 transition: color 0.2s, border-color 0.2s;
                 margin-bottom: -1px;
@@ -596,92 +593,43 @@
 
             /* ── Columns ── */
             main { flex-direction: column; }
-            .col { width: 100%; padding: 28px 16px 40px; }
+            .col { width: 100%; padding: 20px 16px; }
 
-            /* ─────────────────────────────────────────────
-               METRICS SECTION
-               ───────────────────────────────────────────── */
-
-            .tech-block {
-                padding: 28px 0;
-                border-bottom: 1px solid rgba(74, 144, 164, 0.10);
-            }
-
-            /* Stack label then value, generous gap */
+            /* ── Metrics: stack value below label ── */
             .metric-row {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 14px;
+                gap: 8px;
             }
-
+            .metric-value {
+                font-size: clamp(22px, 7.5vw, 34px);
+                white-space: normal;
+                word-break: break-word;
+            }
             .metric-label .headline {
-                font-size: 11px;
-                letter-spacing: 0.14em;
-                color: rgba(255, 255, 255, 0.45);
-                text-transform: uppercase;
-                margin-bottom: 4px;
+                font-size: 14px;
+                letter-spacing: 0.06em;
             }
             .metric-label .micro {
                 font-size: 10px;
                 max-width: 100%;
-                color: rgba(255, 255, 255, 0.25);
-                line-height: 1.5;
             }
 
-            /* Big, prominent values */
-            .metric-value {
-                font-size: clamp(28px, 9vw, 40px);
-                font-weight: 300;
-                letter-spacing: -0.02em;
-                white-space: normal;
-                word-break: break-word;
-                color: rgba(255, 255, 255, 0.95);
-                line-height: 1.1;
-            }
-
-            /* Cl / Na dual columns */
-            .dual-metrics {
-                gap: 20px;
-                padding: 24px 0 16px;
-            }
-            .dual-col h3 {
-                font-size: 11px;
-                letter-spacing: 0.08em;
-                margin-bottom: 12px;
-            }
+            /* Cl/Na dual grid: keep 2 cols, tighter */
+            .dual-metrics { gap: 14px; }
+            .dual-col h3 { font-size: 12px; letter-spacing: 0.5px; }
             .data-point {
                 white-space: normal;
                 flex-wrap: wrap;
-                gap: 4px;
-                margin-bottom: 7px;
+                gap: 3px;
             }
-            .data-point > span:first-child {
-                font-size: 10px;
-                color: rgba(255, 255, 255, 0.35);
-            }
-            .data-point > span:last-child { font-size: 12px; }
+            .data-point > span:first-child { font-size: 11px; }
+            .data-point > span:last-child  { font-size: 12px; }
+            .dual-legend { font-size: 8px; line-height: 1.5; }
 
-            .dual-legend {
-                font-size: 9px;
-                line-height: 1.6;
-                color: rgba(255, 255, 255, 0.25);
-                padding-bottom: 0;
-                border-bottom: none;
-                margin-top: 0;
-            }
-
-            .status-check {
-                font-size: 10px;
-                margin-top: 8px;
-            }
-
-            /* ─────────────────────────────────────────────
-               LAB EXTRACT SECTION
-               ───────────────────────────────────────────── */
-
-            /* Badge chips: horizontal scroll */
+            /* ── Lab Extract: badge chips horizontal scroll ── */
             .badge-row {
-                display: flex !important;
+                display: flex !important;       /* override grid */
                 grid-template-columns: none;
                 flex-wrap: nowrap;
                 overflow-x: auto;
@@ -689,153 +637,121 @@
                 scrollbar-width: none;
                 gap: 8px;
                 margin-bottom: 16px;
-                padding-bottom: 2px;
+                padding-bottom: 4px;
             }
             .badge-row::-webkit-scrollbar { display: none; }
             .badge {
                 flex-shrink: 0;
                 white-space: nowrap;
-                padding: 8px 14px;
-                min-height: 34px;
+                padding: 8px 12px;
+                min-height: 36px;
                 font-size: 9px;
-                border-radius: 6px;
             }
 
-            /* Badge description panel */
+            /* ── Badge description panel (injected by JS, avoids overflow clip) ── */
             .m-badge-desc {
                 display: none;
                 font-size: 11px;
                 font-family: var(--font-main);
-                color: rgba(255, 255, 255, 0.50);
-                background: rgba(8, 8, 8, 0.92);
+                color: rgba(255, 255, 255, 0.55);
+                background: rgba(10, 10, 10, 0.9);
                 border: 1px solid var(--line-bright);
-                border-radius: 8px;
-                padding: 12px 14px;
-                margin-bottom: 16px;
-                line-height: 1.6;
+                padding: 10px 12px;
+                margin-bottom: 14px;
+                line-height: 1.5;
                 white-space: pre-line;
             }
             .m-badge-desc.is-open { display: block; }
 
-            /* Disable CSS hover tooltip on mobile */
+            /* Disable CSS hover tooltip on mobile (overflow clips it) */
             .badge[data-tooltip]::after { display: none !important; }
 
-            /* Section heading + subtitle */
-            h2.table-h {
-                font-size: 14px;
-                letter-spacing: 0.14em;
-                margin-bottom: 8px;
-            }
-            .table-subtitle {
-                font-size: 11px;
-                line-height: 1.65;
-                color: rgba(255, 255, 255, 0.45);
-                margin-bottom: 18px;
-            }
-
-            /* Table container: no internal scroll, cards flow with page */
+            /* ── Table → Card list (CSS-only, desktop untouched) ── */
             .table-container {
-                max-height: none !important;
-                overflow-y: visible !important;
+                max-height: 420px !important;   /* scroll cards, not page */
+                overflow-y: auto  !important;
                 overflow-x: hidden !important;
-                border: none !important;
-                border-radius: 0 !important;
-                -webkit-mask-image: none !important;
-                mask-image: none !important;
-                background: transparent;
-                margin-bottom: 0;
+                border: 1px solid var(--line-bright) !important;
+                border-radius: 0;
+                /* Fade at bottom to hint scrollability */
+                -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+                mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
             }
+            /* Remove mask when fully expanded */
             .table-container.expanded {
                 -webkit-mask-image: none;
                 mask-image: none;
             }
-
             /* Flatten table into block elements */
             table, tbody, tr, td { display: block; }
             thead { display: none !important; }
             th    { display: none !important; }
 
-            /* ── Each row → premium card ── */
+            /* Each row becomes a card */
             .table-row {
-                border: 1px solid rgba(0, 200, 220, 0.13);
-                border-radius: 10px;
-                margin-bottom: 10px;
-                padding: 16px 18px 14px;
-                background: rgba(255, 255, 255, 0.025);
-                transition: border-color 0.2s;
+                border: 1px solid var(--line-bright);
+                margin-bottom: 8px;
+                padding: 12px;
+                background: rgba(255, 255, 255, 0.02);
             }
-            .table-row:active {
-                border-color: rgba(0, 200, 220, 0.28);
-            }
-
-            /* Hidden rows respect expand state */
-            tbody tr.hidden-row              { display: none !important; }
+            /* Hidden rows still respect expand state */
+            tbody tr.hidden-row            { display: none !important; }
             .table-container.expanded
-              tbody tr.hidden-row            { display: block !important; }
+              tbody tr.hidden-row          { display: block !important; }
 
-            /* Card title (parameter name) */
+            /* Parameter name */
             td:nth-child(1) {
-                font-size: 15px;
+                font-size: 13px;
                 font-weight: 600;
-                color: rgba(255, 255, 255, 0.88);
-                padding: 0 0 10px;
+                color: rgba(255, 255, 255, 0.90);
+                padding: 0 0 8px;
                 border: none;
-                letter-spacing: 0.01em;
-                line-height: 1.3;
             }
-
-            /* Raw row */
+            /* Raw */
             td:nth-child(2) {
-                padding: 4px 0 3px;
+                padding: 3px 0;
                 border: none;
                 font-size: 11px;
             }
             td:nth-child(2)::before {
-                content: "Raw:";
+                content: "Raw: ";
                 font-family: var(--font-mono);
                 font-size: 9px;
-                color: rgba(255, 255, 255, 0.28);
-                letter-spacing: 0.07em;
+                color: var(--text-dim);
+                letter-spacing: 0.05em;
                 display: inline-block;
-                min-width: 42px;
+                min-width: 44px;
             }
-
-            /* After row */
+            /* After */
             td:nth-child(3) {
-                padding: 4px 0 0;
+                padding: 3px 0;
                 border: none;
             }
             td:nth-child(3)::before {
-                content: "After:";
+                content: "After: ";
                 font-family: var(--font-mono);
                 font-size: 9px;
-                color: rgba(255, 255, 255, 0.28);
-                letter-spacing: 0.07em;
+                color: var(--text-dim);
+                letter-spacing: 0.05em;
                 display: inline-block;
-                min-width: 42px;
+                min-width: 44px;
             }
-
-            /* Hide benchmark column */
+            /* Benchmark column: hidden on mobile */
             td:nth-child(4) { display: none !important; }
 
-            /* Status cell text */
-            .status-cell {
-                font-size: 11px;
-                letter-spacing: 0.04em;
-                gap: 7px;
-            }
+            /* ── Misc text ── */
+            h2.table-h    { font-size: 13px; letter-spacing: 0.12em; }
+            .table-subtitle { font-size: 11px; }
+            .table-label  { font-size: 9px; }
+            .table-notes  { font-size: 10px; }
+            .nda-note     { font-size: 10px; padding: 12px; }
+            .expand-btn   { font-size: 10px; min-height: 44px; }
 
-            /* Bottom meta */
-            .table-label  { font-size: 9px; margin-top: 18px; letter-spacing: 0.08em; }
-            .table-notes  { font-size: 10px; line-height: 1.65; margin-top: 6px; color: rgba(255,255,255,0.3); }
-            .nda-note     { font-size: 10px; padding: 12px 14px; border-radius: 8px; margin-top: 16px; }
-            .expand-btn   { font-size: 10px; min-height: 44px; border-radius: 8px; margin-top: 6px; }
-
-            /* ── Footer ── */
+            /* ── Footer logo: no overlap, fully visible ── */
             footer {
                 height: auto;
                 min-height: 130px;
-                padding: 24px 0 max(32px, env(safe-area-inset-bottom));
+                padding: 20px 0 max(32px, env(safe-area-inset-bottom));
                 justify-content: center;
                 align-items: center;
             }
@@ -1228,8 +1144,8 @@
                     c.classList.toggle('m-hidden', i !== idx);
                 });
 
-                /* Scroll back so the header stays visible */
-                document.querySelector('header').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                /* Scroll back to tab bar */
+                bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         })();
     </script>
