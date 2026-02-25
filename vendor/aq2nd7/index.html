@@ -229,11 +229,11 @@ body {
   flex-shrink: 0;
   padding: 20px 16px;
   background: rgba(255,255,255,0.5);
-  /* Borders: Left, Right, Bottom. Top is open. */
+  /* Borders: Left, Bottom. Top is open (connects to sidebar). Right is open (connects to body). */
   border-left: 1px solid rgba(15,23,42,0.1);
-  border-right: 1px solid rgba(15,23,42,0.1);
   border-bottom: 1px solid rgba(15,23,42,0.1);
   border-top: none;
+  border-right: none; 
   
   display: flex;
   flex-direction: column;
@@ -247,7 +247,7 @@ body {
   padding: 18px 24px;
   margin-right: 100px;
   background: rgba(255,255,255,0.5);
-  /* Borders: Top, Right, Bottom. Left is open (handled by header border-right) */
+  /* Borders: Top, Right, Bottom. Left is open (connects to header). */
   border-top: 1px solid rgba(15,23,42,0.1);
   border-right: 1px solid rgba(15,23,42,0.1);
   border-bottom: 1px solid rgba(15,23,42,0.1);
