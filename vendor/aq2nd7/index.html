@@ -103,8 +103,8 @@ body {
 .hiw__main {
   display: flex;
   gap: 15px;
+  align-items: stretch; /* Stretch sidebar to diagram height */
   margin-bottom: 0;
-  position: relative;
 }
 
 /* Left sidebar */
@@ -114,8 +114,19 @@ body {
   padding: 15px 10px;
   background: rgba(255,255,255,0.5);
   border: 1px solid rgba(15,23,42,0.1);
+  border-bottom: none; /* Connects visually to panel below */
   border-radius: 0;
-  align-self: flex-start;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Diagram area container */
+.hiw__diagram-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .hiw__stage-nav {
@@ -184,13 +195,6 @@ body {
 }
 
 /* Diagram area */
-.hiw__diagram-area {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
 .hiw__diagram-wrapper {
   position: relative;
   background: rgba(255,255,255,0.5);
@@ -207,35 +211,53 @@ body {
   display: block;
 }
 
-/* Interactive panel — absolute at bottom of .hiw__main, forms Г with sidebar */
+/* Interactive panel — positioned in flow below */
 .hiw__panel {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 100px;
   display: flex;
   align-items: stretch;
+  gap: 0;
+  margin-top: 0;
+  position: relative;
   z-index: 3;
-  background: rgba(255,255,255,0.5);
-  border: 1px solid rgba(15,23,42,0.1);
+  /* No container border/background to allow split styling for L-shape */
+  background: transparent; 
+  border: none;
 }
 
 .hiw__panel-header {
   width: 280px;
   flex-shrink: 0;
-  padding: 18px 16px;
-  border-right: 1px solid rgba(15,23,42,0.07);
+  padding: 20px 16px;
+  background: rgba(255,255,255,0.5);
+  /* Borders: Left, Right, Bottom. Top is open. */
+  border-left: 1px solid rgba(15,23,42,0.1);
+  border-right: 1px solid rgba(15,23,42,0.1);
+  border-bottom: 1px solid rgba(15,23,42,0.1);
+  border-top: none;
+  
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+.hiw__panel-header::after { display: none; }
+
 .hiw__panel-body {
   flex: 1;
   padding: 18px 24px;
+  margin-right: 100px;
+  background: rgba(255,255,255,0.5);
+  /* Borders: Top, Right, Bottom. Left is open (handled by header border-right) */
+  border-top: 1px solid rgba(15,23,42,0.1);
+  border-right: 1px solid rgba(15,23,42,0.1);
+  border-bottom: 1px solid rgba(15,23,42,0.1);
+  border-left: none;
+  
   display: flex;
   align-items: center;
 }
+
+.hiw__panel-body::before { display: none; }
 
 .hiw__detail-kicker {
   font: 700 10px ui-monospace, monospace;
@@ -498,20 +520,23 @@ html, body {
 
   /* ── DETAIL PANEL (mobile) ── */
   .hiw__panel {
-    position: static !important;
     flex-direction: column;
-    right: auto !important;
-    margin-top: 6px;
+    background: rgba(255,255,255,0.5) !important;
+    border: 1px solid rgba(15,23,42,0.1) !important;
   }
   .hiw__panel-header {
     width: 100% !important;
-    padding: 10px 12px 4px;
-    border-right: none !important;
+    padding: 10px 12px 4px !important;
+    background: transparent !important;
+    border: none !important;
     border-bottom: 1px solid rgba(15,23,42,0.06) !important;
   }
   .hiw__panel-body {
     padding: 8px 12px !important;
     padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
+    background: transparent !important;
+    border: none !important;
+    margin-right: 0 !important;
   }
   .hiw__detail-kicker { display: block !important; margin-bottom: 3px; }
   .hiw__detail-title  { font-size: 14px; margin: 0 0 5px; }
@@ -701,18 +726,17 @@ html, body {
         </div>
 
       </div>
+    </div>
 
-      <!-- Interactive panel (Г-shape: anchored to bottom of main) -->
-      <div class="hiw__panel">
-        <div class="hiw__panel-header">
-          <div class="hiw__detail-kicker" id="detailKicker">STAGE 1</div>
-          <h3 class="hiw__detail-title" id="detailTitle">INTAKE &amp; STABILIZATION</h3>
-        </div>
-        <div class="hiw__panel-body">
-          <p class="hiw__detail-text" id="detailText">Seawater or brackish water intake with coarse debris protection and flow stabilization. No heavy pre-treatment required.</p>
-        </div>
+    <!-- Interactive panel -->
+    <div class="hiw__panel">
+      <div class="hiw__panel-header">
+        <div class="hiw__detail-kicker" id="detailKicker">STAGE 1</div>
+        <h3 class="hiw__detail-title" id="detailTitle">INTAKE & STABILIZATION</h3>
       </div>
-
+      <div class="hiw__panel-body">
+        <p class="hiw__detail-text" id="detailText">Seawater or brackish water intake with coarse debris protection and flow stabilization. No heavy pre-treatment required.</p>
+      </div>
     </div>
 
   </div>
