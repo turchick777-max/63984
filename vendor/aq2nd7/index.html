@@ -113,9 +113,7 @@ body {
   padding: 15px 10px;
   background: rgba(255,255,255,0.5);
   border: 1px solid rgba(15,23,42,0.1);
-  border-bottom: none;
   border-radius: 0;
-  height: 580px;
 }
 
 .hiw__stage-nav {
@@ -207,12 +205,12 @@ body {
   display: block;
 }
 
-/* Interactive panel — unified "lying Г" container */
+/* Interactive panel — Г-shape: sits below main, spans full width minus Drinking Water zone */
 .hiw__panel {
   display: flex;
   align-items: stretch;
   gap: 0;
-  margin-top: -180px;
+  margin-top: 0;
   margin-right: 100px;
   position: relative;
   z-index: 3;
@@ -223,8 +221,7 @@ body {
 .hiw__panel-header {
   width: 280px;
   flex-shrink: 0;
-  padding: 20px 16px;
-  background: transparent;
+  padding: 18px 16px;
   border-right: 1px solid rgba(15,23,42,0.07);
   display: flex;
   flex-direction: column;
@@ -505,29 +502,24 @@ html, body {
 
   .hiw-mobile-hint { display: none !important; }
 
-  /* ── DETAIL PANEL ── */
+  /* ── DETAIL PANEL (mobile) ── */
   .hiw__panel {
     flex-direction: column;
     gap: 0;
     margin-top: 6px !important;
+    margin-right: 0 !important;
     position: static !important;
     z-index: auto !important;
-    background: rgba(255,255,255,0.5) !important;
-    border: 1px solid rgba(15,23,42,0.1) !important;
   }
   .hiw__panel-header {
     width: 100% !important;
-    margin-top: 0 !important;
     padding: 10px 12px 4px;
-    background: transparent !important;
     border-right: none !important;
     border-bottom: 1px solid rgba(15,23,42,0.06) !important;
   }
   .hiw__panel-body {
     padding: 8px 12px !important;
     padding-bottom: max(16px, env(safe-area-inset-bottom)) !important;
-    background: transparent !important;
-    border: none !important;
   }
   .hiw__detail-kicker { display: block !important; margin-bottom: 3px; }
   .hiw__detail-title  { font-size: 14px; margin: 0 0 5px; }
@@ -719,11 +711,11 @@ html, body {
       </div>
     </div>
 
-    <!-- Interactive panel -->
+    <!-- Interactive panel (Г-shape below main) -->
     <div class="hiw__panel">
       <div class="hiw__panel-header">
         <div class="hiw__detail-kicker" id="detailKicker">STAGE 1</div>
-        <h3 class="hiw__detail-title" id="detailTitle">INTAKE & STABILIZATION</h3>
+        <h3 class="hiw__detail-title" id="detailTitle">INTAKE &amp; STABILIZATION</h3>
       </div>
       <div class="hiw__panel-body">
         <p class="hiw__detail-text" id="detailText">Seawater or brackish water intake with coarse debris protection and flow stabilization. No heavy pre-treatment required.</p>
