@@ -271,10 +271,10 @@ a:hover {
 }
 
 .se2 .h2 {
-  font-size: 28px;
+  font-size: 42px;
   font-weight: 600;
-  letter-spacing: 0.32em;
-  color: rgba(15, 23, 42, 0.62);
+  letter-spacing: 0.28em;
+  color: rgba(15, 23, 42, 0.72);
   margin-bottom: 80px;
 }
 
@@ -2324,10 +2324,17 @@ html, body {
     height: 22px !important;
   }
 
+  /* Arrow: pull it right next to the globe, not floating in the padding gap */
+  .navbar .w-dropdown-toggle {
+    padding-right: 0 !important;
+  }
   .navbar .w-icon-dropdown-toggle {
+    position: static !important;
+    right: auto !important;
+    top: auto !important;
+    margin: 0 0 0 3px !important;
     font-size: 8px !important;
     opacity: 0.7 !important;
-    margin-left: 4px !important;
   }
 
   .navbar .menu-button {
