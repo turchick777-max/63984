@@ -347,7 +347,6 @@
       var fallbackEl = document.getElementById('sphere-fallback');
       var canvas = splineEl.querySelector('canvas');
       var isLoaded = false;
-      var isVisible = true;
 
       if (splineContainer) splineContainer.classList.remove('hidden');
 
@@ -377,6 +376,8 @@
       if (!hasWebGL() || saveData || reduceMotion) {
         showFallback();
       } else {
+        var isInViewport = true;
+
         if (canvas) {
           canvas.addEventListener('webglcontextlost', function(e) { e.preventDefault(); showFallback(); }, false);
           canvas.addEventListener('webglcontextrestored', function() { hideFallback(); }, false);
@@ -384,18 +385,20 @@
 
         function initSpline() {
           if (isLoaded || !splineUrl) return;
+          if (!window.Webflow || !window.Webflow.require) {
+            setTimeout(initSpline, 250);
+            return;
+          }
           isLoaded = true;
           splineEl.setAttribute('data-spline-url', splineUrl);
-          if (window.Webflow && window.Webflow.require) {
-            try { var s = window.Webflow.require('spline'); if (s && s.init) s.init(); } catch(e) { showFallback(); }
-          }
+          try { var s = window.Webflow.require('spline'); if (s && s.init) s.init(); } catch(e) { showFallback(); }
           setTimeout(function() {
             if (!canvas || canvas.width < 2) showFallback();
           }, 12000);
         }
 
-        function setHeroVisible(vis) {
-          isVisible = vis;
+        function updateHeroVisibility() {
+          var vis = isInViewport && !document.hidden;
           if (splineContainer) splineContainer.classList.toggle('hidden', !vis);
           if (canvas) canvas.style.visibility = vis ? 'visible' : 'hidden';
           if (markerEl) markerEl.style.animationPlayState = vis ? 'running' : 'paused';
@@ -405,7 +408,8 @@
 
         var obs = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
-            setHeroVisible(entry.isIntersecting);
+            isInViewport = entry.isIntersecting;
+            updateHeroVisibility();
             if (entry.isIntersecting && !isLoaded) initSpline();
           });
         }, { rootMargin: '0px', threshold: 0.05 });
@@ -415,7 +419,7 @@
         scheduleInit(function() { if (!isLoaded) initSpline(); }, { timeout: 3000 });
 
         document.addEventListener('visibilitychange', function() {
-          setHeroVisible(!document.hidden && isVisible);
+          updateHeroVisibility();
         }, false);
       }
     }
