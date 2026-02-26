@@ -153,6 +153,7 @@
 </head>
 <body class="body">
   <div class="spline-content">
+    <div class="sphere-fallback" id="sphere-fallback"></div>
     <!-- PERF: Lazy-load Spline scene. data-spline-url removed; loaded via IntersectionObserver -->
     <div class="spline-scene"
          id="spline-scene"
@@ -338,48 +339,85 @@
     var isMobile = window.innerWidth < 768;
     var splineEl = document.getElementById('spline-scene');
 
-    // ─── SPLINE (desktop only) ───
+    // ─── SPLINE (desktop/tablet only) ───
     if (splineEl && !isMobile) {
       var splineContainer = document.querySelector('.spline-content');
       var splineUrl = splineEl.getAttribute('data-spline-url-lazy');
       var markerEl = document.querySelector('.sphere-marker');
+      var fallbackEl = document.getElementById('sphere-fallback');
+      var canvas = splineEl.querySelector('canvas');
       var isLoaded = false;
       var isVisible = true;
 
       if (splineContainer) splineContainer.classList.remove('hidden');
 
-      function initSpline() {
-        if (isLoaded || !splineUrl) return;
-        isLoaded = true;
-        splineEl.setAttribute('data-spline-url', splineUrl);
-        if (window.Webflow && window.Webflow.require) {
-          try { var s = window.Webflow.require('spline'); if (s && s.init) s.init(); } catch(e) {}
+      function hasWebGL() {
+        try {
+          var c = document.createElement('canvas');
+          var gl = c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl');
+          var ok = !!gl;
+          if (gl) { var ext = gl.getExtension('WEBGL_lose_context'); if (ext) ext.loseContext(); }
+          return ok;
+        } catch(e) { return false; }
+      }
+
+      var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var saveData = !!(navigator.connection && navigator.connection.saveData);
+
+      function showFallback() {
+        if (fallbackEl) fallbackEl.classList.add('visible');
+        if (canvas) canvas.style.visibility = 'hidden';
+        if (markerEl) markerEl.style.display = 'none';
+      }
+
+      function hideFallback() {
+        if (fallbackEl) fallbackEl.classList.remove('visible');
+      }
+
+      if (!hasWebGL() || saveData || reduceMotion) {
+        showFallback();
+      } else {
+        if (canvas) {
+          canvas.addEventListener('webglcontextlost', function(e) { e.preventDefault(); showFallback(); }, false);
+          canvas.addEventListener('webglcontextrestored', function() { hideFallback(); }, false);
         }
+
+        function initSpline() {
+          if (isLoaded || !splineUrl) return;
+          isLoaded = true;
+          splineEl.setAttribute('data-spline-url', splineUrl);
+          if (window.Webflow && window.Webflow.require) {
+            try { var s = window.Webflow.require('spline'); if (s && s.init) s.init(); } catch(e) { showFallback(); }
+          }
+          setTimeout(function() {
+            if (!canvas || canvas.width < 2) showFallback();
+          }, 12000);
+        }
+
+        function setHeroVisible(vis) {
+          isVisible = vis;
+          if (splineContainer) splineContainer.classList.toggle('hidden', !vis);
+          if (canvas) canvas.style.visibility = vis ? 'visible' : 'hidden';
+          if (markerEl) markerEl.style.animationPlayState = vis ? 'running' : 'paused';
+          var markers = document.querySelectorAll('.marker-outer-glow,.marker-core,.marker-flare');
+          markers.forEach(function(m) { m.style.animationPlayState = vis ? 'running' : 'paused'; });
+        }
+
+        var obs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            setHeroVisible(entry.isIntersecting);
+            if (entry.isIntersecting && !isLoaded) initSpline();
+          });
+        }, { rootMargin: '0px', threshold: 0.05 });
+        obs.observe(splineEl);
+
+        var scheduleInit = window.requestIdleCallback || function(cb) { setTimeout(cb, 200); };
+        scheduleInit(function() { if (!isLoaded) initSpline(); }, { timeout: 3000 });
+
+        document.addEventListener('visibilitychange', function() {
+          setHeroVisible(!document.hidden && isVisible);
+        }, false);
       }
-
-      function setHeroVisible(vis) {
-        isVisible = vis;
-        var canvas = splineEl.querySelector('canvas');
-        if (splineContainer) splineContainer.classList.toggle('hidden', !vis);
-        if (canvas) canvas.style.visibility = vis ? 'visible' : 'hidden';
-        // Pause/resume marker animations to save CPU when off-screen
-        if (markerEl) markerEl.style.animationPlayState = vis ? 'running' : 'paused';
-        var markers = document.querySelectorAll('.marker-outer-glow,.marker-core,.marker-flare');
-        markers.forEach(function(m) { m.style.animationPlayState = vis ? 'running' : 'paused'; });
-      }
-
-      var obs = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          setHeroVisible(entry.isIntersecting);
-          if (entry.isIntersecting && !isLoaded) initSpline();
-        });
-      }, { rootMargin: '0px', threshold: 0.05 });
-      obs.observe(splineEl);
-      setTimeout(function() { if (!isLoaded) initSpline(); }, 100);
-
-      document.addEventListener('visibilitychange', function() {
-        setHeroVisible(!document.hidden && isVisible);
-      }, false);
     }
 
     // ─── IFRAME LAZY LOADER ───
