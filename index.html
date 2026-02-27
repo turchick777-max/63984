@@ -78,9 +78,8 @@
        ============================================= */
     @media screen and (max-width: 767px) {
 
-      /* ── HERO: hide sphere + marker completely ── */
-      .spline-content,
-      .sphere-marker {
+      /* ── HERO: hide sphere completely ── */
+      .spline-content {
         display: none !important;
       }
       .se1 .sfera,
@@ -163,14 +162,6 @@
   </div>
   <!-- MOBILE: kill Spline entirely on phones — no WebGL, no canvas, no GPU load -->
   <script>(function(){if(window.innerWidth>=768)return;var el=document.getElementById('spline-scene');if(el){el.removeAttribute('data-spline-url-lazy');el.removeAttribute('data-spline-url');var c=el.querySelector('canvas');if(c)c.remove();el.style.display='none';}var sc=document.querySelector('.spline-content');if(sc)sc.style.display='none';})();</script>
-  <!-- Embedded Marker - точка на сфере -->
-<div class="sphere-marker">
-  <div class="marker-occlusion"></div>
-  <div class="marker-outer-glow"></div>
-  <div class="marker-inner-glow"></div>
-  <div class="marker-core"></div>
-  <div class="marker-flare"></div>
-</div>
   <div data-animation="over-right" class="menu w-nav" data-easing2="ease-out" data-easing="ease-in" data-collapse="all" style="opacity:0" data-w-id="98d6510c-f91b-7dee-6fcc-df3364ee5ebf" role="banner" data-duration="400">
     <div class="navbar w-container">
       <a href="#" class="logo w-inline-block"></a>
@@ -343,7 +334,6 @@
     if (splineEl && !isMobile) {
       var splineContainer = document.querySelector('.spline-content');
       var splineUrl = splineEl.getAttribute('data-spline-url-lazy');
-      var markerEl = document.querySelector('.sphere-marker');
       var fallbackEl = document.getElementById('sphere-fallback');
       var canvas = splineEl.querySelector('canvas');
       var isLoaded = false;
@@ -366,7 +356,6 @@
       function showFallback() {
         if (fallbackEl) fallbackEl.classList.add('visible');
         if (canvas) canvas.style.visibility = 'hidden';
-        if (markerEl) markerEl.style.display = 'none';
       }
 
       function hideFallback() {
@@ -401,9 +390,6 @@
           var vis = isInViewport && !document.hidden;
           if (splineContainer) splineContainer.classList.toggle('hidden', !vis);
           if (canvas) canvas.style.visibility = vis ? 'visible' : 'hidden';
-          if (markerEl) markerEl.style.animationPlayState = vis ? 'running' : 'paused';
-          var markers = document.querySelectorAll('.marker-outer-glow,.marker-core,.marker-flare');
-          markers.forEach(function(m) { m.style.animationPlayState = vis ? 'running' : 'paused'; });
         }
 
         var obs = new IntersectionObserver(function(entries) {

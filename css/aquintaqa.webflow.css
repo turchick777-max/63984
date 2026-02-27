@@ -2151,97 +2151,6 @@ html, body {
   margin-top: 2.5rem !important;
 }
 
-/* === EMBEDDED MARKER === */
-:root {
-  --marker-core-size: 7px;
-  --marker-inner-glow-size: 24px;
-  --marker-outer-glow-size: 60px;
-  --marker-occlusion-size: 16px;
-}
-
-.sphere-marker {
-  position: absolute;
-  top: 42%;
-  left: 14% !important;
-  transform: translate(-50%, -50%);
-  z-index: 100;
-  pointer-events: none;
-  width: var(--marker-outer-glow-size);
-  height: var(--marker-outer-glow-size);
-}
-
-.marker-occlusion {
-  /* PERF: Element hidden via display:none at end of file, styles kept minimal */
-  display: none;
-}
-
-.marker-outer-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: var(--marker-outer-glow-size);
-  height: var(--marker-outer-glow-size);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,180,220,0.15) 0%, rgba(0,180,220,0.05) 40%, transparent 70%);
-  opacity: 0.4;
-  mix-blend-mode: screen;
-  animation: marker-breath 4s ease-in-out infinite;
-  will-change: opacity; /* PERF: GPU layer for animation */
-}
-
-.marker-core {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: var(--marker-core-size);
-  height: var(--marker-core-size);
-  border-radius: 50%;
-  background: radial-gradient(circle, #b8e4f0 0%, rgba(0,200,240,0.9) 50%, rgba(0,180,220,0.5) 100%);
-  opacity: 0.95;
-  mix-blend-mode: screen;
-  /* PERF: Static box-shadow instead of animated (saves ~60fps paint calls) */
-  box-shadow: 0 0 4px 1px rgba(0,212,255,0.8), 0 0 8px 2px rgba(0,180,220,0.4);
-  /* PERF: Animation now uses only opacity + scale (GPU composited, no paint) */
-  animation: marker-breath-core 4s ease-in-out infinite;
-  margin-top: -1px;
-  margin-left: 1px;
-  will-change: opacity, transform;
-}
-
-.marker-flare {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 2px;
-  height: 20px;
-  background: linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.6) 45%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.6) 55%, transparent 100%);
-  opacity: 0;
-  mix-blend-mode: screen;
-  animation: marker-flare-appear 8s ease-in-out infinite;
-  animation-delay: 3s;
-  will-change: opacity, transform; /* PERF: GPU layer for animation */
-}
-
-@keyframes marker-breath {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.5; }
-}
-
-/* PERF: Removed box-shadow animation - it triggers paint on every frame!
-   Now using only opacity + scale which are GPU-composited (no paint, no layout) */
-@keyframes marker-breath-core {
-  0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 0.95; transform: translate(-50%, -50%) scale(1.15); }
-}
-
-@keyframes marker-flare-appear {
-  0%, 90%, 100% { opacity: 0; transform: translate(-50%, -50%) rotate(0deg) scale(0.5); }
-  94% { opacity: 0.8; transform: translate(-50%, -50%) rotate(45deg) scale(1); }
-  97% { opacity: 0.3; transform: translate(-50%, -50%) rotate(45deg) scale(1.2); }
-}
 
 /* Ширина меню */
 .w-nav-menu,
@@ -2439,16 +2348,6 @@ html, body {
     height: 100% !important;
   }
 
-  /* === MARKER: positioned at sphere center === */
-  .sphere-marker {
-    position: fixed !important;
-    top: 42% !important;
-    left: 52% !important;
-    transform: translate(-50%, -50%) scale(0.8) !important;
-    z-index: 10 !important;
-    pointer-events: none !important;
-  }
-
   /* === BOTTOM: Title + Subtitle + Button (SpaceX style) === */
   .se1 .colum-r {
     position: absolute !important;
@@ -2528,12 +2427,6 @@ html, body {
     max-height: 550px !important;
   }
 
-  .sphere-marker {
-    top: 45% !important;
-    left: 55% !important;
-    transform: translate(-50%, -50%) scale(0.85) !important;
-  }
-
   .se1 .h1,
   .se1 h1 {
     font-size: 2rem !important;
@@ -2550,11 +2443,6 @@ html, body {
     max-height: 580px !important;
   }
 
-  .sphere-marker {
-    top: 42% !important;
-    left: 55% !important;
-    transform: translate(-50%, -50%) scale(0.75) !important;
-  }
 
   .se1 .h1,
   .se1 h1 {
@@ -2577,11 +2465,6 @@ html, body {
     max-height: 520px !important;
   }
 
-  .sphere-marker {
-    top: 42% !important;
-    left: 54% !important;
-    transform: translate(-50%, -50%) scale(0.7) !important;
-  }
 
   .se1 .colum-r {
     padding: 25px 20px 40px 20px !important;
@@ -2629,12 +2512,6 @@ html, body {
     height: 130vw !important;
     max-width: 450px !important;
     max-height: 450px !important;
-  }
-
-  .sphere-marker {
-    top: 42% !important;
-    left: 54% !important;
-    transform: translate(-50%, -50%) scale(0.6) !important;
   }
 
   .se1 .colum-r {
@@ -2734,10 +2611,5 @@ html, body {
 @media screen and (min-width: 768px) and (prefers-reduced-motion: reduce) {
   .sphere-fallback::before {
     animation: none;
-  }
-  .marker-outer-glow,
-  .marker-core,
-  .marker-flare {
-    animation: none !important;
   }
 }
