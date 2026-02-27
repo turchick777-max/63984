@@ -331,8 +331,8 @@
     var splineEl = document.getElementById('spline-scene');
 
     // ─── SPLINE (desktop/tablet only) ───
-    // CSS fallback sphere is visible by default. Spline renders on top of it.
-    // If Spline succeeds → hide fallback. If Spline fails → fallback stays.
+    // Weak hardware: show CSS fallback immediately, skip Spline entirely.
+    // Capable hardware: load Spline normally, show fallback only on failure.
     if (splineEl && !isMobile) {
       var splineContainer = document.querySelector('.spline-content');
       var splineUrl = splineEl.getAttribute('data-spline-url-lazy');
@@ -363,13 +363,17 @@
       var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var saveData = !!(navigator.connection && navigator.connection.saveData);
 
-      function hideFallback() {
-        if (fallbackEl) fallbackEl.classList.add('hidden');
+      function showFallback() {
+        if (fallbackEl) fallbackEl.classList.add('visible');
+        if (canvas) canvas.style.visibility = 'hidden';
       }
 
-      function showFallback() {
-        if (fallbackEl) fallbackEl.classList.remove('hidden');
-        if (canvas) canvas.style.visibility = 'hidden';
+      function hideFallback() {
+        if (!fallbackEl) return;
+        fallbackEl.classList.add('fade-out');
+        setTimeout(function() {
+          fallbackEl.classList.remove('visible', 'fade-out');
+        }, 600);
       }
 
       function killSpline() {
@@ -378,10 +382,12 @@
         if (canvas) canvas.style.display = 'none';
       }
 
-      // Skip Spline entirely on weak/unsupported hardware — CSS fallback stays visible
+      // Weak/unsupported hardware → show fallback immediately, skip Spline
       if (!hasWebGL() || saveData || reduceMotion || isWeakHardware()) {
+        showFallback();
         killSpline();
       } else {
+        // Capable hardware → load Spline, fallback stays hidden unless Spline fails
         var isInViewport = true;
 
         if (canvas) {
@@ -400,6 +406,7 @@
             retryCount++;
             if (retryCount >= maxRetries) {
               aborted = true;
+              showFallback();
               killSpline();
               return;
             }
@@ -412,22 +419,25 @@
             var s = window.Webflow.require('spline');
             if (s && s.init) s.init();
           } catch(e) {
+            showFallback();
             killSpline();
             return;
           }
-          // After 4s check if Spline rendered; hide fallback only on success
+          // After 4s check if Spline actually rendered
           setTimeout(function() {
             if (aborted) return;
-            if (canvas && canvas.clientWidth > 100 && canvas.clientHeight > 100) {
-              hideFallback();
+            if (!canvas || canvas.clientWidth < 100 || canvas.clientHeight < 100) {
+              showFallback();
+              killSpline();
             }
           }, 4000);
         }
 
-        // Hard abort: if Spline hasn't loaded in 8s, give up
+        // Hard abort: if Spline hasn't loaded in 8s, give up and show fallback
         setTimeout(function() {
           if (!isLoaded && !aborted) {
             aborted = true;
+            showFallback();
             killSpline();
           }
         }, 8000);
