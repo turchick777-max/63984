@@ -331,12 +331,15 @@
     var splineEl = document.getElementById('spline-scene');
 
     // ─── SPLINE (desktop/tablet only) ───
+    // CSS fallback sphere is visible by default. Spline renders on top of it.
+    // If Spline succeeds → hide fallback. If Spline fails → fallback stays.
     if (splineEl && !isMobile) {
       var splineContainer = document.querySelector('.spline-content');
       var splineUrl = splineEl.getAttribute('data-spline-url-lazy');
       var fallbackEl = document.getElementById('sphere-fallback');
       var canvas = splineEl.querySelector('canvas');
       var isLoaded = false;
+      var aborted = false;
 
       if (splineContainer) splineContainer.classList.remove('hidden');
 
@@ -350,59 +353,102 @@
         } catch(e) { return false; }
       }
 
+      // Detect weak hardware: low cores or low memory → skip heavy 3D
+      function isWeakHardware() {
+        var cores = navigator.hardwareConcurrency || 4;
+        var mem = navigator.deviceMemory || 8; // default 8 if API unavailable
+        return cores <= 2 || mem <= 2;
+      }
+
       var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       var saveData = !!(navigator.connection && navigator.connection.saveData);
 
+      function hideFallback() {
+        if (fallbackEl) fallbackEl.classList.add('hidden');
+      }
+
       function showFallback() {
-        if (fallbackEl) fallbackEl.classList.add('visible');
+        if (fallbackEl) fallbackEl.classList.remove('hidden');
         if (canvas) canvas.style.visibility = 'hidden';
       }
 
-      function hideFallback() {
-        if (fallbackEl) fallbackEl.classList.remove('visible');
+      function killSpline() {
+        splineEl.removeAttribute('data-spline-url');
+        splineEl.removeAttribute('data-spline-url-lazy');
+        if (canvas) canvas.style.display = 'none';
       }
 
-      if (!hasWebGL() || saveData || reduceMotion) {
-        showFallback();
+      // Skip Spline entirely on weak/unsupported hardware — CSS fallback stays visible
+      if (!hasWebGL() || saveData || reduceMotion || isWeakHardware()) {
+        killSpline();
       } else {
         var isInViewport = true;
 
         if (canvas) {
-          canvas.addEventListener('webglcontextlost', function(e) { e.preventDefault(); showFallback(); }, false);
+          canvas.addEventListener('webglcontextlost', function(e) {
+            e.preventDefault(); showFallback(); aborted = true;
+          }, false);
           canvas.addEventListener('webglcontextrestored', function() { hideFallback(); }, false);
         }
 
+        var retryCount = 0;
+        var maxRetries = 20; // 5 seconds of retries (20 × 250ms)
+
         function initSpline() {
-          if (isLoaded || !splineUrl) return;
+          if (isLoaded || !splineUrl || aborted) return;
           if (!window.Webflow || !window.Webflow.require) {
+            retryCount++;
+            if (retryCount >= maxRetries) {
+              aborted = true;
+              killSpline();
+              return;
+            }
             setTimeout(initSpline, 250);
             return;
           }
           isLoaded = true;
           splineEl.setAttribute('data-spline-url', splineUrl);
-          try { var s = window.Webflow.require('spline'); if (s && s.init) s.init(); } catch(e) { showFallback(); }
+          try {
+            var s = window.Webflow.require('spline');
+            if (s && s.init) s.init();
+          } catch(e) {
+            killSpline();
+            return;
+          }
+          // After 4s check if Spline rendered; hide fallback only on success
           setTimeout(function() {
-            if (!canvas || canvas.width < 2) showFallback();
-          }, 12000);
+            if (aborted) return;
+            if (canvas && canvas.clientWidth > 100 && canvas.clientHeight > 100) {
+              hideFallback();
+            }
+          }, 4000);
         }
+
+        // Hard abort: if Spline hasn't loaded in 8s, give up
+        setTimeout(function() {
+          if (!isLoaded && !aborted) {
+            aborted = true;
+            killSpline();
+          }
+        }, 8000);
 
         function updateHeroVisibility() {
           var vis = isInViewport && !document.hidden;
           if (splineContainer) splineContainer.classList.toggle('hidden', !vis);
-          if (canvas) canvas.style.visibility = vis ? 'visible' : 'hidden';
+          if (canvas && !aborted) canvas.style.visibility = vis ? 'visible' : 'hidden';
         }
 
         var obs = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             isInViewport = entry.isIntersecting;
             updateHeroVisibility();
-            if (entry.isIntersecting && !isLoaded) initSpline();
+            if (entry.isIntersecting && !isLoaded && !aborted) initSpline();
           });
         }, { rootMargin: '0px', threshold: 0.05 });
         obs.observe(splineEl);
 
         var scheduleInit = window.requestIdleCallback || function(cb) { setTimeout(cb, 200); };
-        scheduleInit(function() { if (!isLoaded) initSpline(); }, { timeout: 3000 });
+        scheduleInit(function() { if (!isLoaded && !aborted) initSpline(); }, { timeout: 3000 });
 
         document.addEventListener('visibilitychange', function() {
           updateHeroVisibility();
