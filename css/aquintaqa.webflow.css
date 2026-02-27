@@ -2587,6 +2587,20 @@ html, body {
   }
 }
 
+/* Desktop/tablet: contain spline scene within viewport (prevents Safari left-clip) */
+@media screen and (min-width: 769px) {
+  .spline-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
 /* Ultrawide screens: reduce sphere scale to prevent cropping */
 @media screen and (min-width: 769px) and (min-aspect-ratio: 21/9) {
   .spline-scene {
