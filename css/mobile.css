@@ -428,16 +428,6 @@
     height: 52px !important;
   }
 
-  /* Kill sphere marker animations on mobile — infinite keyframes drain battery */
-  .sphere-marker,
-  .marker-outer-glow,
-  .marker-inner-glow,
-  .marker-core,
-  .marker-flare,
-  .marker-occlusion {
-    display: none !important;
-    animation: none !important;
-  }
 
   /* Disable smooth scroll on mobile — causes jank on low-end Android */
   html {
