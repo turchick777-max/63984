@@ -402,6 +402,33 @@
         // Capable hardware → load Spline, fallback stays hidden unless Spline fails
         var isInViewport = true;
 
+        // Spy on WebGL draw calls to know if Spline actually rendered anything.
+        // CSS dimensions on the canvas are always non-zero (set by layout), so
+        // clientWidth/clientHeight checks are useless. We need to detect real draws.
+        var splineRendered = false;
+        (function() {
+          var _orig = HTMLCanvasElement.prototype.getContext;
+          HTMLCanvasElement.prototype.getContext = function(type, attrs) {
+            var ctx = _orig.apply(this, arguments);
+            if (ctx && this === canvas && (type === 'webgl' || type === 'webgl2')) {
+              var gl = ctx;
+              ['drawArrays', 'drawElements'].forEach(function(fn) {
+                if (!gl[fn]) return;
+                var _fn = gl[fn];
+                gl[fn] = function() {
+                  splineRendered = true;
+                  // Restore: delete instance overrides, prototype methods take over again
+                  try { delete gl.drawArrays; } catch(e) {}
+                  try { delete gl.drawElements; } catch(e) {}
+                  HTMLCanvasElement.prototype.getContext = _orig;
+                  return _fn.apply(gl, arguments);
+                };
+              });
+            }
+            return ctx;
+          };
+        })();
+
         if (canvas) {
           canvas.addEventListener('webglcontextlost', function(e) {
             e.preventDefault(); showFallback(); aborted = true;
@@ -435,36 +462,24 @@
             killSpline();
             return;
           }
-          // After 4s check if Spline actually rendered
+          // After 4s check if Spline actually made any draw calls.
+          // canvas.clientWidth is always large (set by CSS layout), so dimension
+          // checks are meaningless. splineRendered is set by the getContext spy above.
           setTimeout(function() {
-            if (aborted) return;
-            if (!canvas || canvas.clientWidth < 100 || canvas.clientHeight < 100) {
-              showFallback();
-              killSpline();
-            }
+            if (aborted || splineRendered) return;
+            showFallback();
+            killSpline();
+            aborted = true;
           }, 4000);
         }
 
-        // Hard abort: if Spline scene hasn't rendered in 8s, give up and show fallback
-        // NOTE: isLoaded means "Webflow JS module found", NOT "3D scene rendered".
-        // Check Performance API for actual .splinecode file download instead.
+        // Hard abort: if Spline still hasn't drawn anything after 8s, give up.
+        // This catches slow downloads and scenes that init but never render.
         setTimeout(function() {
-          if (aborted) return;
-          var sceneFileLoaded = false;
-          try {
-            var resources = performance.getEntriesByType('resource');
-            for (var i = 0; i < resources.length; i++) {
-              if (resources[i].name.indexOf('splinecode') !== -1) {
-                sceneFileLoaded = true;
-                break;
-              }
-            }
-          } catch(e) { sceneFileLoaded = true; /* assume ok if API unavailable */ }
-          if (!sceneFileLoaded) {
-            aborted = true;
-            showFallback();
-            killSpline();
-          }
+          if (aborted || splineRendered) return;
+          aborted = true;
+          showFallback();
+          killSpline();
         }, 8000);
 
         function updateHeroVisibility() {
