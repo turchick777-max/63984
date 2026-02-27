@@ -346,10 +346,22 @@
       function hasWebGL() {
         try {
           var c = document.createElement('canvas');
-          var gl = c.getContext('webgl2') || c.getContext('webgl') || c.getContext('experimental-webgl');
-          var ok = !!gl;
-          if (gl) { var ext = gl.getExtension('WEBGL_lose_context'); if (ext) ext.loseContext(); }
-          return ok;
+          // failIfMajorPerformanceCaveat: reject software / extremely slow renderers
+          var gl = c.getContext('webgl2', {failIfMajorPerformanceCaveat: true})
+                || c.getContext('webgl',  {failIfMajorPerformanceCaveat: true})
+                || c.getContext('experimental-webgl', {failIfMajorPerformanceCaveat: true});
+          if (!gl) return false;
+          // Reject known software renderers by name
+          var dbg = gl.getExtension('WEBGL_debug_renderer_info');
+          if (dbg) {
+            var r = gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
+            if (/swiftshader|llvmpipe|software|basic render/i.test(r)) {
+              var ext = gl.getExtension('WEBGL_lose_context'); if (ext) ext.loseContext();
+              return false;
+            }
+          }
+          var ext = gl.getExtension('WEBGL_lose_context'); if (ext) ext.loseContext();
+          return true;
         } catch(e) { return false; }
       }
 
@@ -433,9 +445,22 @@
           }, 4000);
         }
 
-        // Hard abort: if Spline hasn't loaded in 8s, give up and show fallback
+        // Hard abort: if Spline scene hasn't rendered in 8s, give up and show fallback
+        // NOTE: isLoaded means "Webflow JS module found", NOT "3D scene rendered".
+        // Check Performance API for actual .splinecode file download instead.
         setTimeout(function() {
-          if (!isLoaded && !aborted) {
+          if (aborted) return;
+          var sceneFileLoaded = false;
+          try {
+            var resources = performance.getEntriesByType('resource');
+            for (var i = 0; i < resources.length; i++) {
+              if (resources[i].name.indexOf('splinecode') !== -1) {
+                sceneFileLoaded = true;
+                break;
+              }
+            }
+          } catch(e) { sceneFileLoaded = true; /* assume ok if API unavailable */ }
+          if (!sceneFileLoaded) {
             aborted = true;
             showFallback();
             killSpline();
