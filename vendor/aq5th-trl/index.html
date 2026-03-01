@@ -729,17 +729,18 @@
         markersEl.appendChild(btn);
       });
 
-      prevBtn.addEventListener("click", () => {
-        activeIndex = Math.max(0, activeIndex - 1);
-        setPanel(activeIndex);
-      });
-      nextBtn.addEventListener("click", () => {
-        activeIndex = Math.min(TRL.length - 1, activeIndex + 1);
-        setPanel(activeIndex);
-      });
-
       setPanel(activeIndex);
     }
+
+    // Attach nav button listeners ONCE (outside render)
+    prevBtn.addEventListener("click", () => {
+      activeIndex = Math.max(0, activeIndex - 1);
+      setPanel(activeIndex);
+    });
+    nextBtn.addEventListener("click", () => {
+      activeIndex = Math.min(TRL.length - 1, activeIndex + 1);
+      setPanel(activeIndex);
+    });
 
     render();
 
@@ -784,13 +785,9 @@
       updatePanel(idx);
     };
 
-    /* Also patch button handlers that modify activeIndex directly */
-    document.getElementById('prevBtn').addEventListener('click', function () {
-      updatePanel(activeIndex);
-    });
-    document.getElementById('nextBtn').addEventListener('click', function () {
-      updatePanel(activeIndex);
-    });
+    /* Also update panel on prev/next nav */
+    prevBtn.addEventListener('click', function () { updatePanel(activeIndex); });
+    nextBtn.addEventListener('click', function () { updatePanel(activeIndex); });
 
     updatePanel(activeIndex);
   })();
