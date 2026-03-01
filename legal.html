@@ -99,7 +99,8 @@
       .footer-links { gap: 12px; }
     }
   </style>
-  <link rel="stylesheet" href="css/consent.css" />
+  <link rel="stylesheet" href="css/consent.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="css/consent.css" /></noscript>
 </head>
 <body>
 
@@ -477,6 +478,6 @@
   }
   </script>
 
-  <script src="js/consent.js"></script>
+  <script defer src="js/consent.js"></script>
 </body>
 </html>

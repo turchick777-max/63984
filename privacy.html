@@ -72,7 +72,8 @@
     @media(max-width:767px){.site-header,.page-nav,.site-footer{padding-left:20px;padding-right:20px}.page-wrap{padding:36px 20px 64px}.rights-grid{grid-template-columns:1fr 1fr}.footer-inner{flex-direction:column;align-items:flex-start}}
     @media(max-width:480px){.rights-grid{grid-template-columns:1fr}}
   </style>
-  <link rel="stylesheet" href="css/consent.css" />
+  <link rel="stylesheet" href="css/consent.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="css/consent.css" /></noscript>
 </head>
 <body>
 <header class="site-header">
@@ -587,6 +588,6 @@ function openCookieSettings(){
   if(o){o.classList.add('visible')}else{try{localStorage.removeItem('cookie_consent_v2')}catch(e){}window.location.reload()}
 }
 </script>
-<script src="js/consent.js"></script>
+<script defer src="js/consent.js"></script>
 </body>
 </html>

@@ -11,18 +11,19 @@
   <meta content="A proven, scalable approach to desalination — eliminating membrane fouling, energy-intensive steps, and concentrated brine discharge. Independently validated. Full technical and commercial details available to qualified partners." property="twitter:description">
   <meta property="og:type" content="website">
   <meta content="summary_large_image" name="twitter:card">
-  <meta content="width=1440, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- MOBILE: switch viewport to device-width on phones so mobile CSS fires -->
-  <script>if(screen.width<768){document.querySelector('meta[name="viewport"]').setAttribute("content","width=device-width,initial-scale=1,viewport-fit=cover")}</script>
+  <!-- PERF: mobile-first viewport — device-width default, desktop JS upgrades to 1440 -->
+  <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport">
+  <script>if(screen.width>=768){document.querySelector('meta[name="viewport"]').setAttribute("content","width=1440,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no")}</script>
   <meta content="Webflow" name="generator">
   <!-- PERF: Preconnect to external origins for faster resource fetching -->
   <link rel="preconnect" href="https://d3e54v103j8qbb.cloudfront.net" crossorigin>
-  <link rel="preconnect" href="https://prod.spline.design" crossorigin>
-  <link rel="dns-prefetch" href="https://prod.spline.design">
-  <!-- PERF: Preload critical fonts for faster LCP -->
+  <!-- PERF: Preconnect for Google Fonts used by iframes (saves DNS+TCP when iframe loads) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- PERF: Preload critical body font only (others load naturally) -->
   <link rel="preload" href="fonts/Onest-Regular.woff" as="font" type="font/woff" crossorigin>
-  <link rel="preload" href="fonts/Onest-Medium.woff" as="font" type="font/woff" crossorigin>
-  <link rel="preload" href="fonts/Onest-SemiBold.woff" as="font" type="font/woff" crossorigin>
+  <!-- PERF: Spline preconnect — desktop only (mobile kills Spline entirely) -->
+  <script>if(screen.width>=768){var l1=document.createElement('link');l1.rel='preconnect';l1.href='https://prod.spline.design';l1.crossOrigin='';document.head.appendChild(l1);var l2=document.createElement('link');l2.rel='dns-prefetch';l2.href='https://prod.spline.design';document.head.appendChild(l2)}</script>
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
   <link href="css/webflow.css" rel="stylesheet" type="text/css">
   <link href="css/aquintaqa.webflow.css" rel="stylesheet" type="text/css">
@@ -168,12 +169,15 @@
       margin-top: -4px !important;
     }
   </style>
-  <link rel="stylesheet" href="css/consent.css" />
+  <!-- PERF: consent.css non-blocking — not needed for first paint -->
+  <link rel="stylesheet" href="css/consent.css" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="css/consent.css" /></noscript>
   <link rel="stylesheet" href="css/mobile.css" />
 </head>
 <body class="body">
   <div class="spline-content">
-    <div class="sphere-fallback" id="sphere-fallback"><img src="images/sphere.png" alt="" width="540" height="540" loading="eager"></div>
+    <!-- PERF: sphere.png loaded only on desktop via data-src; mobile never downloads the 1.4MB image -->
+    <div class="sphere-fallback" id="sphere-fallback"><img data-src="images/sphere.png" alt="" width="540" height="540" loading="lazy"></div>
     <!-- PERF: Lazy-load Spline scene. data-spline-url removed; loaded via IntersectionObserver -->
     <div class="spline-scene"
          id="spline-scene"
@@ -181,8 +185,8 @@
          data-animation-type="spline"
          data-spline-url-lazy="https://prod.spline.design/8z6pBDvGF-zx6ta3/scene.splinecode?v=2"><canvas></canvas></div>
   </div>
-  <!-- MOBILE: kill Spline entirely on phones — no WebGL, no canvas, no GPU load -->
-  <script>(function(){if(window.innerWidth>=768)return;var el=document.getElementById('spline-scene');if(el){el.removeAttribute('data-spline-url-lazy');el.removeAttribute('data-spline-url');var c=el.querySelector('canvas');if(c)c.remove();el.style.display='none';}var sc=document.querySelector('.spline-content');if(sc)sc.style.display='none';})();</script>
+  <!-- PERF: Mobile — kill Spline + sphere entirely. Desktop — activate sphere.png src -->
+  <script>(function(){var isMob=window.innerWidth<768;if(isMob){var el=document.getElementById('spline-scene');if(el){el.removeAttribute('data-spline-url-lazy');el.removeAttribute('data-spline-url');var c=el.querySelector('canvas');if(c)c.remove();el.style.display='none';}var sc=document.querySelector('.spline-content');if(sc)sc.style.display='none';}else{var img=document.querySelector('#sphere-fallback img[data-src]');if(img){img.src=img.getAttribute('data-src');img.removeAttribute('data-src');}}})();</script>
   <div data-animation="over-right" class="menu w-nav" data-easing2="ease-out" data-easing="ease-in" data-collapse="all" style="opacity:0" data-w-id="98d6510c-f91b-7dee-6fcc-df3364ee5ebf" role="banner" data-duration="400">
     <div class="navbar w-container">
       <a href="#" class="logo w-inline-block"></a>
@@ -526,8 +530,8 @@
     // Mobile: load only when close, unload when far away (saves RAM on Android)
     // Desktop: load once when near, never unload
     if ('IntersectionObserver' in window) {
-      var loadMargin  = isMobile ? '300px'  : '200px';
-      var unloadMargin = '800px';
+      var loadMargin  = isMobile ? '100px'  : '200px';   // PERF: mobile — tighter margin = fewer concurrent iframes
+      var unloadMargin = isMobile ? '400px' : '800px';  // PERF: mobile — unload sooner = free RAM faster
 
       // Load observer
       var iframeLoadObs = new IntersectionObserver(function(entries) {
@@ -624,7 +628,7 @@
   </script>
 
   <!--  FOOTER CODE  -->
-  <script src="js/consent.js"></script>
+  <script defer src="js/consent.js"></script>
   <script>
   function openCookieSettings(){
     var o=document.getElementById('cc-overlay');
