@@ -2566,12 +2566,12 @@ html, body {
 
   .sphere-fallback img {
     position: absolute;
-    width: 55vh;
-    height: 55vh;
-    max-width: 540px;
-    max-height: 540px;
-    top: 52%;
-    left: 32%;
+    width: 88vh;
+    height: 88vh;
+    max-width: none;
+    max-height: none;
+    top: 54%;
+    left: 36%;
     transform: translate(-50%, -50%);
     object-fit: contain;
     pointer-events: none;
@@ -2597,11 +2597,9 @@ html, body {
   .spline-scene {
     transform: scale(1.0) translateX(-5%) translateY(2%) !important;
   }
-  .sphere-fallback::before {
-    width: 48vh;
-    height: 48vh;
-    max-width: 480px;
-    max-height: 480px;
+  .sphere-fallback img {
+    width: 75vh;
+    height: 75vh;
   }
 }
 
