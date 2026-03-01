@@ -70,6 +70,21 @@
       pointer-events: none; 
     }
 
+    /* D-02 fix: fade sphere bottom so it never "cuts" at the section boundary */
+    @media screen and (min-width: 768px) {
+      .spline-content::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 180px;
+        background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.6) 50%, #000 100%);
+        z-index: 2;
+        pointer-events: none;
+      }
+    }
+
     /* =============================================
        MOBILE LAYOUT START
        Breakpoint: max-width 767px
