@@ -733,6 +733,11 @@
       if (dd) dd.classList.remove('w--open');
       var wrap = document.querySelector('.navbar > .w-dropdown');
       if (wrap) wrap.classList.remove('w--open');
+
+      /* Broadcast to all iframes */
+      document.querySelectorAll('iframe').forEach(function(fr) {
+        try { fr.contentWindow.postMessage({ type: 'setLang', lang: lang }, '*'); } catch(e) {}
+      });
     }
 
     window.setLang = applyLang;

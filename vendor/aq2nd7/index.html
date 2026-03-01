@@ -626,9 +626,9 @@ html, body {
             </defs>
 
             <!-- Feed Water label (top left) -->
-            <text x="60" y="35" text-anchor="middle" class="svgLabel">Feed water</text>
-            <text x="60" y="49" text-anchor="middle" class="svgSubLabel">(seawater / brackish /</text>
-            <text x="60" y="61" text-anchor="middle" class="svgSubLabel">high-salinity / variable)</text>
+            <text id="svgT-feed1" x="60" y="35" text-anchor="middle" class="svgLabel">Feed water</text>
+            <text id="svgT-feed2" x="60" y="49" text-anchor="middle" class="svgSubLabel">(seawater / brackish /</text>
+            <text id="svgT-feed3" x="60" y="61" text-anchor="middle" class="svgSubLabel">high-salinity / variable)</text>
 
             <!-- Line from feed water down to INTAKE -->
             <path d="M 60 70 L 60 150 L 120 150" class="stream" marker-end="url(#arrow)"/>
@@ -636,15 +636,15 @@ html, body {
             <!-- INTAKE (left side, top row) -->
             <g id="m-intake" class="module cots">
               <rect x="120" y="120" width="140" height="60" rx="0" class="moduleBox"/>
-              <text x="190" y="145" text-anchor="middle" class="moduleTitle">Intake</text>
-              <text x="190" y="163" text-anchor="middle" class="moduleTitle">& Stabilization</text>
+              <text id="svgT-intake1" x="190" y="145" text-anchor="middle" class="moduleTitle">Intake</text>
+              <text id="svgT-intake2" x="190" y="163" text-anchor="middle" class="moduleTitle">& Stabilization</text>
             </g>
 
             <!-- Inert gas label (top center-right) -->
             <g class="svgCallout">
               <rect x="430" y="90" width="110" height="36" rx="0" class="svgCalloutBox"/>
-              <text x="485" y="106" text-anchor="middle" class="svgCalloutText" style="fill:#009EBA;">Inert carrier gas</text>
-              <text x="485" y="118" text-anchor="middle" class="svgCalloutText" style="fill:#009EBA;">+ proprietary sorbent</text>
+              <text id="svgT-gas1" x="485" y="106" text-anchor="middle" class="svgCalloutText" style="fill:#009EBA;">Inert carrier gas</text>
+              <text id="svgT-gas2" x="485" y="118" text-anchor="middle" class="svgCalloutText" style="fill:#009EBA;">+ proprietary sorbent</text>
             </g>
 
             <!-- Vertical line from Inert carrier down to Gas-Sorbent -->
@@ -653,8 +653,8 @@ html, body {
             <!-- GAS-SORBENT (center, top row) -->
             <g id="m-dosing" class="module core">
               <rect x="410" y="160" width="150" height="60" rx="0" class="moduleBox"/>
-              <text x="485" y="185" text-anchor="middle" class="moduleTitle">Gas-Sorbent</text>
-              <text x="485" y="203" text-anchor="middle" class="moduleSub">(Dosing)</text>
+              <text id="svgT-dosing1" x="485" y="185" text-anchor="middle" class="moduleTitle">Gas-Sorbent</text>
+              <text id="svgT-dosing2" x="485" y="203" text-anchor="middle" class="moduleSub">(Dosing)</text>
             </g>
 
             <!-- Horizontal line from Intake to Gas-Sorbent -->
@@ -666,8 +666,8 @@ html, body {
             <!-- SORPTION (right side, top row) -->
             <g id="m-sorption" class="module core">
               <rect x="695" y="50" width="90" height="150" rx="0" class="moduleBox"/>
-              <text x="740" y="120" text-anchor="middle" class="moduleTitle">Sorption</text>
-              <text x="740" y="138" text-anchor="middle" class="moduleSub">(Contactor)</text>
+              <text id="svgT-sorption1" x="740" y="120" text-anchor="middle" class="moduleTitle">Sorption</text>
+              <text id="svgT-sorption2" x="740" y="138" text-anchor="middle" class="moduleSub">(Contactor)</text>
             </g>
 
             <!-- Line from Sorption down and left to Separation -->
@@ -676,8 +676,8 @@ html, body {
             <!-- SEPARATION (center, middle row) -->
             <g id="m-separation" class="module core">
               <rect x="450" y="290" width="130" height="60" rx="0" class="moduleBox"/>
-              <text x="515" y="315" text-anchor="middle" class="moduleTitle">Separation</text>
-              <text x="515" y="333" text-anchor="middle" class="moduleSub">(Phase split)</text>
+              <text id="svgT-sep1" x="515" y="315" text-anchor="middle" class="moduleTitle">Separation</text>
+              <text id="svgT-sep2" x="515" y="333" text-anchor="middle" class="moduleSub">(Phase split)</text>
             </g>
 
             <!-- Line from Separation left to Concentrate -->
@@ -685,9 +685,9 @@ html, body {
 
             <!-- CONCENTRATE (lower left) -->
             <g id="m-concentrate">
-              <text x="90" y="320" text-anchor="middle" class="svgLabel" style="fill:rgba(210,132,55,.9);">Concentrate / residual stream</text>
-              <text x="90" y="335" text-anchor="middle" class="svgSubLabel" style="fill:rgba(210,132,55,.75);">(typically &lt;5% of flow;</text>
-              <text x="90" y="348" text-anchor="middle" class="svgSubLabel" style="fill:rgba(210,132,55,.75);">controlled output)</text>
+              <text id="svgT-conc1" x="90" y="320" text-anchor="middle" class="svgLabel" style="fill:rgba(210,132,55,.9);">Concentrate / residual stream</text>
+              <text id="svgT-conc2" x="90" y="335" text-anchor="middle" class="svgSubLabel" style="fill:rgba(210,132,55,.75);">(typically &lt;5% of flow;</text>
+              <text id="svgT-conc3" x="90" y="348" text-anchor="middle" class="svgSubLabel" style="fill:rgba(210,132,55,.75);">controlled output)</text>
             </g>
 
             <!-- Line from Separation down to Mineralization -->
@@ -696,8 +696,8 @@ html, body {
             <!-- MINERALIZATION (center bottom) -->
             <g id="m-polishing" class="module cots">
               <rect x="490" y="420" width="200" height="60" rx="0" class="moduleBox"/>
-              <text x="590" y="448" text-anchor="middle" class="moduleTitle">Mineralization</text>
-              <text x="590" y="466" text-anchor="middle" class="moduleTitle">& Polishing</text>
+              <text id="svgT-min1" x="590" y="448" text-anchor="middle" class="moduleTitle">Mineralization</text>
+              <text id="svgT-min2" x="590" y="466" text-anchor="middle" class="moduleTitle">& Polishing</text>
             </g>
 
             <!-- Line from Mineralization right to DRINKING -->
@@ -705,8 +705,8 @@ html, body {
 
             <!-- DRINKING WATER (bottom right corner) -->
             <g id="m-drinking">
-              <text x="750" y="580" text-anchor="middle" class="svgLabel">Drinking</text>
-              <text x="750" y="598" text-anchor="middle" class="svgLabel">Water</text>
+              <text id="svgT-drink1" x="750" y="580" text-anchor="middle" class="svgLabel">Drinking</text>
+              <text id="svgT-drink2" x="750" y="598" text-anchor="middle" class="svgLabel">Water</text>
             </g>
 
             <!-- Core boundary -->
@@ -744,46 +744,151 @@ html, body {
 
 <script>
 (function() {
-  const stages = [
-    { id: 'intake', kicker: 'STAGE 1', title: 'INTAKE & STABILIZATION', detail: 'Intake of seawater / brackish water. Coarse protection against debris, flow stabilisation and optional baseline pH/oxygen conditioning.<br>No heavy pre-treatment trains.' },
-    { id: 'dosing', kicker: 'STAGE 2', title: 'GAS-SORBENT (DOSING)', detail: 'An inert carrier gas with a fine-dispersed proprietary sorbent is dosed into the flow. Active capture centres are formed<br>and the solution is prepared for selective extraction of salts and impurities.' },
-    { id: 'sorption', kicker: 'STAGE 3', title: 'SORPTION (CONTACTOR)', detail: 'Intensive mass transfer: salt ions, hardness and dissolved organics are bound to the sorbent surface.<br>The process runs under mild conditions — no membranes, no high pressures, no boiling.' },
-    { id: 'separation', kicker: 'STAGE 4', title: 'SEPARATION (PHASE SPLIT)', detail: 'Fast phase separation: purified water is separated from the loaded sorbent by mechanical/physical means. No reverse<br>osmosis or distillation. The treated stream goes to final polishing.' },
-    { id: 'polishing', kicker: 'STAGE 5', title: 'MINERALIZATION & POLISHING', detail: 'Final tuning: precise remineralisation to a drinking profile (TDS ~100–150 mg/L), Ca/Mg balance, pH 7.2–7.8, disinfection<br>(UV/ozone on demand). At the outlet — ready-to-drink water.' }
+  /* ── Bilingual data ── */
+  var stages = [
+    {
+      id: 'intake',
+      name:   { en: 'Intake<br>&\u00a0Stabilization', ru: 'Подача воды' },
+      kicker: { en: 'STAGE 1', ru: 'ЭТАП 1' },
+      title:  { en: 'INTAKE & STABILIZATION', ru: 'ПОДАЧА ВОДЫ' },
+      detail: {
+        en: 'Intake of seawater / brackish water. Coarse protection against debris, flow stabilisation and optional baseline pH/oxygen conditioning.<br>No heavy pre-treatment trains.',
+        ru: 'Забор морской / солёной воды. Грубая защита от мусора, стабилизация потока и при необходимости базовая коррекция pH/кислорода. Без сложной предочистки.'
+      }
+    },
+    {
+      id: 'dosing',
+      name:   { en: 'Gas-Sorbent', ru: 'Газо-сорбент' },
+      kicker: { en: 'STAGE 2', ru: 'ЭТАП 2' },
+      title:  { en: 'GAS-SORBENT (DOSING)', ru: 'ГАЗО-СОРБЕНТ (ДОЗИРОВАНИЕ)' },
+      detail: {
+        en: 'An inert carrier gas with a fine-dispersed proprietary sorbent is dosed into the flow. Active capture centres are formed<br>and the solution is prepared for selective extraction of salts and impurities.',
+        ru: 'В поток дозируется инертный газ-носитель с тонкодисперсным сорбентом запатентованного состава. Формируются активные центры захвата, раствор подготавливается к селективному извлечению солей и примесей.'
+      }
+    },
+    {
+      id: 'sorption',
+      name:   { en: 'Sorption', ru: 'Контакт' },
+      kicker: { en: 'STAGE 3', ru: 'ЭТАП 3' },
+      title:  { en: 'SORPTION (CONTACTOR)', ru: 'КОНТАКТ (КОНТАКТОР)' },
+      detail: {
+        en: 'Intensive mass transfer: salt ions, hardness and dissolved organics are bound to the sorbent surface.<br>The process runs under mild conditions — no membranes, no high pressures, no boiling.',
+        ru: 'Интенсивный массообмен: ионы солей, жёсткость и растворённые органики связываются на поверхности сорбента. Процесс идёт при мягких условиях — без мембран, высоких давлений и нагрева.'
+      }
+    },
+    {
+      id: 'separation',
+      name:   { en: 'Separation', ru: 'Разделение' },
+      kicker: { en: 'STAGE 4', ru: 'ЭТАП 4' },
+      title:  { en: 'SEPARATION (PHASE SPLIT)', ru: 'РАЗДЕЛЕНИЕ (РАЗДЕЛЕНИЕ ФАЗ)' },
+      detail: {
+        en: 'Fast phase separation: purified water is separated from the loaded sorbent by mechanical/physical means. No reverse<br>osmosis or distillation. The treated stream goes to final polishing.',
+        ru: 'Быстрое разделение фаз: очищенная вода отделяется от нагруженного сорбента механико-физическим способом. Никакого обратного осмоса или выпаривания. Очищенный поток направляется на финальную доводку.'
+      }
+    },
+    {
+      id: 'polishing',
+      name:   { en: 'Mineralization<br>& Polishing', ru: 'Минерализация' },
+      kicker: { en: 'STAGE 5', ru: 'ЭТАП 5' },
+      title:  { en: 'MINERALIZATION & POLISHING', ru: 'МИНЕРАЛИЗАЦИЯ И ДОВОДКА' },
+      detail: {
+        en: 'Final tuning: precise remineralisation to a drinking profile (TDS ~100–150 mg/L), Ca/Mg balance, pH 7.2–7.8, disinfection<br>(UV/ozone on demand). At the outlet — ready-to-drink water.',
+        ru: 'Финальная доводка: тонкая минерализация до питьевого профиля (TDS ~100–150 мг/л), баланс Ca/Mg, pH 7,2–7,8, обеззараживание (UV/озон по требованию). На выходе — готовая питьевая вода.'
+      }
+    }
   ];
 
-  const moduleMap = {
-    'intake': document.getElementById('m-intake'),
-    'dosing': document.getElementById('m-dosing'),
-    'sorption': document.getElementById('m-sorption'),
-    'separation': document.getElementById('m-separation'),
-    'polishing': document.getElementById('m-polishing')
+  /* SVG text translations */
+  var svgT = {
+    'svgT-feed1':    { en: 'Feed water',               ru: 'Подача воды' },
+    'svgT-feed2':    { en: '(seawater / brackish /',   ru: '(морская / солоноватая /' },
+    'svgT-feed3':    { en: 'high-salinity / variable)',ru: 'высокосолёная / переменная)' },
+    'svgT-intake1':  { en: 'Intake',                   ru: 'Подача' },
+    'svgT-intake2':  { en: '& Stabilization',          ru: 'воды' },
+    'svgT-gas1':     { en: 'Inert carrier gas',        ru: 'Инертный газ-носитель' },
+    'svgT-gas2':     { en: '+ proprietary sorbent',    ru: '+ запатентованный сорбент' },
+    'svgT-dosing1':  { en: 'Gas-Sorbent',              ru: 'Газо-сорбент' },
+    'svgT-dosing2':  { en: '(Dosing)',                 ru: '(Дозирование)' },
+    'svgT-sorption1':{ en: 'Sorption',                 ru: 'Контакт' },
+    'svgT-sorption2':{ en: '(Contactor)',              ru: '(Контактор)' },
+    'svgT-sep1':     { en: 'Separation',               ru: 'Разделение' },
+    'svgT-sep2':     { en: '(Phase split)',             ru: '(Разделение фаз)' },
+    'svgT-conc1':    { en: 'Concentrate / residual stream', ru: 'Концентрат / остаточный поток' },
+    'svgT-conc2':    { en: '(typically <5% of flow;',  ru: '(обычно <5% потока;' },
+    'svgT-conc3':    { en: 'controlled output)',        ru: 'контролируемый сброс)' },
+    'svgT-min1':     { en: 'Mineralization',            ru: 'Минерализация' },
+    'svgT-min2':     { en: '& Polishing',               ru: 'и доводка' },
+    'svgT-drink1':   { en: 'Drinking',                  ru: 'Питьевая' },
+    'svgT-drink2':   { en: 'Water',                     ru: 'вода' }
   };
 
-  const sideBtns = document.querySelectorAll('.hiw__stage-btn');
-  const detailKicker = document.getElementById('detailKicker');
-  const detailTitle = document.getElementById('detailTitle');
-  const detailText = document.getElementById('detailText');
+  var moduleMap = {
+    'intake':     document.getElementById('m-intake'),
+    'dosing':     document.getElementById('m-dosing'),
+    'sorption':   document.getElementById('m-sorption'),
+    'separation': document.getElementById('m-separation'),
+    'polishing':  document.getElementById('m-polishing')
+  };
 
-  let currentStage = 0;
+  var sideBtns    = document.querySelectorAll('.hiw__stage-btn');
+  var detailKicker = document.getElementById('detailKicker');
+  var detailTitle  = document.getElementById('detailTitle');
+  var detailText   = document.getElementById('detailText');
+  var pageTitle    = document.querySelector('.hiw__title');
+
+  var currentStage = 0;
+  var currentLang  = 'en';
 
   function setActiveStage(index) {
     currentStage = index;
-    const stage = stages[index];
+    var stage = stages[index];
+    var l = currentLang;
 
-    sideBtns.forEach((b, i) => b.classList.toggle('is-active', i === index));
+    sideBtns.forEach(function(b, i) { b.classList.toggle('is-active', i === index); });
 
-    Object.values(moduleMap).forEach(m => m.classList.remove('is-active'));
+    Object.values(moduleMap).forEach(function(m) { if (m) m.classList.remove('is-active'); });
     if (moduleMap[stage.id]) moduleMap[stage.id].classList.add('is-active');
 
-    detailKicker.textContent = stage.kicker;
-    detailTitle.textContent = stage.title;
-    detailText.innerHTML = stage.detail;
+    detailKicker.textContent = stage.kicker[l];
+    detailTitle.textContent  = stage.title[l];
+    detailText.innerHTML     = stage.detail[l];
   }
 
-  sideBtns.forEach((btn, i) => btn.addEventListener('click', () => setActiveStage(i)));
+  function applyLang(l) {
+    currentLang = l;
 
-  setActiveStage(0);
+    /* Page title */
+    if (pageTitle) pageTitle.textContent = (l === 'ru') ? 'КАК ЭТО РАБОТАЕТ' : 'HOW IT WORKS';
+
+    /* Stage button names */
+    sideBtns.forEach(function(btn, i) {
+      var nameEl = btn.querySelector('.hiw__stage-name');
+      if (nameEl) nameEl.innerHTML = stages[i].name[l];
+    });
+
+    /* SVG text */
+    Object.keys(svgT).forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = svgT[id][l];
+    });
+
+    /* Refresh detail panel */
+    setActiveStage(currentStage);
+  }
+
+  sideBtns.forEach(function(btn, i) {
+    btn.addEventListener('click', function() { setActiveStage(i); });
+  });
+
+  /* Listen for language change from parent */
+  window.addEventListener('message', function(e) {
+    if (e.data && e.data.type === 'setLang') applyLang(e.data.lang);
+  });
+
+  /* Init: read localStorage (same-origin) */
+  var saved = 'en';
+  try { saved = localStorage.getItem('ui_lang') || 'en'; } catch(e) {}
+  applyLang(saved);
 })();
 </script>
 
