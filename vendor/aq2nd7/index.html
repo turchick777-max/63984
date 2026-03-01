@@ -927,6 +927,9 @@ html, body {
     btn.addEventListener('click', function() { setActiveStage(i); });
   });
 
+  /* Expose globally so onclick="window.setLang()" buttons work */
+  window.setLang = applyLang;
+
   /* Listen for language change from parent */
   window.addEventListener('message', function(e) {
     if (e.data && e.data.type === 'setLang') applyLang(e.data.lang);
@@ -934,7 +937,7 @@ html, body {
 
   /* Init: read localStorage (same-origin) */
   var saved = 'en';
-  try { saved = localStorage.getItem('selectedLang') || 'en'; } catch(e) {}
+  try { saved = localStorage.getItem('ui_lang') || 'en'; } catch(e) {}
   applyLang(saved);
 })();
 </script>

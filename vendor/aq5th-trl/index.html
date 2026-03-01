@@ -746,7 +746,7 @@
     // Init: localStorage + postMessage
     (function() {
       var saved = 'en';
-      try { saved = localStorage.getItem('selectedLang') || 'en'; } catch(e) {}
+      try { saved = localStorage.getItem('ui_lang') || 'en'; } catch(e) {}
       if (saved !== 'en') window.trlSetLang(saved);
       window.addEventListener('message', function(e) {
         if (e.data && e.data.type === 'setLang') window.trlSetLang(e.data.lang);
