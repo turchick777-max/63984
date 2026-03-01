@@ -453,6 +453,33 @@
         animation: none !important;
       }
     }
+
+    /* ── Lang switcher ── */
+    .lang-switch {
+      display: flex;
+      gap: 2px;
+      align-items: center;
+      margin-top: 16px;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      padding: 4px 9px;
+      cursor: pointer;
+      font: 500 11px Inter, system-ui;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.18s;
+      line-height: 1;
+    }
+    .lang-btn.active { color: var(--text); }
+    .lang-btn:hover  { color: var(--text); }
+    .lang-sep { color: rgba(0,0,0,0.2); font-size: 10px; pointer-events: none; user-select: none; }
+    @media (max-width: 767px) {
+      .lang-switch { margin-top: 10px; }
+      .lang-btn { padding: 4px 6px; font-size: 9.5px; }
+    }
   </style>
 </head>
 <body>
@@ -461,10 +488,15 @@
       <div class="top">
         <div>
           <h1 class="headline">
-            <span class="l1">INVESTOR TEASER</span>
-            <span class="l2">TRL SNAPSHOT • AQUINTAQA</span>
+            <span class="l1" id="trl-l1">INVESTOR TEASER</span>
+            <span class="l2" id="trl-l2">TRL SNAPSHOT • AQUINTAQA</span>
           </h1>
-          <p class="micro">Pre-NDA view. Evidence package: Data Room (e-NDA).</p>
+          <p class="micro" id="trl-micro">Pre-NDA view. Evidence package: Data Room (e-NDA).</p>
+          <div class="lang-switch">
+            <button class="lang-btn active" data-lang="en" onclick="window.trlSetLang('en')">EN</button>
+            <span class="lang-sep">|</span>
+            <button class="lang-btn" data-lang="ru" onclick="window.trlSetLang('ru')">RU</button>
+          </div>
         </div>
         <div class="topRight">
           <!-- В ТЗ нет отдельного правого текста — оставил минимально.
@@ -496,6 +528,65 @@
   </main>
 
   <script>
+    // Bilingual header data
+    var TRL_HEADER = {
+      en: {
+        l1: 'INVESTOR TEASER',
+        l2: 'TRL SNAPSHOT \u2022 AQUINTAQA',
+        micro: 'Pre-NDA view. Evidence package: Data Room (e-NDA).'
+      },
+      ru: {
+        l1: '\u0418\u041d\u0412\u0415\u0421\u0422\u0418\u0426\u0418\u041e\u041d\u041d\u042b\u0419 \u0422\u0418\u0417\u0415\u0420',
+        l2: 'TRL-\u0421\u041d\u0410\u041f\u0428\u041e\u0422 \u2022 AQUINTAQA',
+        micro: '\u041f\u0443\u0431\u043b\u0438\u0447\u043d\u044b\u0439 \u0432\u0438\u0434. \u0414\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u043f\u0430\u043a\u0435\u0442: Data Room (e-NDA).'
+      }
+    };
+
+    // Bilingual TRL stages
+    var TRL_DATA = {
+      en: [
+        { id:1, active:false, title:'TRL-1 \u2014 Basic principles observed',           desc:'TRL framework shown for reference.<br>Active checkpoints: TRL-3 to TRL-8' },
+        { id:2, active:false, title:'TRL-2 \u2014 Technology concept formulated',        desc:'TRL framework shown for reference.<br>Active checkpoints: TRL-3 to TRL-8' },
+        { id:3, active:true,  title:'TRL-3 \u2014 Core principle proven',                desc:'controlled samples \u2022 repeatable directional effect \u2022<br>baseline conditions' },
+        { id:4, active:true,  title:'TRL-4 \u2014 Bench prototype validated',            desc:'instrumented bench runs \u2022 stable control loop \u2022<br>repeatability confirmed' },
+        { id:5, active:true,  title:'TRL-5 \u2014 Pilot subsystem validated (relevant feeds)', desc:'relevant feed classes \u2022 config-dependent \u2022<br>before/after results' },
+        { id:6, active:true,  title:'TRL-6 \u2014 Integrated pilot demonstrated (\u2265300h, multi-feed)', desc:'\u2265300h continuous runs \u2022 multi-feed \u2022<br>independent lab before/after (e-NDA)' },
+        { id:7, active:true,  title:'TRL-7 \u2014 Field pilot (site integration)',       desc:'host site integration \u2022 utilities/controls/monitoring \u2022<br>uptime targets' },
+        { id:8, active:true,  title:'TRL-8 \u2014 Pre-commercial system',               desc:'engineered package \u2022 QA/QC & service model \u2022<br>deployment readiness' },
+        { id:9, active:false, title:'TRL-9 \u2014 Actual system proven in operational environment', desc:'TRL framework shown for reference.<br>Active checkpoints: TRL-3 to TRL-8' }
+      ],
+      ru: [
+        { id:1, active:false, title:'TRL-1 \u2014 \u041d\u0430\u0431\u043b\u044e\u0434\u0435\u043d\u0438\u0435 \u0431\u0430\u0437\u043e\u0432\u044b\u0445 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u043e\u0432',   desc:'\u0423\u0440\u043e\u0432\u043d\u0438 TRL \u043f\u0440\u0438\u0432\u0435\u0434\u0435\u043d\u044b \u0434\u043b\u044f \u0441\u043f\u0440\u0430\u0432\u043a\u0438.<br>\u0410\u043a\u0442\u0438\u0432\u043d\u044b\u0435 \u0447\u0435\u043a\u043f\u043e\u0438\u043d\u0442\u044b: TRL-3 \u2014 TRL-8' },
+        { id:2, active:false, title:'TRL-2 \u2014 \u041a\u043e\u043d\u0446\u0435\u043f\u0446\u0438\u044f \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u0438 \u0441\u0444\u043e\u0440\u043c\u0443\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u0430', desc:'\u0423\u0440\u043e\u0432\u043d\u0438 TRL \u043f\u0440\u0438\u0432\u0435\u0434\u0435\u043d\u044b \u0434\u043b\u044f \u0441\u043f\u0440\u0430\u0432\u043a\u0438.<br>\u0410\u043a\u0442\u0438\u0432\u043d\u044b\u0435 \u0447\u0435\u043a\u043f\u043e\u0438\u043d\u0442\u044b: TRL-3 \u2014 TRL-8' },
+        { id:3, active:true,  title:'TRL-3 \u2014 \u041a\u043b\u044e\u0447\u0435\u0432\u043e\u0439 \u043f\u0440\u0438\u043d\u0446\u0438\u043f \u0434\u043e\u043a\u0430\u0437\u0430\u043d',   desc:'\u043a\u043e\u043d\u0442\u0440\u043e\u043b\u0438\u0440\u0443\u0435\u043c\u044b\u0435 \u043e\u0431\u0440\u0430\u0437\u0446\u044b \u2022 \u043f\u043e\u0432\u0442\u043e\u0440\u044f\u0435\u043c\u044b\u0439 \u044d\u0444\u0444\u0435\u043a\u0442 \u2022<br>\u0431\u0430\u0437\u043e\u0432\u044b\u0435 \u0443\u0441\u043b\u043e\u0432\u0438\u044f' },
+        { id:4, active:true,  title:'TRL-4 \u2014 \u0421\u0442\u0435\u043d\u0434\u043e\u0432\u044b\u0439 \u043f\u0440\u043e\u0442\u043e\u0442\u0438\u043f \u0432\u0430\u043b\u0438\u0434\u0438\u0440\u043e\u0432\u0430\u043d',   desc:'\u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0435 \u0441\u0442\u0435\u043d\u0434\u043e\u0432\u044b\u0435 \u0437\u0430\u043f\u0443\u0441\u043a\u0438 \u2022 \u0441\u0442\u0430\u0431\u0438\u043b\u044c\u043d\u044b\u0439 \u043a\u043e\u043d\u0442\u0443\u0440 \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u2022<br>\u043f\u043e\u0432\u0442\u043e\u0440\u044f\u0435\u043c\u043e\u0441\u0442\u044c \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430' },
+        { id:5, active:true,  title:'TRL-5 \u2014 \u041f\u0438\u043b\u043e\u0442\u043d\u0430\u044f \u043f\u043e\u0434\u0441\u0438\u0441\u0442\u0435\u043c\u0430 \u0432\u0430\u043b\u0438\u0434\u0438\u0440\u043e\u0432\u0430\u043d\u0430 (\u0440\u0435\u0430\u043b\u044c\u043d\u044b\u0435 \u0444\u0438\u0434\u044b)', desc:'\u0440\u0435\u0430\u043b\u044c\u043d\u044b\u0435 \u043a\u043b\u0430\u0441\u0441\u044b \u0444\u0438\u0434\u0430 \u2022 \u0437\u0430\u0432\u0438\u0441\u0438\u0442 \u043e\u0442 \u043a\u043e\u043d\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0438 \u2022<br>\u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b \u0434\u043e/\u043f\u043e\u0441\u043b\u0435' },
+        { id:6, active:true,  title:'TRL-6 \u2014 \u0418\u043d\u0442\u0435\u0433\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u044b\u0439 \u043f\u0438\u043b\u043e\u0442 \u043f\u0440\u043e\u0434\u0435\u043c\u043e\u043d\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d (\u2265300\u0447, \u043c\u0443\u043b\u044c\u0442\u0438\u0444\u0438\u0434)', desc:'\u2265300\u0447 \u043d\u0435\u043f\u0440\u0435\u0440\u044b\u0432\u043d\u044b\u0445 \u0437\u0430\u043f\u0443\u0441\u043a\u043e\u0432 \u2022 \u043c\u0443\u043b\u044c\u0442\u0438\u0444\u0438\u0434 \u2022<br>\u043d\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u044b\u0435 \u043b\u0430\u0431\u043e\u0440\u0430\u0442\u043e\u0440\u043d\u044b\u0435 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b \u0434\u043e/\u043f\u043e\u0441\u043b\u0435 (e-NDA)' },
+        { id:7, active:true,  title:'TRL-7 \u2014 \u041f\u043e\u043b\u0435\u0432\u043e\u0439 \u043f\u0438\u043b\u043e\u0442 (\u0438\u043d\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u044f \u043d\u0430 \u043f\u043b\u043e\u0449\u0430\u0434\u043a\u0435)', desc:'\u0438\u043d\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u044f \u043d\u0430 \u043f\u043b\u043e\u0449\u0430\u0434\u043a\u0435 \u2022 \u043a\u043e\u043c\u043c\u0443\u043d\u0430\u043b\u044c\u043d\u044b\u0435/\u0441\u0438\u0441\u0442\u0435\u043c\u044b \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u2022<br>\u0446\u0435\u043b\u0435\u0432\u044b\u0435 \u043f\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u0438 \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u0438' },
+        { id:8, active:true,  title:'TRL-8 \u2014 \u041f\u0440\u0435\u0434\u043a\u043e\u043c\u043c\u0435\u0440\u0447\u0435\u0441\u043a\u0430\u044f \u0441\u0438\u0441\u0442\u0435\u043c\u0430', desc:'\u0438\u043d\u0436\u0435\u043d\u0435\u0440\u043d\u044b\u0439 \u043f\u0430\u043a\u0435\u0442 \u2022 QA/QC & \u0441\u0435\u0440\u0432\u0438\u0441\u043d\u0430\u044f \u043c\u043e\u0434\u0435\u043b\u044c \u2022<br>\u0433\u043e\u0442\u043e\u0432\u043d\u043e\u0441\u0442\u044c \u043a \u0440\u0430\u0437\u0432\u0451\u0440\u0442\u044b\u0432\u0430\u043d\u0438\u044e' },
+        { id:9, active:false, title:'TRL-9 \u2014 \u0421\u0438\u0441\u0442\u0435\u043c\u0430 \u0434\u043e\u043a\u0430\u0437\u0430\u043d\u0430 \u0432 \u043e\u043f\u0435\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u043e\u0439 \u0441\u0440\u0435\u0434\u0435', desc:'\u0423\u0440\u043e\u0432\u043d\u0438 TRL \u043f\u0440\u0438\u0432\u0435\u0434\u0435\u043d\u044b \u0434\u043b\u044f \u0441\u043f\u0440\u0430\u0432\u043a\u0438.<br>\u0410\u043a\u0442\u0438\u0432\u043d\u044b\u0435 \u0447\u0435\u043a\u043f\u043e\u0438\u043d\u0442\u044b: TRL-3 \u2014 TRL-8' }
+      ]
+    };
+
+    var currentTrlLang = 'en';
+
+    window.trlSetLang = function(lang) {
+      currentTrlLang = lang;
+      // Update buttons
+      document.querySelectorAll('.lang-btn[data-lang]').forEach(function(btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+      // Update header texts
+      var h = TRL_HEADER[lang];
+      document.getElementById('trl-l1').textContent = h.l1;
+      document.getElementById('trl-l2').textContent = h.l2;
+      document.getElementById('trl-micro').textContent = h.micro;
+      // Re-render markers with correct language
+      TRL.length = 0;
+      TRL_DATA[lang].forEach(function(t) { TRL.push(t); });
+      render();
+    };
+
     // TRL text — из ТЗ
     const TRL = [
       {
@@ -651,6 +742,16 @@
     }
 
     render();
+
+    // Init: localStorage + postMessage
+    (function() {
+      var saved = 'en';
+      try { saved = localStorage.getItem('selectedLang') || 'en'; } catch(e) {}
+      if (saved !== 'en') window.trlSetLang(saved);
+      window.addEventListener('message', function(e) {
+        if (e.data && e.data.type === 'setLang') window.trlSetLang(e.data.lang);
+      });
+    })();
   </script>
 
   <!-- Mobile: inject info panel below timeline card (replaces floating labels) -->

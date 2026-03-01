@@ -756,8 +756,15 @@
             }
         }
 
-        // Init
-        setLang('en');
+        // Init: read localStorage, then listen for parent postMessage
+        (function() {
+          var saved = 'en';
+          try { saved = localStorage.getItem('selectedLang') || 'en'; } catch(e) {}
+          setLang(saved);
+          window.addEventListener('message', function(e) {
+            if (e.data && e.data.type === 'setLang') setLang(e.data.lang);
+          });
+        })();
     </script>
 </body>
 </html>
