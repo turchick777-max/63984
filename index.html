@@ -146,6 +146,16 @@
       }
     }
     /* MOBILE LAYOUT END */
+
+    /* ── Language switching ── */
+    .lang-ru { display: none; }
+    /* Active lang indicator in dropdown */
+    .w-dropdown-link.lang-active { opacity: 1 !important; font-weight: 700 !important; }
+    /* CTA button row */
+    .cta-row { display: flex; flex-direction: column; gap: 12px; }
+    @media screen and (max-width: 767px) {
+      .cta-row { gap: 10px; }
+    }
   </style>
   <link rel="stylesheet" href="css/consent.css" />
   <link rel="stylesheet" href="css/mobile.css" />
@@ -188,8 +198,8 @@
           <div class="icon-lang"></div>
         </div>
         <nav class="dropdown-list-lang w-dropdown-list">
-          <a href="#" class="link w-dropdown-link">ENG</a>
-          <a href="#" class="link w-dropdown-link">RU</a>
+          <a href="#" class="link w-dropdown-link" onclick="setLang('en');return false;" id="lang-opt-en">ENG</a>
+          <a href="#" class="link w-dropdown-link" onclick="setLang('ru');return false;" id="lang-opt-ru">RU</a>
         </nav>
       </div>
     </div>
@@ -201,10 +211,21 @@
           <div class="colum-l">
             <div class="content-img">
               <div class="div-block-5"></div>
-              <div class="text-block">Planet of 8+ billion people.<br></div>
-              <div class="text-block _2">~97.5% of water is not drinkable without desalination.<br></div>
+              <div class="text-block">
+                <span class="lang-en">Planet of 8+ billion people.</span>
+                <span class="lang-ru">Место жизни 8+ млрд людей.</span>
+                <br>
+              </div>
+              <div class="text-block _2">
+                <span class="lang-en">~97.5% of water is not drinkable without desalination.</span>
+                <span class="lang-ru">~97,5% воды непригодно для питья без опреснения.</span>
+                <br>
+              </div>
               <div class="div-block-17">
-                <div class="text-block-2">&lt;1% share of quickly accessible freshwater.</div>
+                <div class="text-block-2">
+                  <span class="lang-en">&lt;1% share of quickly accessible freshwater.</span>
+                  <span class="lang-ru">Доля &lt;1% быстро доступной пресной воды.</span>
+                </div>
               </div>
               <div class="podpis">
                 <div data-w-id="b925a8e9-1476-60d1-ad28-ab5ac1dae831" class="_1 no"></div>
@@ -215,8 +236,14 @@
           <!-- Mobile: sphere poster + play (hidden on desktop) -->
           <div class="sphere-poster" id="sphere-poster">
             <div class="sphere-poster__stats">
-              <p>Planet of 8+ billion people.</p>
-              <p>~97.5% of water is not drinkable without desalination.</p>
+              <p>
+                <span class="lang-en">Planet of 8+ billion people.</span>
+                <span class="lang-ru">Место жизни 8+ млрд людей.</span>
+              </p>
+              <p>
+                <span class="lang-en">~97.5% of water is not drinkable without desalination.</span>
+                <span class="lang-ru">~97,5% воды непригодно для питья без опреснения.</span>
+              </p>
             </div>
             <div class="sphere-poster__visual">
               <div class="sphere-poster__orb"></div>
@@ -224,14 +251,27 @@
                 <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="27" stroke="rgba(255,255,255,0.2)" stroke-width="1"/><path d="M23 18L41 28L23 38V18Z" fill="rgba(255,255,255,0.85)"/></svg>
               </button>
             </div>
-            <span class="sphere-poster__caption">&lt;1% of Earth's water is quickly accessible freshwater</span>
+            <span class="sphere-poster__caption">
+              <span class="lang-en">&lt;1% of Earth's water is quickly accessible freshwater</span>
+              <span class="lang-ru">Доля &lt;1% быстро доступной пресной воды</span>
+            </span>
           </div>
 
           <div class="colum-r">
-            <h1 class="h1"><span class="spa">Next-generation desalination. </span></h1>
-            <div class="text">No RO. No thermal desalination.</div>
-            <div class="div-block-4">
-              <a href="executive-summary-viewer.html" target="_blank" class="link button _2 w-inline-block">
+            <h1 class="h1">
+              <span class="spa lang-en">Next-generation desalination. </span>
+              <span class="spa lang-ru">Опреснение следующего поколения. </span>
+            </h1>
+            <div class="text">
+              <span class="lang-en">No RO. No thermal desalination.</span>
+              <span class="lang-ru">Без RO и термопроцессов.</span>
+            </div>
+            <div class="div-block-4 cta-row">
+              <a href="#how-it-works-embed" class="link button _2 w-inline-block">
+                <span class="lang-en">Learn the Technology</span>
+                <span class="lang-ru">Узнать технологию</span>
+              </a>
+              <a href="executive-summary-viewer.html" target="_blank" class="link button _2 w-inline-block" style="opacity:0.65;">
                 <div>Executive Summary</div>
               </a>
             </div>
@@ -670,6 +710,51 @@
       nav.removeAttribute('data-w-id');
       nav.style.opacity = '1';
       nav.style.visibility = 'visible';
+    }
+  })();
+  </script>
+
+  <!-- LANG: Full bilingual switcher — EN / RU.
+       Stores preference in localStorage; all pages with .lang-en / .lang-ru classes respond. -->
+  <script>
+  (function() {
+    'use strict';
+
+    var _lang;
+    try { _lang = localStorage.getItem('ui_lang') || 'en'; } catch(e) { _lang = 'en'; }
+
+    function applyLang(l) {
+      _lang = l;
+      try { localStorage.setItem('ui_lang', l); } catch(e) {}
+
+      // Toggle all .lang-en / .lang-ru elements
+      var enEls = document.querySelectorAll('.lang-en');
+      var ruEls = document.querySelectorAll('.lang-ru');
+      for (var i = 0; i < enEls.length; i++) {
+        enEls[i].style.display = (l === 'en') ? '' : 'none';
+      }
+      for (var i = 0; i < ruEls.length; i++) {
+        ruEls[i].style.display = (l === 'ru') ? '' : 'none';
+      }
+
+      // Highlight active lang in dropdown
+      var enOpt = document.getElementById('lang-opt-en');
+      var ruOpt = document.getElementById('lang-opt-ru');
+      if (enOpt) { enOpt.style.opacity = (l === 'en') ? '1' : '0.45'; enOpt.style.fontWeight = (l === 'en') ? '700' : '400'; }
+      if (ruOpt) { ruOpt.style.opacity = (l === 'ru') ? '1' : '0.45'; ruOpt.style.fontWeight = (l === 'ru') ? '700' : '400'; }
+
+      // <html lang="…"> for accessibility / SEO
+      document.documentElement.lang = (l === 'ru') ? 'ru' : 'en';
+    }
+
+    // Expose globally so onclick="setLang(…)" works
+    window.setLang = applyLang;
+
+    // Apply on load (before paint if possible, else after DOM ready)
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { applyLang(_lang); });
+    } else {
+      applyLang(_lang);
     }
   })();
   </script>

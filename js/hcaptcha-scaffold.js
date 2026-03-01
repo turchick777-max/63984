@@ -26,8 +26,9 @@
   // Expose validation function globally for form scripts
   window.hcaptchaScaffold = {
     isValid: function () {
-      if (isPlaceholder) return false;
-      // Check if hCaptcha response token exists
+      // Placeholder / dev mode: no key configured → bypass captcha validation
+      if (isPlaceholder) return true;
+      // Real mode: check hCaptcha response token
       var response = document.querySelector('[name="h-captcha-response"]');
       return response && response.value.length > 0;
     },
