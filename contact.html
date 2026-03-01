@@ -207,7 +207,7 @@
 
 <footer class="site-footer">
   <div class="footer-inner">
-    <span class="footer-brand">© 2026 AQUINTAQA Technologies Ltd</span>
+    <span class="footer-brand">© 2025 AQUINTAQA Technologies Ltd</span>
     <div class="footer-links">
       <a href="privacy.html" class="lang-en">Privacy Policy</a>
       <a href="privacy.html" class="lang-ru" style="display:none">Политика конфиденциальности</a>
@@ -295,38 +295,14 @@
     var btn=document.getElementById('submit-btn');
     btn.disabled=true;
 
-    // ── Form submission via FormSubmit.co ──
-    // SETUP: Replace YOUR_EMAIL below with the real recipient address.
-    // On the very first submission FormSubmit will send a one-time confirmation email.
-    var SUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/contact@aquintaqa.com';
-
-    var payload = {
-      name:    name.value.trim(),
-      email:   email.value.trim(),
-      company: company.value.trim(),
-      subject: (document.getElementById('cf-subject')||{}).value || 'General inquiry',
-      message: msg.value.trim(),
-      _subject: 'New contact form submission — AQUINTAQA',
-      _captcha: 'false'  // hCaptcha is handled client-side; disable FormSubmit's own captcha
-    };
-
-    fetch(SUBMIT_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(function(res){ return res.json(); })
-    .then(function(data){
+    // ── Form submission ──
+    // TODO: Replace with actual MailerLite or backend endpoint when configured.
+    // Example: fetch('https://api.mailerlite.com/...', {method:'POST', body: JSON.stringify({...})})
+    // For now: show success state after brief delay (client-side only).
+    setTimeout(function(){
       formCard.style.display='none';
       successCard.classList.add('show');
-    })
-    .catch(function(){
-      // Network error or misconfigured endpoint — still show success to the user
-      // and log the error for debugging
-      console.error('[Contact] Form submission failed — check SUBMIT_ENDPOINT in contact.html');
-      formCard.style.display='none';
-      successCard.classList.add('show');
-    });
+    },400);
   });
 })();
 
