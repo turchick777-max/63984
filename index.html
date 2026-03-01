@@ -17,13 +17,15 @@
   <meta content="Webflow" name="generator">
   <!-- PERF: Preconnect to external origins for faster resource fetching -->
   <link rel="preconnect" href="https://d3e54v103j8qbb.cloudfront.net" crossorigin>
+  <link rel="preconnect" href="https://prod.spline.design" crossorigin>
+  <link rel="dns-prefetch" href="https://prod.spline.design">
   <!-- PERF: Preconnect for Google Fonts used by iframes (saves DNS+TCP when iframe loads) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- PERF: Preload critical body font only (others load naturally) -->
+  <!-- PERF: Preload critical fonts for faster LCP -->
   <link rel="preload" href="fonts/Onest-Regular.woff" as="font" type="font/woff" crossorigin>
-  <!-- PERF: Spline preconnect — desktop only (mobile kills Spline entirely) -->
-  <script>if(screen.width>=768){var l1=document.createElement('link');l1.rel='preconnect';l1.href='https://prod.spline.design';l1.crossOrigin='';document.head.appendChild(l1);var l2=document.createElement('link');l2.rel='dns-prefetch';l2.href='https://prod.spline.design';document.head.appendChild(l2)}</script>
+  <link rel="preload" href="fonts/Onest-Medium.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="fonts/Onest-SemiBold.woff" as="font" type="font/woff" crossorigin>
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
   <link href="css/webflow.css" rel="stylesheet" type="text/css">
   <link href="css/aquintaqa.webflow.css" rel="stylesheet" type="text/css">
@@ -176,8 +178,7 @@
 </head>
 <body class="body">
   <div class="spline-content">
-    <!-- PERF: sphere.png loaded only on desktop via data-src; mobile never downloads the 1.4MB image -->
-    <div class="sphere-fallback" id="sphere-fallback"><img data-src="images/sphere.png" alt="" width="540" height="540" loading="lazy"></div>
+    <div class="sphere-fallback" id="sphere-fallback"><img src="images/sphere.png" alt="" width="540" height="540" loading="eager"></div>
     <!-- PERF: Lazy-load Spline scene. data-spline-url removed; loaded via IntersectionObserver -->
     <div class="spline-scene"
          id="spline-scene"
@@ -185,8 +186,8 @@
          data-animation-type="spline"
          data-spline-url-lazy="https://prod.spline.design/8z6pBDvGF-zx6ta3/scene.splinecode?v=2"><canvas></canvas></div>
   </div>
-  <!-- PERF: Mobile — kill Spline + sphere entirely. Desktop — activate sphere.png src -->
-  <script>(function(){var isMob=window.innerWidth<768;if(isMob){var el=document.getElementById('spline-scene');if(el){el.removeAttribute('data-spline-url-lazy');el.removeAttribute('data-spline-url');var c=el.querySelector('canvas');if(c)c.remove();el.style.display='none';}var sc=document.querySelector('.spline-content');if(sc)sc.style.display='none';}else{var img=document.querySelector('#sphere-fallback img[data-src]');if(img){img.src=img.getAttribute('data-src');img.removeAttribute('data-src');}}})();</script>
+  <!-- MOBILE: kill Spline entirely on phones — no WebGL, no canvas, no GPU load -->
+  <script>(function(){if(window.innerWidth>=768)return;var el=document.getElementById('spline-scene');if(el){el.removeAttribute('data-spline-url-lazy');el.removeAttribute('data-spline-url');var c=el.querySelector('canvas');if(c)c.remove();el.style.display='none';}var sc=document.querySelector('.spline-content');if(sc)sc.style.display='none';var fb=document.getElementById('sphere-fallback');if(fb){var img=fb.querySelector('img');if(img)img.removeAttribute('src');fb.style.display='none';}})();</script>
   <div data-animation="over-right" class="menu w-nav" data-easing2="ease-out" data-easing="ease-in" data-collapse="all" style="opacity:0" data-w-id="98d6510c-f91b-7dee-6fcc-df3364ee5ebf" role="banner" data-duration="400">
     <div class="navbar w-container">
       <a href="#" class="logo w-inline-block"></a>
