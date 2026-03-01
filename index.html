@@ -146,6 +146,18 @@
       }
     }
     /* MOBILE LAYOUT END */
+
+    /* ── LANG SWITCHER ── */
+    .lang-ru { display: none !important; }
+    html[lang="ru"] .lang-ru { display: block !important; }
+    html[lang="ru"] span.lang-ru { display: inline !important; }
+    html[lang="ru"] .lang-en-hide { display: none !important; }
+
+    /* Fix hover gap on lang dropdown */
+    .navbar > .w-dropdown .dropdown-list-lang {
+      padding-top: 10px !important;
+      margin-top: -2px !important;
+    }
   </style>
   <link rel="stylesheet" href="css/consent.css" />
   <link rel="stylesheet" href="css/mobile.css" />
@@ -188,8 +200,8 @@
           <div class="icon-lang"></div>
         </div>
         <nav class="dropdown-list-lang w-dropdown-list">
-          <a href="#" class="link w-dropdown-link">ENG</a>
-          <a href="#" class="link w-dropdown-link">RU</a>
+          <a href="#" class="link w-dropdown-link" id="lang-opt-en" onclick="setLang('en');return false;">ENG</a>
+          <a href="#" class="link w-dropdown-link" id="lang-opt-ru" onclick="setLang('ru');return false;">RU</a>
         </nav>
       </div>
     </div>
@@ -201,10 +213,14 @@
           <div class="colum-l">
             <div class="content-img">
               <div class="div-block-5"></div>
-              <div class="text-block">Planet of 8+ billion people.<br></div>
-              <div class="text-block _2">~97.5% of water is not drinkable without desalination.<br></div>
-              <div class="div-block-17">
+              <div class="text-block lang-en-hide">Planet of 8+ billion people.<br></div>
+              <div class="text-block _2 lang-en-hide">~97.5% of water is not drinkable without desalination.<br></div>
+              <div class="div-block-17 lang-en-hide">
                 <div class="text-block-2">&lt;1% share of quickly accessible freshwater.</div>
+              </div>
+              <div class="text-block lang-ru">На планете 8+ млрд людей и ~97,5% воды, непригодной для питья без опреснения.<br></div>
+              <div class="div-block-17 lang-ru">
+                <div class="text-block-2">Доля &lt;1% быстро доступной пресной воды.</div>
               </div>
               <div class="podpis">
                 <div data-w-id="b925a8e9-1476-60d1-ad28-ab5ac1dae831" class="_1 no"></div>
@@ -214,9 +230,12 @@
           </div>
           <!-- Mobile: sphere poster + play (hidden on desktop) -->
           <div class="sphere-poster" id="sphere-poster">
-            <div class="sphere-poster__stats">
+            <div class="sphere-poster__stats lang-en-hide">
               <p>Planet of 8+ billion people.</p>
               <p>~97.5% of water is not drinkable without desalination.</p>
+            </div>
+            <div class="sphere-poster__stats lang-ru">
+              <p>На планете 8+ млрд людей и ~97,5% воды, непригодной для питья без опреснения.</p>
             </div>
             <div class="sphere-poster__visual">
               <div class="sphere-poster__orb"></div>
@@ -224,12 +243,15 @@
                 <svg viewBox="0 0 56 56" fill="none"><circle cx="28" cy="28" r="27" stroke="rgba(255,255,255,0.2)" stroke-width="1"/><path d="M23 18L41 28L23 38V18Z" fill="rgba(255,255,255,0.85)"/></svg>
               </button>
             </div>
-            <span class="sphere-poster__caption">&lt;1% of Earth's water is quickly accessible freshwater</span>
+            <span class="sphere-poster__caption lang-en-hide">&lt;1% of Earth's water is quickly accessible freshwater</span>
+            <span class="sphere-poster__caption lang-ru">Доля &lt;1% быстро доступной пресной воды</span>
           </div>
 
           <div class="colum-r">
-            <h1 class="h1"><span class="spa">Next-generation desalination. </span></h1>
-            <div class="text">No RO. No thermal desalination.</div>
+            <h1 class="h1 lang-en-hide"><span class="spa">Next-generation desalination. </span></h1>
+            <h1 class="h1 lang-ru"><span class="spa">Опреснение следующего поколения. </span></h1>
+            <div class="text lang-en-hide">No RO. No thermal desalination.</div>
+            <div class="text lang-ru">Без RO и термопроцессов.</div>
             <div class="div-block-4">
               <a href="executive-summary-viewer.html" target="_blank" class="link button _2 w-inline-block">
                 <div>Executive Summary</div>
@@ -670,6 +692,42 @@
       nav.removeAttribute('data-w-id');
       nav.style.opacity = '1';
       nav.style.visibility = 'visible';
+    }
+  })();
+  </script>
+
+  <!-- LANG SWITCHER -->
+  <script>
+  (function(){
+    'use strict';
+
+    function applyLang(lang) {
+      try { localStorage.setItem('ui_lang', lang); } catch(e) {}
+      document.documentElement.lang = lang;
+
+      // Highlight active option in dropdown
+      var optEn = document.getElementById('lang-opt-en');
+      var optRu = document.getElementById('lang-opt-ru');
+      if (optEn) { optEn.style.opacity = lang === 'en' ? '1' : '0.4'; optEn.style.fontWeight = lang === 'en' ? '700' : '400'; }
+      if (optRu) { optRu.style.opacity = lang === 'ru' ? '1' : '0.4'; optRu.style.fontWeight = lang === 'ru' ? '700' : '400'; }
+
+      // Close dropdown after selection (Webflow w-dropdown)
+      var dd = document.querySelector('.navbar .dropdown-list-lang');
+      if (dd) { dd.classList.remove('w--open'); }
+      var toggle = document.querySelector('.navbar .w-dropdown');
+      if (toggle) { toggle.classList.remove('w--open'); }
+    }
+
+    // Expose globally for onclick
+    window.setLang = applyLang;
+
+    // Restore saved preference on load
+    var saved;
+    try { saved = localStorage.getItem('ui_lang'); } catch(e) {}
+    if (saved === 'ru') {
+      applyLang('ru');
+    } else {
+      applyLang('en');
     }
   })();
   </script>
