@@ -211,12 +211,13 @@ body {
   display: block;
 }
 
-/* Interactive panel — pulled up flush with sidebar bottom */
+/* Interactive panel — "Г" shape rotated 90° CCW:
+   header extends UP, body stays at natural position */
 .hiw__panel {
   display: flex;
-  align-items: stretch;
+  align-items: flex-end;
   gap: 0;
-  margin-top: -120px;
+  margin-top: 0;
   position: relative;
   z-index: 3;
   background: transparent; 
@@ -226,14 +227,15 @@ body {
 .hiw__panel-header {
   width: 280px;
   flex-shrink: 0;
-  padding: 10px 16px;
+  min-height: 130px;
+  padding: 12px 16px;
   background: rgba(255,255,255,0.5);
   border: 1px solid rgba(15,23,42,0.1);
   border-right: none; 
   
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .hiw__panel-header::after { display: none; }
@@ -243,9 +245,7 @@ body {
   padding: 14px 24px;
   margin-right: 260px;
   background: rgba(255,255,255,0.5);
-  border-top: 1px solid rgba(15,23,42,0.1);
-  border-right: 1px solid rgba(15,23,42,0.1);
-  border-bottom: 1px solid rgba(15,23,42,0.1);
+  border: 1px solid rgba(15,23,42,0.1);
   border-left: none;
   
   display: flex;
