@@ -2570,8 +2570,8 @@ html, body {
     height: 88vh;
     max-width: none;
     max-height: none;
-    top: 54%;
-    left: 36%;
+    top: 60%;
+    left: 34%;
     transform: translate(-50%, -50%);
     object-fit: contain;
     pointer-events: none;
