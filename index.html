@@ -69,6 +69,9 @@
       overflow-x: hidden !important;
     }
     
+    /* Mobile-only element — must be hidden globally so desktop never sees it */
+    .sphere-poster { display: none !important; }
+
     /* Hide Spline instantly when scrolled away — no transition = no composite during scroll */
     .spline-content.hidden { 
       opacity: 0; 
