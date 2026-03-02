@@ -103,7 +103,7 @@ body {
 .hiw__main {
   display: flex;
   gap: 15px;
-  align-items: stretch; /* Stretch sidebar to diagram height */
+  align-items: flex-start; /* Sidebar ends at its content height */
   margin-bottom: 0;
 }
 
@@ -217,7 +217,7 @@ body {
   display: flex;
   align-items: flex-end;
   gap: 0;
-  margin-top: 0;
+  margin-top: -50px;
   position: relative;
   z-index: 3;
   background: transparent; 
@@ -227,7 +227,7 @@ body {
 .hiw__panel-header {
   width: 280px;
   flex-shrink: 0;
-  min-height: 130px;
+  min-height: 120px;
   padding: 12px 16px;
   background: rgba(255,255,255,0.5);
   border: 1px solid rgba(15,23,42,0.1);
