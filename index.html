@@ -19,12 +19,16 @@
   <link rel="preconnect" href="https://d3e54v103j8qbb.cloudfront.net" crossorigin>
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <!-- PERF: Preload fonts — Regular always, Medium+SemiBold desktop only -->
+  <!-- PERF: Preload fonts — Regular always (hero body text).
+       Light/ExtraBold desktop-only (not used in mobile hero).
+       Medium/SemiBold desktop-only (nav/headings). -->
   <link rel="preload" href="fonts/Onest-Regular.woff" as="font" type="font/woff" crossorigin>
-  <link rel="preload" href="fonts/Onest-Light.woff" as="font" type="font/woff" crossorigin>
-  <link rel="preload" href="fonts/Onest-ExtraBold.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="fonts/Onest-Light.woff" as="font" type="font/woff" crossorigin media="(min-width: 768px)">
+  <link rel="preload" href="fonts/Onest-ExtraBold.woff" as="font" type="font/woff" crossorigin media="(min-width: 768px)">
   <link rel="preload" href="fonts/Onest-Medium.woff" as="font" type="font/woff" crossorigin media="(min-width: 768px)">
   <link rel="preload" href="fonts/Onest-SemiBold.woff" as="font" type="font/woff" crossorigin media="(min-width: 768px)">
+  <!-- PERF: Preload sphere image on desktop — it's the LCP element -->
+  <link rel="preload" href="images/sphere.webp" as="image" type="image/webp" media="(min-width: 768px)" fetchpriority="high">
   <!-- PERF: normalize.css inlined to save 1 HTTP roundtrip (~100-200ms on mobile) -->
   <style>html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 40px}hr{box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type='checkbox'],input[type='radio']{box-sizing:border-box;padding:0}input[type='number']::-webkit-inner-spin-button,input[type='number']::-webkit-outer-spin-button{height:auto}input[type='search']{-webkit-appearance:none}input[type='search']::-webkit-search-cancel-button,input[type='search']::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:bold}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}</style>
   <!-- CSS must be render-blocking to avoid CLS (layout shifts). 13+40 KiB is acceptable. -->
@@ -59,9 +63,16 @@
     iframe { overflow: hidden !important; }
     section { overflow: hidden !important; }
 
-    /* Desktop: lightweight containment, no will-change (handled by WebGL/iframe natively) */
+    /* Desktop: containment + content-visibility for off-screen sections.
+       content-visibility: auto lets browser skip rendering sections not in viewport.
+       contain-intrinsic-size prevents layout shifts (desktop sections are ~900px).
+       Mobile excluded — section heights vary (460-960px), 900px estimate would cause CLS. */
     @media screen and (min-width: 768px) {
-      section { contain: layout; }
+      section { contain: layout style; }
+      section[id$="-embed"] {
+        content-visibility: auto;
+        contain-intrinsic-size: auto 900px;
+      }
     }
     
     /* Force desktop view on all devices - viewport only, no scroll */
@@ -185,7 +196,7 @@
 </head>
 <body class="body">
   <div class="spline-content">
-    <div class="sphere-fallback" id="sphere-fallback"><picture><source srcset="images/sphere.webp" type="image/webp"><img src="images/sphere.png" alt="" width="1024" height="1024" loading="eager"></picture></div>
+    <div class="sphere-fallback" id="sphere-fallback"><picture><source srcset="images/sphere.webp" type="image/webp"><img src="images/sphere.png" alt="" width="1024" height="1024" loading="eager" decoding="async" fetchpriority="high"></picture></div>
     <!-- PERF: Lazy-load Spline scene. data-spline-url removed; loaded via IntersectionObserver -->
     <div class="spline-scene"
          id="spline-scene"
@@ -434,7 +445,11 @@
       }
 
       var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var saveData = !!(navigator.connection && navigator.connection.saveData);
+      var conn = navigator.connection || {};
+      var saveData = !!conn.saveData;
+      var effectiveType = conn.effectiveType || '4g';
+      // Slow connection? Skip Spline entirely — show fallback
+      var tooSlowForSpline = (effectiveType === '2g' || effectiveType === 'slow-2g');
 
       function showFallback() {
         if (fallbackEl) fallbackEl.classList.add('visible');
@@ -455,8 +470,8 @@
         if (canvas) canvas.style.display = 'none';
       }
 
-      // Weak/unsupported hardware → show fallback immediately, skip Spline
-      if (!hasWebGL() || saveData || reduceMotion || isWeakHardware()) {
+      // Weak/unsupported hardware or very slow connection → show fallback immediately
+      if (!hasWebGL() || saveData || reduceMotion || isWeakHardware() || tooSlowForSpline) {
         showFallback();
         killSpline();
       } else {
@@ -506,9 +521,10 @@
           }, 4000);
         }
 
-        // Hard abort: if Spline scene hasn't rendered in 8s, give up and show fallback
+        // Hard abort: if Spline scene hasn't rendered, give up and show fallback.
+        // Connection-aware: 3G gets more time; 4G gets standard timeout.
         // NOTE: isLoaded means "Webflow JS module found", NOT "3D scene rendered".
-        // Check Performance API for actual .splinecode file download instead.
+        var hardTimeout = (effectiveType === '3g') ? 14000 : 8000;
         setTimeout(function() {
           if (aborted) return;
           var sceneFileLoaded = false;
@@ -526,7 +542,7 @@
             showFallback();
             killSpline();
           }
-        }, 8000);
+        }, hardTimeout);
 
         function updateHeroVisibility() {
           var vis = isInViewport && !document.hidden;
@@ -548,7 +564,27 @@
 
         document.addEventListener('visibilitychange', function() {
           updateHeroVisibility();
+          // When tab is hidden, reduce GPU by hiding the canvas entirely
+          if (canvas && !aborted) {
+            if (document.hidden) {
+              canvas.style.display = 'none';
+            } else if (isInViewport) {
+              canvas.style.display = '';
+            }
+          }
         }, false);
+
+        // Memory cleanup: release WebGL context on page unload
+        window.addEventListener('pagehide', function() {
+          if (canvas) {
+            var gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+            if (gl) {
+              var ext = gl.getExtension('WEBGL_lose_context');
+              if (ext) ext.loseContext();
+            }
+            canvas.width = 1; canvas.height = 1;
+          }
+        });
       }
     }
 
@@ -711,11 +747,14 @@
   (function() {
     var btn = document.getElementById('back-to-top');
     if (!btn) return;
+    var ticking = false;
     window.addEventListener('scroll', function() {
-      if (window.scrollY > 400) {
-        btn.classList.add('visible');
-      } else {
-        btn.classList.remove('visible');
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function() {
+          btn.classList.toggle('visible', window.scrollY > 400);
+          ticking = false;
+        });
       }
     }, { passive: true });
   })();
@@ -750,50 +789,61 @@
       '.sphere-poster__caption:not(.lang-ru)'
     ].join(',');
 
+    /* PERF: Cache DOM queries — these never change during session */
+    var ruEls, enEls, optEn, optRu, dd, wrap, allIframes;
+
+    function cacheEls() {
+      ruEls = document.querySelectorAll('.lang-ru');
+      enEls = document.querySelectorAll(enSelectors);
+      optEn = document.getElementById('lang-opt-en');
+      optRu = document.getElementById('lang-opt-ru');
+      dd    = document.querySelector('.navbar .dropdown-list-lang');
+      wrap  = document.querySelector('.navbar > .w-dropdown');
+      allIframes = document.querySelectorAll('iframe');
+    }
+
     function applyLang(lang) {
       try { localStorage.setItem('ui_lang', lang); } catch(e) {}
 
       var isRu = (lang === 'ru');
 
       /* Show / hide RU duplicates */
-      var ruEls = document.querySelectorAll('.lang-ru');
       for (var i = 0; i < ruEls.length; i++) {
         ruEls[i].style.cssText = isRu ? '' : 'display:none !important';
       }
 
       /* Show / hide original EN elements */
-      var enEls = document.querySelectorAll(enSelectors);
       for (var i = 0; i < enEls.length; i++) {
         enEls[i].style.cssText = isRu ? 'display:none !important' : '';
       }
 
       /* Highlight active option */
-      var optEn = document.getElementById('lang-opt-en');
-      var optRu = document.getElementById('lang-opt-ru');
       if (optEn) { optEn.style.opacity = isRu ? '0.4' : '1'; optEn.style.fontWeight = isRu ? '400' : '700'; }
       if (optRu) { optRu.style.opacity = isRu ? '1' : '0.4'; optRu.style.fontWeight = isRu ? '700' : '400'; }
 
       /* Close Webflow dropdown after click */
-      var dd = document.querySelector('.navbar .dropdown-list-lang');
       if (dd) dd.classList.remove('w--open');
-      var wrap = document.querySelector('.navbar > .w-dropdown');
       if (wrap) wrap.classList.remove('w--open');
 
       /* Broadcast to all iframes */
-      document.querySelectorAll('iframe').forEach(function(fr) {
+      allIframes.forEach(function(fr) {
         try { fr.contentWindow.postMessage({ type: 'setLang', lang: lang }, '*'); } catch(e) {}
       });
     }
 
-    window.setLang = applyLang;
+    window.setLang = function(lang) { applyLang(lang); };
 
     /* On load — always start with EN (RU elements already display:none in HTML) */
     var saved;
     try { saved = localStorage.getItem('ui_lang'); } catch(e) {}
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function(){ applyLang(saved === 'ru' ? 'ru' : 'en'); });
-    } else {
+    function init() {
+      cacheEls();
       applyLang(saved === 'ru' ? 'ru' : 'en');
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
     }
   })();
   </script>
