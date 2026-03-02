@@ -515,12 +515,15 @@ html, body {
 
   /* ── DETAIL PANEL (mobile) ── */
   .hiw__panel {
-    flex-direction: column;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    margin-top: 0 !important;
     background: rgba(255,255,255,0.5) !important;
     border: 1px solid rgba(15,23,42,0.1) !important;
   }
   .hiw__panel-header {
     width: 100% !important;
+    min-height: auto !important;
     padding: 10px 12px 4px !important;
     background: transparent !important;
     border: none !important;
