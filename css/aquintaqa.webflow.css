@@ -2566,8 +2566,8 @@ html, body {
 
   .sphere-fallback img {
     position: absolute;
-    width: 88vh;
-    height: 88vh;
+    width: 72vh;
+    height: 72vh;
     max-width: none;
     max-height: none;
     top: 60%;
