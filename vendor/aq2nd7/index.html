@@ -211,15 +211,14 @@ body {
   display: block;
 }
 
-/* Interactive panel — positioned in flow below */
+/* Interactive panel — pulled up flush with sidebar bottom */
 .hiw__panel {
   display: flex;
   align-items: stretch;
   gap: 0;
-  margin-top: 0;
+  margin-top: -30px;
   position: relative;
   z-index: 3;
-  /* No container border/background to allow split styling for L-shape */
   background: transparent; 
   border: none;
 }
@@ -227,9 +226,8 @@ body {
 .hiw__panel-header {
   width: 280px;
   flex-shrink: 0;
-  padding: 20px 16px;
+  padding: 12px 16px;
   background: rgba(255,255,255,0.5);
-  /* Borders: Left, Bottom. Top is open (connects to sidebar). Right is open (connects to body). */
   border-left: 1px solid rgba(15,23,42,0.1);
   border-bottom: 1px solid rgba(15,23,42,0.1);
   border-top: none;
@@ -237,17 +235,16 @@ body {
   
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .hiw__panel-header::after { display: none; }
 
 .hiw__panel-body {
   flex: 1;
-  padding: 18px 24px;
-  margin-right: 100px;
+  padding: 14px 24px;
+  margin-right: 260px;
   background: rgba(255,255,255,0.5);
-  /* Borders: Top, Right, Bottom. Left is open (connects to header). */
   border-top: 1px solid rgba(15,23,42,0.1);
   border-right: 1px solid rgba(15,23,42,0.1);
   border-bottom: 1px solid rgba(15,23,42,0.1);
@@ -270,7 +267,7 @@ body {
 
 .hiw__detail-title {
   font: 700 18px/1.2 ui-sans-serif, system-ui;
-  color: var(--accent);
+  color: rgba(15, 23, 42, 0.88);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   margin: 0;
