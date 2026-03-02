@@ -640,6 +640,8 @@ a:hover {
 
 .logo {
   background-image: url('../images/Group-1.png');
+  background-image: -webkit-image-set(url('../images/Group-1.webp') type('image/webp'), url('../images/Group-1.png') type('image/png'));
+  background-image: image-set(url('../images/Group-1.webp') type('image/webp'), url('../images/Group-1.png') type('image/png'));
   background-position: 50%;
   background-size: cover;
   flex: none;
