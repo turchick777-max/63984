@@ -83,6 +83,13 @@
     /* Mobile-only element — must be hidden globally so desktop never sees it */
     .sphere-poster { display: none !important; }
 
+    /* CRITICAL: lang-ru elements locked hidden by CSS at all times.
+       This prevents flash of overlapping text BEFORE JS runs, and guards against
+       Webflow IX2 accidentally removing the inline display:none during init.
+       The lang switcher overrides this via element.style.setProperty('display','block','important')
+       only when the user switches to RU mode. */
+    .lang-ru { display: none !important; }
+
     /* Hide Spline instantly when scrolled away — no transition = no composite during scroll */
     .spline-content.hidden { 
       opacity: 0; 
@@ -807,9 +814,16 @@
 
       var isRu = (lang === 'ru');
 
-      /* Show / hide RU duplicates */
+      /* Show / hide RU duplicates.
+         CSS already has .lang-ru { display: none !important }.
+         To SHOW: setProperty with 'important' flag overrides the CSS rule.
+         To HIDE: removeProperty lets the CSS rule take effect again. */
       for (var i = 0; i < ruEls.length; i++) {
-        ruEls[i].style.cssText = isRu ? '' : 'display:none !important';
+        if (isRu) {
+          ruEls[i].style.setProperty('display', 'block', 'important');
+        } else {
+          ruEls[i].style.removeProperty('display');
+        }
       }
 
       /* Show / hide original EN elements */

@@ -2568,12 +2568,12 @@ html, body {
 
   .sphere-fallback img {
     position: absolute;
-    width: 72vh;
-    height: 72vh;
+    width: 80vh;
+    height: 80vh;
     max-width: none;
     max-height: none;
     top: 62%;
-    left: 26%;
+    left: 20%;
     transform: translate(-50%, -50%);
     object-fit: contain;
     pointer-events: none;
@@ -2600,8 +2600,8 @@ html, body {
     transform: scale(1.0) translateX(-5%) translateY(2%) !important;
   }
   .sphere-fallback img {
-    width: 75vh;
-    height: 75vh;
+    width: 84vh;
+    height: 84vh;
   }
 }
 
