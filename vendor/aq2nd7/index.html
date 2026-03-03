@@ -1096,11 +1096,26 @@ html, body {
   });
 
   /* ── + / – buttons ── */
-  document.getElementById('hiwZoomIn').addEventListener('click', function (e) {
+  // FIX: vp's pointerdown calls setPointerCapture() which hijacks ALL subsequent
+  // pointer events (redirecting them to vp, not the button), and calls
+  // preventDefault() which suppresses click synthesis on iOS/Android.
+  // Solution: stop propagation of pointerdown + touchstart on buttons so vp's
+  // handler never sees them → no capture → no preventDefault → pointerup fires
+  // directly on the button as expected.
+  var zoomInBtn  = document.getElementById('hiwZoomIn');
+  var zoomOutBtn = document.getElementById('hiwZoomOut');
+
+  function stopBtnBubble(e) { e.stopPropagation(); }
+  [zoomInBtn, zoomOutBtn].forEach(function(btn) {
+    btn.addEventListener('pointerdown', stopBtnBubble);
+    btn.addEventListener('touchstart',  stopBtnBubble, { passive: true });
+  });
+
+  zoomInBtn.addEventListener('pointerup', function(e) {
     e.stopPropagation();
     zoomAt(vp.clientWidth / 2, vp.clientHeight / 2, 1.3);
   });
-  document.getElementById('hiwZoomOut').addEventListener('click', function (e) {
+  zoomOutBtn.addEventListener('pointerup', function(e) {
     e.stopPropagation();
     zoomAt(vp.clientWidth / 2, vp.clientHeight / 2, 0.77);
   });
