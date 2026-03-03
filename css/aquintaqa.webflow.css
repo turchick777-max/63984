@@ -1557,6 +1557,12 @@ a:hover {
   display: block !important;
   z-index: 100 !important;
 }
+/* FIX: .se1 .div-block-17 above has specificity (0,2,0) with !important on display,
+   which overrode .lang-ru (0,1,0) causing BOTH EN and RU text to show simultaneously.
+   This rule (0,3,0) ensures the RU duplicate stays hidden. */
+.se1 .div-block-17.lang-ru {
+  display: none !important;
+}
 
 .se1 .div-block-17 .text-block-2 {
   white-space: nowrap !important;
