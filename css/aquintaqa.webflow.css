@@ -1515,33 +1515,35 @@ a:hover {
 /* "Planet of 8+ billion people." - вверху слева под логотипом */
 .se1 .content-img > .text-block {
   position: absolute !important;
-  top: -40px !important;
+  top: -30px !important;
   left: 30px !important;
   width: auto !important;
   max-width: 500px !important;
   text-align: left !important;
   font-size: 1.1rem !important;
-  font-weight: 300 !important;
-  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 400 !important;
+  color: rgba(255, 255, 255, 0.88) !important;
   letter-spacing: 1.5px !important;
   margin: 0 !important;
   z-index: 100 !important;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.55) !important;
 }
 
 /* "~97.5% of water..." - под первым текстом */
 .se1 .content-img > .text-block._2 {
   position: absolute !important;
-  top: -5px !important;
+  top: 8px !important;
   left: 40px !important;
   width: auto !important;
   max-width: 500px !important;
   text-align: left !important;
   font-size: 0.85rem !important;
-  font-weight: 300 !important;
-  color: rgba(255, 255, 255, 0.5) !important;
+  font-weight: 400 !important;
+  color: rgba(255, 255, 255, 0.72) !important;
   letter-spacing: 1px !important;
   margin: 0 !important;
   z-index: 100 !important;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.55) !important;
 }
 
 /* "<1% SHARE..." - справа от сферы, по центру */
@@ -2078,8 +2080,9 @@ html, body {
   padding-right: 0 !important;
 }
 .se1 .content-img > .text-block._2 {
-  color: #ffffffc9 !important;
+  color: rgba(255,255,255,0.72) !important;
   opacity: 1 !important;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.55) !important;
 }
 /* ===== HERO CTA BUTTONS: clean SpaceX-like ===== */
 .se1 .div-block-4{
@@ -2147,13 +2150,14 @@ html, body {
 /* Planet overlay: make both lines identical */
 .se1 .content-img > .text-block,
 .se1 .content-img > .text-block._2{
-  color: #ffffffc9 !important;
+  color: rgba(255,255,255,0.88) !important;
   opacity: 1 !important;
 
-  font-size: 1.11rem !important;     /* same size as "Planet of..." */
-  font-weight: 300 !important;
+  font-size: 1.11rem !important;
+  font-weight: 400 !important;
   letter-spacing: 0.08em !important;
   line-height: 151% !important;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.55) !important;
 }
 .se1 .div-block-4 {
   margin-top: 2.5rem !important;
@@ -2171,6 +2175,8 @@ html, body {
 .se1 .content-img > .text-block._2 {
   font-size: 0.94rem !important;
   line-height: 1.45 !important;
+  font-weight: 400 !important;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.55) !important;
 }
 
 /* ==============================================
