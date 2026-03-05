@@ -2610,7 +2610,7 @@ html, body {
    Upper bound 1200px covers iPad Air / iPad Pro landscape (1180px logical width) */
 @media screen and (min-width: 769px) and (max-width: 1200px) {
   .spline-scene {
-    transform: scale(1.08) translateX(-12%) translateY(7%) !important;
+    transform: scale(1.08) translateX(-12%) translateY(12%) !important;
   }
 
   /* Raise the 3-line text group so it clears the sphere */
