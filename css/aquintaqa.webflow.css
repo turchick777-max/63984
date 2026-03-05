@@ -1647,7 +1647,7 @@ a:hover {
 /* Сфера: больше и правее (desktop only) */
 @media screen and (min-width: 769px) {
   .spline-scene {
-    transform: scale(1.16) translateX(-6%) translateY(4%) !important;
+    transform: scale(1.08) translateX(-6%) translateY(1%) !important;
   }
 }
 /* Уменьшить заголовок */
