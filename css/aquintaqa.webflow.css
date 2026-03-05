@@ -2609,7 +2609,7 @@ html, body {
 /* Tablet (769–1100px): sphere lower-left + text block raised above sphere */
 @media screen and (min-width: 769px) and (max-width: 1100px) {
   .spline-scene {
-    transform: scale(1.08) translateX(-12%) translateY(14%) !important;
+    transform: scale(1.08) translateX(-12%) translateY(7%) !important;
   }
 
   /* Raise the 3-line text group so it clears the sphere */
