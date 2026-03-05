@@ -2606,8 +2606,9 @@ html, body {
   }
 }
 
-/* Tablet (769–1100px): sphere lower-left + text block raised above sphere */
-@media screen and (min-width: 769px) and (max-width: 1100px) {
+/* Tablet (769–1200px): sphere lower-left + text block raised above sphere
+   Upper bound 1200px covers iPad Air / iPad Pro landscape (1180px logical width) */
+@media screen and (min-width: 769px) and (max-width: 1200px) {
   .spline-scene {
     transform: scale(1.08) translateX(-12%) translateY(7%) !important;
   }
@@ -2620,7 +2621,7 @@ html, body {
     top: -18px !important;
   }
   .se1 .div-block-17 {
-    top: 18px !important;
+    top: 14px !important;
     left: 120px !important;
   }
 }
