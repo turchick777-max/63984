@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <script>if(screen.width>=768){document.querySelector('meta[name="viewport"]').setAttribute("content","width=1440,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no")}</script>
-  <title>Quality & Validation — AQUINTAQA</title>
+  <title>Quality &amp; Validation — AQUINTAQA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -50,7 +50,6 @@
       font-size: 13px;
       color: var(--text-muted);
       text-decoration: none;
-      margin-bottom: 16px;
       transition: color .2s;
     }
     .back-link:hover { color: var(--text); }
@@ -59,6 +58,13 @@
     .header {
       flex-shrink: 0;
       padding: 40px 48px 0;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
     }
 
     .header h1 {
@@ -84,6 +90,42 @@
 
     .header .hint span {
       color: rgba(255,255,255,.55);
+    }
+
+    /* ── Lang switch ── */
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: color .2s, background .2s;
+    }
+
+    .lang-btn:hover { color: rgba(255,255,255,.7); }
+
+    .lang-btn.active {
+      color: var(--text);
+      background: rgba(255,255,255,.07);
+    }
+
+    .lang-sep {
+      color: var(--text-muted);
+      font-size: 11px;
+      user-select: none;
+      padding: 0 1px;
     }
 
     /* ── Cards rail ── */
@@ -141,9 +183,16 @@
       letter-spacing: .1em;
       text-transform: uppercase;
       margin-bottom: 16px;
+      flex-shrink: 0;
     }
 
-    .card h2 {
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-body h2 {
       font-size: 22px;
       font-weight: 600;
       line-height: 1.25;
@@ -151,11 +200,11 @@
       letter-spacing: -0.01em;
     }
 
-    .card h2 .accent {
+    .card-body h2 .accent {
       color: var(--text);
     }
 
-    .card p {
+    .card-body p {
       font-size: 15px;
       font-weight: 400;
       line-height: 1.65;
@@ -163,7 +212,7 @@
       margin-bottom: 16px;
     }
 
-    .card h3 {
+    .card-body h3 {
       font-size: 16px;
       font-weight: 600;
       color: var(--text);
@@ -173,12 +222,12 @@
       border-left: 2px solid rgba(255,255,255,.2);
     }
 
-    .card ul, .card ol {
+    .card-body ul, .card-body ol {
       padding-left: 20px;
       margin-bottom: 16px;
     }
 
-    .card li {
+    .card-body li {
       font-size: 15px;
       font-weight: 400;
       line-height: 1.6;
@@ -186,11 +235,11 @@
       margin-bottom: 6px;
     }
 
-    .card li::marker {
+    .card-body li::marker {
       color: var(--text-muted);
     }
 
-    .card .note {
+    .card-body .note {
       font-size: 13px;
       font-style: italic;
       color: var(--text-muted);
@@ -199,13 +248,18 @@
       border-top: 1px solid var(--card-border);
     }
 
-    .card .scope-link {
+    .card-body .scope-link {
       display: inline;
       color: var(--text);
       font-weight: 600;
       text-decoration: underline;
       text-decoration-color: rgba(255,255,255,.25);
       text-underline-offset: 3px;
+    }
+
+    .card-body .scope-link:hover {
+      color: #fff;
+      text-decoration-color: rgba(255,255,255,.6);
     }
 
     /* ── Bottom bar with progress strip ── */
@@ -267,10 +321,17 @@
   <div class="page">
     <!-- Header -->
     <div class="header">
-      <a href="index.html" class="back-link">← Back</a>
-      <h1>QUALITY & VALIDATION</h1>
-      <div class="subtitle">Process Control, Testing Discipline, and External Verification</div>
-      <div class="hint">Scroll horizontally or use <span>← →</span> arrows</div>
+      <div class="header-top">
+        <a href="index.html" class="back-link" data-i18n="back">← Back</a>
+        <div class="lang-switch" id="lang-switch">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <span class="lang-sep">/</span>
+          <button class="lang-btn" data-lang="ru">RU</button>
+        </div>
+      </div>
+      <h1 data-i18n="title">QUALITY &amp; VALIDATION</h1>
+      <div class="subtitle" data-i18n="subtitle">Process Control, Testing Discipline, and External Verification</div>
+      <div class="hint" data-i18n-html="hint">Scroll horizontally or use <span>← →</span> arrows</div>
     </div>
 
     <!-- Cards rail -->
@@ -283,108 +344,37 @@
         <!-- Card 1: Quality Philosophy -->
         <div class="card" data-card="0">
           <div class="card-number">01</div>
-          <h2>Quality <span class="accent">Philosophy</span></h2>
-          <p>AQUINTAQA is developed as a controlled engineering system rather than an experimental laboratory concept.</p>
-          <p>The process is governed by defined operating parameters, traceable testing cycles, and structured documentation practices.</p>
-          <p>Quality is approached as a system property, not a performance claim. Every configuration is evaluated within defined feed ranges, monitored operating envelopes, and repeatable procedures. Process stability, ion reduction directionality, and recovery ratios are assessed under documented baseline conditions.</p>
-          <p>The objective is not only to demonstrate technical feasibility, but to ensure that the system behaves predictably across validated feed compositions and operating configurations. All technical iterations are logged, version-controlled, and reviewed under internal governance procedures.</p>
+          <div class="card-body" data-card-body="0"></div>
         </div>
 
         <!-- Card 2: Testing Methodology -->
         <div class="card" data-card="1">
           <div class="card-number">02</div>
-          <h2>Testing <span class="accent">Methodology</span></h2>
-          <p>Validation activities are conducted using controlled sample preparation and documented baseline measurements prior to each run.</p>
-          <p>Testing framework includes:</p>
-          <ul>
-            <li>Defined feed salinity and composition parameters</li>
-            <li>Controlled reactor configuration and gas–sorbent dosing conditions</li>
-            <li>Continuous monitoring of process stability</li>
-            <li>Structured before/after sampling</li>
-          </ul>
-          <p>Each testing cycle begins with baseline characterization of the incoming feed (TDS, ion composition, and key parameters). Following controlled operation under documented settings, post-treatment samples are collected and prepared according to traceable procedures.</p>
+          <div class="card-body" data-card-body="1"></div>
         </div>
 
         <!-- Card 3: Independent Validation -->
         <div class="card" data-card="2">
           <div class="card-number">03</div>
-          <h2>Independent <span class="accent">Validation</span></h2>
-          <p>External laboratory involvement forms a core component of the validation process.</p>
-          <p>Independent testing covers:</p>
-          <ul>
-            <li>Pre- and post-treatment analytical verification</li>
-            <li>Chemical parameter confirmation</li>
-            <li>Laboratory measurement protocols aligned with recognized analytical standards</li>
-          </ul>
-          <p>All laboratory interactions are documented. Sample origin, preparation method, and handling procedures are recorded to maintain data integrity.</p>
-          <p>Disclosure framework:</p>
-          <ul>
-            <li>Public site: high-level validation status only</li>
-            <li>Post e-NDA: laboratory reports, analytical methods, extended datasets</li>
-          </ul>
-          <p>No certification or regulatory approval claims are made on this page. Validation status reflects structured technical testing under defined conditions.</p>
+          <div class="card-body" data-card-body="2"></div>
         </div>
 
         <!-- Card 4: Validation Focus Areas -->
         <div class="card" data-card="3">
           <div class="card-number">04</div>
-          <h2>Validation <span class="accent">Focus Areas</span></h2>
-          <p>Independent laboratories conduct analytical measurements for before/after comparisons under chain-of-custody handling where applicable. Repeatability is evaluated through multi-run testing across varying feed salinity ranges.</p>
-          <p>Validation focus areas include:</p>
-          <ul>
-            <li>Directional ion reduction consistency</li>
-            <li>Product water recovery behavior</li>
-            <li>Concentrate management profile</li>
-            <li>Operational stability across extended runs (≥300 hours cumulative pilot operation)</li>
-          </ul>
-          <p>Testing results are compiled into structured reports. Public disclosures present only high-level status indicators. Detailed numerical datasets, analytical methods, and extended testing logs are available under e-NDA within the Data Room.</p>
+          <div class="card-body" data-card-body="3"></div>
         </div>
 
         <!-- Card 5: Standards Alignment -->
         <div class="card" data-card="4">
           <div class="card-number">05</div>
-          <h2>Standards <span class="accent">Alignment</span></h2>
-          <p>Alignment with international drinking-water guidance is assessed at a reference level.</p>
-          
-          <div style="font-size: 13px; border-top: 1px solid var(--card-border); padding-top: 12px; margin-bottom: 8px; color: var(--text-dim);">
-            <strong>WHO Drinking-Water Guidelines</strong><br>
-            Reference benchmark applied<br>
-            <span style="color: var(--text-muted);">Public guidance used for parameter comparison</span>
-          </div>
-
-          <div style="font-size: 13px; border-top: 1px solid var(--card-border); padding-top: 12px; margin-bottom: 8px; color: var(--text-dim);">
-            <strong>EU Drinking Water Directive</strong><br>
-            Reference benchmark applied<br>
-            <span style="color: var(--text-muted);">Jurisdiction-specific limits vary</span>
-          </div>
-
-          <div style="font-size: 13px; border-top: 1px solid var(--card-border); padding-top: 12px; margin-bottom: 16px; color: var(--text-dim);">
-            <strong>US EPA Drinking Water Standards</strong><br>
-            Reference benchmark applied<br>
-            <span style="color: var(--text-muted);">Public standards used for comparative analysis</span>
-          </div>
-
-          <p>Benchmarks are used as analytical reference points only. No compliance or certification statement is implied.</p>
-          <div class="note">Full parameter comparison tables are available post e-NDA.</div>
+          <div class="card-body" data-card-body="4"></div>
         </div>
 
         <!-- Card 6: Quality System & Governance -->
         <div class="card" data-card="5">
           <div class="card-number">06</div>
-          <h2>Quality System & <span class="accent">Governance</span></h2>
-          <p>AQUINTAQA operates under structured internal quality governance procedures.</p>
-          <p>Core elements include:</p>
-          <ul>
-            <li>Document version control</li>
-            <li>Controlled configuration tracking</li>
-            <li>Testing protocol standardization</li>
-            <li>Process parameter logging</li>
-            <li>Data traceability framework</li>
-          </ul>
-          <p>Each prototype and pilot configuration is documented with revision history and operating context. Testing protocols define feed parameters, run conditions, sampling intervals, and logging requirements.</p>
-          <p>Operational data are archived and linked to configuration versions to maintain traceability across development stages.</p>
-          <p>Where applicable, future industrial implementation will align with formal quality management standards appropriate to jurisdiction and deployment context.</p>
-          <p>This page presents the validation framework in high-level form. Expanded technical documentation and laboratory evidence are available under structured disclosure procedures.</p>
+          <div class="card-body" data-card-body="5"></div>
         </div>
 
       </div>
@@ -400,6 +390,148 @@
 
   <script>
   (() => {
+    /* ── Translations ── */
+    const i18n = {
+      en: {
+        back: '← Back',
+        title: 'QUALITY & VALIDATION',
+        subtitle: 'Process Control, Testing Discipline, and External Verification',
+        hint: 'Scroll horizontally or use <span>\u2190 \u2192</span> arrows',
+        pageTitle: 'Quality & Validation \u2014 AQUINTAQA',
+        cards: [
+          /* 0 – Quality Philosophy */
+          `<h2>Quality <span class="accent">Philosophy</span></h2>
+          <p>AQUINTAQA is developed as a controlled engineering system rather than an experimental laboratory concept.</p>
+          <p>The process is governed by defined operating parameters, traceable testing cycles, and structured documentation practices.</p>
+          <p>Quality is approached as a system property, not a performance claim. Every configuration is evaluated within defined feed ranges, monitored operating envelopes, and repeatable procedures. Process stability, ion reduction directionality, and recovery ratios are assessed under documented baseline conditions.</p>
+          <p>The objective is not only to demonstrate technical feasibility, but to ensure that the system behaves predictably across validated feed compositions and operating configurations. All technical iterations are logged, version-controlled, and reviewed under internal governance procedures.</p>`,
+
+          /* 1 – Testing Methodology */
+          `<h2>Testing <span class="accent">Methodology</span></h2>
+          <p>Validation activities are conducted using controlled sample preparation and documented baseline measurements prior to each run.</p>
+          <p>Testing framework includes:</p>
+          <ul>
+            <li>Defined feed salinity and composition parameters</li>
+            <li>Controlled reactor configuration and gas\u2013sorbent dosing conditions</li>
+            <li>Continuous monitoring of process stability</li>
+            <li>Structured before/after sampling</li>
+          </ul>
+          <p>Each testing cycle begins with baseline characterization of the incoming feed (TDS, ion composition, and key parameters). Following controlled operation under documented settings, post-treatment samples are collected and prepared according to traceable procedures.</p>`,
+
+          /* 2 – Independent Validation */
+          `<h2>Independent <span class="accent">Validation</span></h2>
+          <p>External laboratory involvement forms a core component of the validation process.</p>
+          <p>Independent testing covers:</p>
+          <ul>
+            <li>Pre- and post-treatment analytical verification</li>
+            <li>Chemical parameter confirmation</li>
+            <li>Laboratory measurement protocols aligned with recognized analytical standards</li>
+          </ul>
+          <p>All laboratory interactions are documented. Sample origin, preparation method, and handling procedures are recorded to maintain data integrity.</p>
+          <p>Disclosure framework:</p>
+          <ul>
+            <li>Public site: high-level validation status only</li>
+            <li>Post e-NDA: laboratory reports, analytical methods, extended datasets</li>
+          </ul>
+          <p>No certification or regulatory approval claims are made on this page. Validation status reflects structured technical testing under defined conditions.</p>`,
+
+          /* 3 – Validation Focus Areas */
+          `<h2>Validation <span class="accent">Focus Areas</span></h2>
+          <p>Independent laboratories conduct analytical measurements for before/after comparisons under chain-of-custody handling where applicable. Repeatability is evaluated through multi-run testing across varying feed salinity ranges.</p>
+          <p>Validation focus areas include:</p>
+          <ul>
+            <li>Directional ion reduction consistency</li>
+            <li>Product water recovery behavior</li>
+            <li>Concentrate management profile</li>
+            <li>Operational stability across extended runs (\u2265300 hours cumulative pilot operation)</li>
+          </ul>
+          <p>Testing results are compiled into structured reports. Public disclosures present only high-level status indicators. Detailed numerical datasets, analytical methods, and extended testing logs are available under e-NDA within the Data Room.</p>`,
+
+          /* 4 – Standards Alignment */
+          `<h2>Standards <span class="accent">Alignment</span></h2>
+          <p>Alignment with international drinking-water guidance is assessed at a reference level.</p>
+          <div style="font-size: 13px; border-top: 1px solid var(--card-border); padding-top: 12px; margin-bottom: 8px; color: var(--text-dim);">
+            <strong>WHO Drinking-Water Guidelines</strong><br>
+            Reference benchmark applied<br>
+            <span style="color: var(--text-muted);">Public guidance used for parameter comparison</span>
+          </div>
+          <div style="font-size: 13px; border-top: 1px solid var(--card-border); padding-top: 12px; margin-bottom: 8px; color: var(--text-dim);">
+            <strong>EU Drinking Water Directive</strong><br>
+            Reference benchmark applied<br>
+            <span style="color: var(--text-muted);">Jurisdiction-specific limits vary</span>
+          </div>
+          <div style="font-size: 13px; border-top: 1px solid var(--card-border); padding-top: 12px; margin-bottom: 16px; color: var(--text-dim);">
+            <strong>US EPA Drinking Water Standards</strong><br>
+            Reference benchmark applied<br>
+            <span style="color: var(--text-muted);">Public standards used for comparative analysis</span>
+          </div>
+          <p>Benchmarks are used as analytical reference points only. No compliance or certification statement is implied.</p>
+          <div class="note">Full parameter comparison tables are available post e-NDA.</div>`,
+
+          /* 5 – Quality System & Governance */
+          `<h2>Quality System &amp; <span class="accent">Governance</span></h2>
+          <p>AQUINTAQA operates under structured internal quality governance procedures.</p>
+          <p>Core elements include:</p>
+          <ul>
+            <li>Document version control</li>
+            <li>Controlled configuration tracking</li>
+            <li>Testing protocol standardization</li>
+            <li>Process parameter logging</li>
+            <li>Data traceability framework</li>
+          </ul>
+          <p>Each prototype and pilot configuration is documented with revision history and operating context. Testing protocols define feed parameters, run conditions, sampling intervals, and logging requirements.</p>
+          <p>Operational data are archived and linked to configuration versions to maintain traceability across development stages.</p>
+          <p>Where applicable, future industrial implementation will align with formal quality management standards appropriate to jurisdiction and deployment context.</p>
+          <p>This page presents the validation framework in high-level form. Expanded technical documentation and laboratory evidence are available under structured disclosure procedures.</p>`
+        ]
+      },
+
+      ru: {
+        back: '\u2190 \u041d\u0430\u0437\u0430\u0434',
+        title: '\u041a\u0410\u0427\u0415\u0421\u0422\u0412\u041e \u0418 \u0412\u0410\u041b\u0418\u0414\u0410\u0426\u0418\u042f',
+        subtitle: '',
+        hint: '\u041f\u0440\u043e\u043a\u0440\u0443\u0442\u0438\u0442\u0435 \u0433\u043e\u0440\u0438\u0437\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u043e \u0438\u043b\u0438 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0439\u0442\u0435 \u0441\u0442\u0440\u0435\u043b\u043a\u0438 <span>\u2190 \u2192</span>',
+        pageTitle: '\u041a\u0430\u0447\u0435\u0441\u0442\u0432\u043e \u0438 \u0432\u0430\u043b\u0438\u0434\u0430\u0446\u0438\u044f \u2014 AQUINTAQA',
+        cards: null
+      }
+    };
+
+    /* ── Language switcher ── */
+    const langBtns = document.querySelectorAll('.lang-btn');
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      const t = i18n[lang];
+
+      langBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (t[key] !== undefined && t[key] !== '') el.textContent = t[key];
+      });
+
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.dataset.i18nHtml;
+        if (t[key] !== undefined) el.innerHTML = t[key];
+      });
+
+      if (t.cards) {
+        document.querySelectorAll('[data-card-body]').forEach(el => {
+          const idx = parseInt(el.dataset.cardBody);
+          if (t.cards[idx] !== undefined) el.innerHTML = t.cards[idx];
+        });
+      }
+
+      document.title = t.pageTitle;
+      currentLang = lang;
+    }
+
+    langBtns.forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+
+    /* ── Init: render English content ── */
+    setLang('en');
+
+    /* ── Rail navigation ── */
     const rail = document.getElementById('rail');
     const cards = Array.from(rail.querySelectorAll('.card'));
     const progressFill = document.getElementById('progress-fill');
@@ -424,7 +556,6 @@
       rail.scrollTo({ left: i * STEP, behavior: 'smooth' });
     }
 
-    // Arrow buttons
     leftBtn.addEventListener('click', () => {
       const next = activeIndex <= 0 ? cards.length - 1 : activeIndex - 1;
       scrollToCard(next);
@@ -435,10 +566,8 @@
       scrollToCard(next);
     });
 
-    // Update dots on scroll
     rail.addEventListener('scroll', updateDots, { passive: true });
 
-    // Drag to scroll
     let isDown = false, startX, scrollStart;
 
     rail.addEventListener('mousedown', (e) => {
@@ -459,7 +588,6 @@
       rail.scrollLeft = scrollStart - walk;
     });
 
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') { rightBtn.click(); }
       if (e.key === 'ArrowLeft') { leftBtn.click(); }

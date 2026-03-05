@@ -416,7 +416,6 @@
       var splineContainer = document.querySelector('.spline-content');
       var splineUrl = splineEl.getAttribute('data-spline-url-lazy');
       var fallbackEl = document.getElementById('sphere-fallback');
-      var canvas = splineEl.querySelector('canvas');
       var isLoaded = false;
       var aborted = false;
 
@@ -460,7 +459,8 @@
 
       function showFallback() {
         if (fallbackEl) fallbackEl.classList.add('visible');
-        if (canvas) canvas.style.visibility = 'hidden';
+        var c = splineEl.querySelector('canvas');
+        if (c) { c.style.visibility = 'hidden'; c.style.display = 'none'; }
       }
 
       function hideFallback() {
@@ -474,7 +474,8 @@
       function killSpline() {
         splineEl.removeAttribute('data-spline-url');
         splineEl.removeAttribute('data-spline-url-lazy');
-        if (canvas) canvas.style.display = 'none';
+        var c = splineEl.querySelector('canvas');
+        if (c) c.style.display = 'none';
       }
 
       // Weak/unsupported hardware or very slow connection → show fallback immediately
@@ -485,11 +486,12 @@
         // Capable hardware → load Spline, fallback stays hidden unless Spline fails
         var isInViewport = true;
 
-        if (canvas) {
-          canvas.addEventListener('webglcontextlost', function(e) {
+        var initCanvas = splineEl.querySelector('canvas');
+        if (initCanvas) {
+          initCanvas.addEventListener('webglcontextlost', function(e) {
             e.preventDefault(); showFallback(); aborted = true;
           }, false);
-          canvas.addEventListener('webglcontextrestored', function() { hideFallback(); }, false);
+          initCanvas.addEventListener('webglcontextrestored', function() { hideFallback(); }, false);
         }
 
         var retryCount = 0;
@@ -521,7 +523,8 @@
           // After 4s check if Spline actually rendered
           setTimeout(function() {
             if (aborted) return;
-            if (!canvas || canvas.clientWidth < 100 || canvas.clientHeight < 100) {
+            var c = splineEl.querySelector('canvas');
+            if (!c || c.clientWidth < 100 || c.clientHeight < 100) {
               showFallback();
               killSpline();
             }
@@ -551,10 +554,23 @@
           }
         }, hardTimeout);
 
+        function getCanvas() {
+          return splineEl.querySelector('canvas');
+        }
+
         function updateHeroVisibility() {
           var vis = isInViewport && !document.hidden;
           if (splineContainer) splineContainer.classList.toggle('hidden', !vis);
-          if (canvas && !aborted) canvas.style.visibility = vis ? 'visible' : 'hidden';
+          var c = getCanvas();
+          if (c && !aborted) {
+            if (vis) {
+              c.style.display = '';
+              c.style.visibility = 'visible';
+            } else {
+              c.style.visibility = 'hidden';
+              c.style.display = 'none';
+            }
+          }
         }
 
         var obs = new IntersectionObserver(function(entries) {
@@ -571,25 +587,18 @@
 
         document.addEventListener('visibilitychange', function() {
           updateHeroVisibility();
-          // When tab is hidden, reduce GPU by hiding the canvas entirely
-          if (canvas && !aborted) {
-            if (document.hidden) {
-              canvas.style.display = 'none';
-            } else if (isInViewport) {
-              canvas.style.display = '';
-            }
-          }
         }, false);
 
         // Memory cleanup: release WebGL context on page unload
         window.addEventListener('pagehide', function() {
-          if (canvas) {
-            var gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+          var c = splineEl.querySelector('canvas');
+          if (c) {
+            var gl = c.getContext('webgl2') || c.getContext('webgl');
             if (gl) {
               var ext = gl.getExtension('WEBGL_lose_context');
               if (ext) ext.loseContext();
             }
-            canvas.width = 1; canvas.height = 1;
+            c.width = 1; c.height = 1;
           }
         });
       }

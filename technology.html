@@ -50,7 +50,6 @@
       font-size: 13px;
       color: var(--text-muted);
       text-decoration: none;
-      margin-bottom: 16px;
       transition: color .2s;
     }
     .back-link:hover { color: var(--text); }
@@ -59,6 +58,13 @@
     .header {
       flex-shrink: 0;
       padding: 40px 48px 0;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
     }
 
     .header h1 {
@@ -84,6 +90,42 @@
 
     .header .hint span {
       color: rgba(255,255,255,.55);
+    }
+
+    /* ── Lang switch ── */
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: color .2s, background .2s;
+    }
+
+    .lang-btn:hover { color: rgba(255,255,255,.7); }
+
+    .lang-btn.active {
+      color: var(--text);
+      background: rgba(255,255,255,.07);
+    }
+
+    .lang-sep {
+      color: var(--text-muted);
+      font-size: 11px;
+      user-select: none;
+      padding: 0 1px;
     }
 
     /* ── Cards rail ── */
@@ -141,9 +183,16 @@
       letter-spacing: .1em;
       text-transform: uppercase;
       margin-bottom: 16px;
+      flex-shrink: 0;
     }
 
-    .card h2 {
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-body h2 {
       font-size: 22px;
       font-weight: 600;
       line-height: 1.25;
@@ -151,11 +200,11 @@
       letter-spacing: -0.01em;
     }
 
-    .card h2 .accent {
+    .card-body h2 .accent {
       color: var(--text);
     }
 
-    .card p {
+    .card-body p {
       font-size: 15px;
       font-weight: 400;
       line-height: 1.65;
@@ -163,7 +212,7 @@
       margin-bottom: 16px;
     }
 
-    .card h3 {
+    .card-body h3 {
       font-size: 16px;
       font-weight: 600;
       color: var(--text);
@@ -173,12 +222,12 @@
       border-left: 2px solid rgba(255,255,255,.2);
     }
 
-    .card ul, .card ol {
+    .card-body ul, .card-body ol {
       padding-left: 20px;
       margin-bottom: 16px;
     }
 
-    .card li {
+    .card-body li {
       font-size: 15px;
       font-weight: 400;
       line-height: 1.6;
@@ -186,11 +235,11 @@
       margin-bottom: 6px;
     }
 
-    .card li::marker {
+    .card-body li::marker {
       color: var(--text-muted);
     }
 
-    .card .note {
+    .card-body .note {
       font-size: 13px;
       font-style: italic;
       color: var(--text-muted);
@@ -199,11 +248,11 @@
       border-top: 1px solid var(--card-border);
     }
 
-    .card .comparison-group {
+    .card-body .comparison-group {
       margin-bottom: 16px;
     }
 
-    .card .comparison-group h4 {
+    .card-body .comparison-group h4 {
       font-size: 14px;
       font-weight: 600;
       color: var(--text);
@@ -211,15 +260,11 @@
       letter-spacing: .02em;
     }
 
-    .card .comparison-group.aq h4 {
-      color: var(--text);
-    }
-
-    .card .comparison-group ul {
+    .card-body .comparison-group ul {
       margin-bottom: 8px;
     }
 
-    .card .scope-link {
+    .card-body .scope-link {
       display: inline;
       color: var(--text);
       font-weight: 600;
@@ -228,7 +273,7 @@
       text-underline-offset: 3px;
     }
 
-    .card .scope-link:hover {
+    .card-body .scope-link:hover {
       color: #fff;
       text-decoration-color: rgba(255,255,255,.6);
     }
@@ -292,10 +337,17 @@
   <div class="page">
     <!-- Header -->
     <div class="header">
-      <a href="index.html" class="back-link">← Back</a>
-      <h1>TECHNOLOGY</h1>
-      <div class="subtitle">Volumetric Gas–Sorbent Desalination Platform</div>
-      <div class="hint">Scroll horizontally or use <span>← →</span> arrows</div>
+      <div class="header-top">
+        <a href="index.html" class="back-link" data-i18n="back">← Back</a>
+        <div class="lang-switch" id="lang-switch">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <span class="lang-sep">/</span>
+          <button class="lang-btn" data-lang="ru">RU</button>
+        </div>
+      </div>
+      <h1 data-i18n="title">TECHNOLOGY</h1>
+      <div class="subtitle" data-i18n="subtitle">Volumetric Gas–Sorbent Desalination Platform</div>
+      <div class="hint" data-i18n-html="hint">Scroll horizontally or use <span>← →</span> arrows</div>
     </div>
 
     <!-- Cards rail -->
@@ -308,8 +360,70 @@
         <!-- Card 1: Process Overview -->
         <div class="card" data-card="0">
           <div class="card-number">01</div>
-          <h2>Process <span class="accent">Overview</span></h2>
-          <p>AQUINTAQA is based on a volumetric gas–sorbent separation mechanism designed to remove dissolved ions from saline water through controlled physicochemical interaction within a multiphase system.</p>
+          <div class="card-body" data-card-body="0"></div>
+        </div>
+
+        <!-- Card 2: High-Level Architecture -->
+        <div class="card" data-card="1">
+          <div class="card-number">02</div>
+          <div class="card-body" data-card-body="1"></div>
+        </div>
+
+        <!-- Card 3: Operating Envelope -->
+        <div class="card" data-card="2">
+          <div class="card-number">03</div>
+          <div class="card-body" data-card-body="2"></div>
+        </div>
+
+        <!-- Card 4: Comparison with Conventional Desalination -->
+        <div class="card" data-card="3">
+          <div class="card-number">04</div>
+          <div class="card-body" data-card-body="3"></div>
+        </div>
+
+        <!-- Card 5: IP & Process Governance -->
+        <div class="card" data-card="4">
+          <div class="card-number">05</div>
+          <div class="card-body" data-card-body="4"></div>
+        </div>
+
+        <!-- Card 6: Engineering Status -->
+        <div class="card" data-card="5">
+          <div class="card-number">06</div>
+          <div class="card-body" data-card-body="5"></div>
+        </div>
+
+        <!-- Card 7: Scope of This Page -->
+        <div class="card" data-card="6">
+          <div class="card-number">07</div>
+          <div class="card-body" data-card-body="6"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="bottom-bar">
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    /* ── Translations ── */
+    const i18n = {
+      en: {
+        back: '← Back',
+        title: 'TECHNOLOGY',
+        subtitle: 'Volumetric Gas\u2013Sorbent Desalination Platform',
+        hint: 'Scroll horizontally or use <span>\u2190 \u2192</span> arrows',
+        pageTitle: 'Technology \u2014 AQUINTAQA',
+        cards: [
+          /* 0 – Process Overview */
+          `<h2>Process <span class="accent">Overview</span></h2>
+          <p>AQUINTAQA is based on a volumetric gas\u2013sorbent separation mechanism designed to remove dissolved ions from saline water through controlled physicochemical interaction within a multiphase system.</p>
           <p>The process differs fundamentally from pressure-driven membrane desalination and thermal evaporation technologies. Instead of forcing water through a selective barrier or applying phase-change energy, the system utilizes:</p>
           <ul>
             <li>Controlled gas-phase interaction</li>
@@ -317,13 +431,10 @@
             <li>Directional mass transfer within a volumetric reactor environment</li>
           </ul>
           <p>The separation occurs within a dynamically regulated chamber designed to optimize ion selectivity, process stability, and energy balance.</p>
-          <p>The platform is modular and configurable depending on feed salinity and operating conditions.</p>
-        </div>
+          <p>The platform is modular and configurable depending on feed salinity and operating conditions.</p>`,
 
-        <!-- Card 2: High-Level Architecture -->
-        <div class="card" data-card="1">
-          <div class="card-number">02</div>
-          <h2>High-Level <span class="accent">Architecture</span></h2>
+          /* 1 – High-Level Architecture */
+          `<h2>High-Level <span class="accent">Architecture</span></h2>
           <p>The system architecture consists of:</p>
           <ol>
             <li>Feed conditioning module</li>
@@ -340,28 +451,21 @@
             <li>Controlled mass transfer environment</li>
             <li>Industrial scalability</li>
           </ul>
-          <p>No high-pressure membrane stacks are used.<br>No high-temperature evaporation stages are required.</p>
-        </div>
+          <p>No high-pressure membrane stacks are used.<br>No high-temperature evaporation stages are required.</p>`,
 
-        <!-- Card 3: Operating Envelope -->
-        <div class="card" data-card="2">
-          <div class="card-number">03</div>
-          <h2>Operating <span class="accent">Envelope</span></h2>
+          /* 2 – Operating Envelope */
+          `<h2>Operating <span class="accent">Envelope</span></h2>
           <p>Validated operating ranges (pilot level):</p>
           <ul>
-            <li>Feed salinity range: 15–210 g/L</li>
-            <li>Continuous runs: ≥300 hours</li>
+            <li>Feed salinity range: 15\u2013210 g/L</li>
+            <li>Continuous runs: \u2265300 hours</li>
             <li>Multi-feed operation confirmed</li>
             <li>Baseline directional ion reduction demonstrated</li>
           </ul>
-          <p>Testing includes controlled laboratory validation before and after treatment cycles (independent laboratory verification under NDA).</p>
-        </div>
+          <p>Testing includes controlled laboratory validation before and after treatment cycles (independent laboratory verification under NDA).</p>`,
 
-        <!-- Card 4: Comparison with Conventional Desalination -->
-        <div class="card" data-card="3">
-          <div class="card-number">04</div>
-          <h2>Comparison with <span class="accent">Conventional Desalination</span></h2>
-
+          /* 3 – Comparison */
+          `<h2>Comparison with <span class="accent">Conventional Desalination</span></h2>
           <div class="comparison-group">
             <h4>Reverse Osmosis (RO)</h4>
             <ul>
@@ -371,7 +475,6 @@
               <li>Sensitivity to feed composition</li>
             </ul>
           </div>
-
           <div class="comparison-group">
             <h4>Thermal Distillation</h4>
             <ul>
@@ -380,7 +483,6 @@
               <li>Large-scale fixed installations</li>
             </ul>
           </div>
-
           <div class="comparison-group aq">
             <h4>AQUINTAQA Platform</h4>
             <ul>
@@ -391,61 +493,184 @@
               <li>Modular reactor configuration</li>
             </ul>
           </div>
+          <div class="note">The differentiation is structural, not incremental.</div>`,
 
-          <div class="note">The differentiation is structural, not incremental.</div>
-        </div>
-
-        <!-- Card 5: IP & Process Governance -->
-        <div class="card" data-card="4">
-          <div class="card-number">05</div>
-          <h2>IP & Process <span class="accent">Governance</span></h2>
+          /* 4 – IP & Process Governance */
+          `<h2>IP &amp; Process <span class="accent">Governance</span></h2>
           <p>The technology is governed under a structured IP framework covering:</p>
           <ul>
             <li>Reactor configuration principles</li>
             <li>Sorbent system design</li>
-            <li>Gas–liquid interaction methodology</li>
+            <li>Gas\u2013liquid interaction methodology</li>
             <li>Control algorithms and operating modes</li>
           </ul>
           <p>Operational knowledge is compartmentalized. Detailed process parameters are disclosed only under e-NDA within the Data Room.</p>
-          <div class="note">All technical documentation is version-controlled and traceable.</div>
-        </div>
+          <div class="note">All technical documentation is version-controlled and traceable.</div>`,
 
-        <!-- Card 6: Engineering Status -->
-        <div class="card" data-card="5">
-          <div class="card-number">06</div>
-          <h2>Engineering <span class="accent">Status</span></h2>
+          /* 5 – Engineering Status */
+          `<h2>Engineering <span class="accent">Status</span></h2>
           <p>Current maturity level (see TRL Snapshot for reference):</p>
           <ul>
             <li>Core principle validated</li>
             <li>Controlled prototypes demonstrated</li>
-            <li>Integrated pilot ≥800h confirmed</li>
+            <li>Integrated pilot \u2265800h confirmed</li>
             <li>Independent laboratory verification completed</li>
           </ul>
-          <p>The technology is transitioning from pilot configuration to industrial engineering design phase.</p>
-        </div>
+          <p>The technology is transitioning from pilot configuration to industrial engineering design phase.</p>`,
 
-        <!-- Card 7: Scope of This Page -->
-        <div class="card" data-card="6">
-          <div class="card-number">07</div>
-          <h2>Scope of <span class="accent">This Page</span></h2>
+          /* 6 – Scope of This Page */
+          `<h2>Scope of <span class="accent">This Page</span></h2>
           <p>This page provides high-level architectural and engineering description only.</p>
-          <p>For validation details → see <a href="quality.html" target="_blank" class="scope-link">Quality & Validation</a>.</p>
-          <p>For investment structure → see <a href="investor-access.html" target="_blank" class="scope-link">Investor Page</a>.</p>
-        </div>
+          <p>For validation details \u2192 see <a href="quality.html" target="_blank" class="scope-link">Quality &amp; Validation</a>.</p>
+          <p>For investment structure \u2192 see <a href="investor-access.html" target="_blank" class="scope-link">Investor Page</a>.</p>`
+        ]
+      },
 
-      </div>
-    </div>
+      ru: {
+        back: '\u2190 \u041d\u0430\u0437\u0430\u0434',
+        title: '\u0422\u0415\u0425\u041d\u041e\u041b\u041e\u0413\u0418\u042f',
+        subtitle: '\u041e\u043f\u0440\u0435\u0441\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u0430\u044f \u043f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u0430 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043e\u0431\u044a\u0451\u043c\u043d\u043e-\u0433\u0430\u0437\u043e-\u0441\u043e\u0440\u0431\u0435\u043d\u0442\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0430',
+        hint: '\u041f\u0440\u043e\u043a\u0440\u0443\u0442\u0438\u0442\u0435 \u0433\u043e\u0440\u0438\u0437\u043e\u043d\u0442\u0430\u043b\u044c\u043d\u043e \u0438\u043b\u0438 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0439\u0442\u0435 \u0441\u0442\u0440\u0435\u043b\u043a\u0438 <span>\u2190 \u2192</span>',
+        pageTitle: '\u0422\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u044f \u2014 AQUINTAQA',
+        cards: [
+          /* 0 – Обзор процесса */
+          `<h2>\u041e\u0431\u0437\u043e\u0440 <span class="accent">\u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0430</span></h2>
+          <p>AQUINTAQA \u043e\u0441\u043d\u043e\u0432\u0430\u043d\u0430 \u043d\u0430 \u043e\u0431\u044a\u0451\u043c\u043d\u043e-\u0433\u0430\u0437\u043e-\u0441\u043e\u0440\u0431\u0435\u043d\u0442\u043d\u043e\u043c \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c\u0435 \u0440\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u044f, \u043f\u0440\u0435\u0434\u043d\u0430\u0437\u043d\u0430\u0447\u0435\u043d\u043d\u043e\u043c \u0434\u043b\u044f \u0443\u0434\u0430\u043b\u0435\u043d\u0438\u044f \u0440\u0430\u0441\u0442\u0432\u043e\u0440\u0451\u043d\u043d\u044b\u0445 \u0438\u043e\u043d\u043e\u0432 \u0438\u0437 \u0441\u043e\u043b\u0451\u043d\u043e\u0439 \u0432\u043e\u0434\u044b \u0437\u0430 \u0441\u0447\u0451\u0442 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u0438\u0440\u0443\u0435\u043c\u043e\u0433\u043e \u0444\u0438\u0437\u0438\u043a\u043e-\u0445\u0438\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0432\u0437\u0430\u0438\u043c\u043e\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0432 \u043c\u043d\u043e\u0433\u043e\u0444\u0430\u0437\u043d\u043e\u0439 \u0441\u0438\u0441\u0442\u0435\u043c\u0435.</p>
+          <p>\u0414\u0430\u043d\u043d\u044b\u0439 \u043f\u0440\u043e\u0446\u0435\u0441\u0441 \u043f\u0440\u0438\u043d\u0446\u0438\u043f\u0438\u0430\u043b\u044c\u043d\u043e \u043e\u0442\u043b\u0438\u0447\u0430\u0435\u0442\u0441\u044f \u043e\u0442 \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u0439 \u043c\u0435\u043c\u0431\u0440\u0430\u043d\u043d\u043e\u0433\u043e \u043e\u043f\u0440\u0435\u0441\u043d\u0435\u043d\u0438\u044f, \u043e\u0441\u043d\u043e\u0432\u0430\u043d\u043d\u044b\u0445 \u043d\u0430 \u0434\u0430\u0432\u043b\u0435\u043d\u0438\u0438, \u0430 \u0442\u0430\u043a\u0436\u0435 \u043e\u0442 \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u0439 \u0442\u0435\u0440\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0438\u0441\u043f\u0430\u0440\u0435\u043d\u0438\u044f. \u0412\u043c\u0435\u0441\u0442\u043e \u043f\u0440\u043e\u0434\u0430\u0432\u043b\u0438\u0432\u0430\u043d\u0438\u044f \u0432\u043e\u0434\u044b \u0447\u0435\u0440\u0435\u0437 \u0441\u0435\u043b\u0435\u043a\u0442\u0438\u0432\u043d\u044b\u0439 \u0431\u0430\u0440\u044c\u0435\u0440 \u0438\u043b\u0438 \u0437\u0430\u0442\u0440\u0430\u0442 \u044d\u043d\u0435\u0440\u0433\u0438\u0438 \u043d\u0430 \u0444\u0430\u0437\u043e\u0432\u044b\u0439 \u043f\u0435\u0440\u0435\u0445\u043e\u0434 \u0441\u0438\u0441\u0442\u0435\u043c\u0430 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u0442:</p>
+          <ul>
+            <li>\u043a\u043e\u043d\u0442\u0440\u043e\u043b\u0438\u0440\u0443\u0435\u043c\u043e\u0435 \u0432\u0437\u0430\u0438\u043c\u043e\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0435 \u0432 \u0433\u0430\u0437\u043e\u0432\u043e\u0439 \u0444\u0430\u0437\u0435;</li>
+            <li>\u0441\u0435\u043b\u0435\u043a\u0442\u0438\u0432\u043d\u043e\u0435 \u0441\u0432\u044f\u0437\u044b\u0432\u0430\u043d\u0438\u0435 \u0438\u043e\u043d\u043e\u0432 \u0441\u043e\u0440\u0431\u0435\u043d\u0442\u043d\u043e\u0439 \u0441\u0440\u0435\u0434\u043e\u0439;</li>
+            <li>\u043d\u0430\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0439 \u043c\u0430\u0441\u0441\u043e\u043f\u0435\u0440\u0435\u043d\u043e\u0441 \u0432 \u043e\u0431\u044a\u0451\u043c\u043d\u043e\u0439 \u0440\u0435\u0430\u043a\u0442\u043e\u0440\u043d\u043e\u0439 \u0441\u0440\u0435\u0434\u0435.</li>
+          </ul>
+          <p>\u0420\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u0435 \u043f\u0440\u043e\u0438\u0441\u0445\u043e\u0434\u0438\u0442 \u0432 \u0434\u0438\u043d\u0430\u043c\u0438\u0447\u0435\u0441\u043a\u0438 \u0440\u0435\u0433\u0443\u043b\u0438\u0440\u0443\u0435\u043c\u043e\u0439 \u043a\u0430\u043c\u0435\u0440\u0435, \u0441\u043f\u0440\u043e\u0435\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0439 \u0434\u043b\u044f \u043e\u043f\u0442\u0438\u043c\u0438\u0437\u0430\u0446\u0438\u0438 \u0438\u043e\u043d\u043d\u043e\u0439 \u0441\u0435\u043b\u0435\u043a\u0442\u0438\u0432\u043d\u043e\u0441\u0442\u0438, \u0443\u0441\u0442\u043e\u0439\u0447\u0438\u0432\u043e\u0441\u0442\u0438 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0430 \u0438 \u044d\u043d\u0435\u0440\u0433\u0435\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0433\u043e \u0431\u0430\u043b\u0430\u043d\u0441\u0430.</p>
+          <p>\u041f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u0430 \u0438\u043c\u0435\u0435\u0442 \u043c\u043e\u0434\u0443\u043b\u044c\u043d\u0443\u044e \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0443 \u0438 \u043c\u043e\u0436\u0435\u0442 \u043a\u043e\u043d\u0444\u0438\u0433\u0443\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c\u0441\u044f \u0432 \u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u0438 \u043e\u0442 \u0441\u043e\u043b\u0451\u043d\u043e\u0441\u0442\u0438 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0439 \u0432\u043e\u0434\u044b \u0438 \u0440\u0430\u0431\u043e\u0447\u0438\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u0439.</p>`,
 
-    <!-- Progress bar -->
-    <div class="bottom-bar">
-      <div class="progress-track">
-        <div class="progress-fill" id="progress-fill"></div>
-      </div>
-    </div>
-  </div>
+          /* 1 – Архитектура верхнего уровня */
+          `<h2>\u0410\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430 <span class="accent">\u0432\u0435\u0440\u0445\u043d\u0435\u0433\u043e \u0443\u0440\u043e\u0432\u043d\u044f</span></h2>
+          <p>\u0410\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430 \u0441\u0438\u0441\u0442\u0435\u043c\u044b \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442:</p>
+          <ol>
+            <li>\u043c\u043e\u0434\u0443\u043b\u044c \u043f\u043e\u0434\u0433\u043e\u0442\u043e\u0432\u043a\u0438 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0439 \u0432\u043e\u0434\u044b;</li>
+            <li>\u043e\u0431\u044a\u0451\u043c\u043d\u0443\u044e \u0440\u0435\u0430\u043a\u0446\u0438\u043e\u043d\u043d\u0443\u044e \u043a\u0430\u043c\u0435\u0440\u0443;</li>
+            <li>\u0431\u043b\u043e\u043a \u0446\u0438\u0440\u043a\u0443\u043b\u044f\u0446\u0438\u0438 \u0438 \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u0433\u0430\u0437\u043e\u0432\u043e\u0439 \u0444\u0430\u0437\u043e\u0439;</li>
+            <li>\u043f\u043e\u0434\u0441\u0438\u0441\u0442\u0435\u043c\u0443 \u0440\u0435\u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u0438 \u0441\u043e\u0440\u0431\u0435\u043d\u0442\u0430;</li>
+            <li>\u043c\u043e\u0434\u0443\u043b\u044c \u0440\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u044f \u0438 \u0438\u0437\u0432\u043b\u0435\u0447\u0435\u043d\u0438\u044f;</li>
+            <li>\u0441\u0438\u0441\u0442\u0435\u043c\u0443 \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u0438 \u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u043d\u0433\u0430 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0430.</li>
+          </ol>
+          <p>\u0410\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u0430 \u0441\u043f\u0440\u043e\u0435\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0430 \u0434\u043b\u044f \u043e\u0431\u0435\u0441\u043f\u0435\u0447\u0435\u043d\u0438\u044f:</p>
+          <ul>
+            <li>\u0430\u0434\u0430\u043f\u0442\u0430\u0446\u0438\u0438 \u043a \u0440\u0430\u0437\u043b\u0438\u0447\u043d\u044b\u043c \u0442\u0438\u043f\u0430\u043c \u0444\u0438\u0434\u043e\u0432;</li>
+            <li>\u0441\u0442\u0430\u0431\u0438\u043b\u044c\u043d\u043e\u0439 \u0434\u043b\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0439 \u0440\u0430\u0431\u043e\u0442\u044b;</li>
+            <li>\u043a\u043e\u043d\u0442\u0440\u043e\u043b\u0438\u0440\u0443\u0435\u043c\u043e\u0439 \u0441\u0440\u0435\u0434\u044b \u043c\u0430\u0441\u0441\u043e\u043f\u0435\u0440\u0435\u043d\u043e\u0441\u0430;</li>
+            <li>\u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0433\u043e \u043c\u0430\u0441\u0448\u0442\u0430\u0431\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f.</li>
+          </ul>
+          <p>\u041c\u0435\u043c\u0431\u0440\u0430\u043d\u043d\u044b\u0435 \u043f\u0430\u043a\u0435\u0442\u044b \u0432\u044b\u0441\u043e\u043a\u043e\u0433\u043e \u0434\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u043d\u0435 \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044e\u0442\u0441\u044f.<br>\u0421\u0442\u0430\u0434\u0438\u0438 \u0432\u044b\u0441\u043e\u043a\u043e\u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u043e\u0433\u043e \u0438\u0441\u043f\u0430\u0440\u0435\u043d\u0438\u044f \u043d\u0435 \u0442\u0440\u0435\u0431\u0443\u044e\u0442\u0441\u044f.</p>`,
 
-  <script>
-  (() => {
+          /* 2 – Рабочий диапазон */
+          `<h2>\u0420\u0430\u0431\u043e\u0447\u0438\u0439 <span class="accent">\u0434\u0438\u0430\u043f\u0430\u0437\u043e\u043d</span></h2>
+          <p>\u041f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0451\u043d\u043d\u044b\u0435 \u0440\u0430\u0431\u043e\u0447\u0438\u0435 \u0434\u0438\u0430\u043f\u0430\u0437\u043e\u043d\u044b (\u043d\u0430 \u0443\u0440\u043e\u0432\u043d\u0435 \u043f\u0438\u043b\u043e\u0442\u0430):</p>
+          <ul>
+            <li>\u0434\u0438\u0430\u043f\u0430\u0437\u043e\u043d \u0441\u043e\u043b\u0451\u043d\u043e\u0441\u0442\u0438 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0439 \u0432\u043e\u0434\u044b: 15\u2013210 g/L;</li>
+            <li>\u043d\u0435\u043f\u0440\u0435\u0440\u044b\u0432\u043d\u044b\u0435 \u043f\u0440\u043e\u0433\u043e\u043d\u044b: \u2265800 \u0447\u0430\u0441\u043e\u0432;</li>
+            <li>\u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430 \u0440\u0430\u0431\u043e\u0442\u0430 \u0441 \u0440\u0430\u0437\u043b\u0438\u0447\u043d\u044b\u043c\u0438 \u0442\u0438\u043f\u0430\u043c\u0438 \u0444\u0438\u0434\u043e\u0432;</li>
+            <li>\u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0451\u043d \u043d\u0430\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043d\u044b\u0439 \u044d\u0444\u0444\u0435\u043a\u0442 \u0441\u043d\u0438\u0436\u0435\u043d\u0438\u044f \u0438\u043e\u043d\u043d\u043e\u0439 \u043d\u0430\u0433\u0440\u0443\u0437\u043a\u0438.</li>
+          </ul>
+          <p>\u0418\u0441\u043f\u044b\u0442\u0430\u043d\u0438\u044f \u0432\u043a\u043b\u044e\u0447\u0430\u044e\u0442 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u0438\u0440\u0443\u0435\u043c\u0443\u044e \u043b\u0430\u0431\u043e\u0440\u0430\u0442\u043e\u0440\u043d\u0443\u044e \u0432\u0430\u043b\u0438\u0434\u0430\u0446\u0438\u044e \u0434\u043e \u0438 \u043f\u043e\u0441\u043b\u0435 \u0446\u0438\u043a\u043b\u043e\u0432 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438 (\u043d\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u0430\u044f \u043b\u0430\u0431\u043e\u0440\u0430\u0442\u043e\u0440\u043d\u0430\u044f \u043f\u0440\u043e\u0432\u0435\u0440\u043a\u0430 \u2014 \u043f\u043e NDA).</p>`,
+
+          /* 3 – Сравнение */
+          `<h2>\u0421\u0440\u0430\u0432\u043d\u0435\u043d\u0438\u0435 \u0441 <span class="accent">\u0442\u0440\u0430\u0434\u0438\u0446\u0438\u043e\u043d\u043d\u044b\u043c \u043e\u043f\u0440\u0435\u0441\u043d\u0435\u043d\u0438\u0435\u043c</span></h2>
+          <div class="comparison-group">
+            <h4>\u041e\u0431\u0440\u0430\u0442\u043d\u044b\u0439 \u043e\u0441\u043c\u043e\u0441 (RO)</h4>
+            <ul>
+              <li>\u043c\u0435\u043c\u0431\u0440\u0430\u043d\u043d\u044b\u0439 \u043f\u0440\u043e\u0446\u0435\u0441\u0441, \u043e\u0441\u043d\u043e\u0432\u0430\u043d\u043d\u044b\u0439 \u043d\u0430 \u0434\u0430\u0432\u043b\u0435\u043d\u0438\u0438;</li>
+              <li>\u0440\u0438\u0441\u043a \u043c\u0435\u043c\u0431\u0440\u0430\u043d\u043d\u043e\u0433\u043e \u0437\u0430\u0433\u0440\u044f\u0437\u043d\u0435\u043d\u0438\u044f \u0438 \u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u044f \u043e\u0442\u043b\u043e\u0436\u0435\u043d\u0438\u0439;</li>
+              <li>\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e\u0441\u0442\u044c \u043e\u0442 \u043d\u0430\u0441\u043e\u0441\u043e\u0432 \u0432\u044b\u0441\u043e\u043a\u043e\u0433\u043e \u0434\u0430\u0432\u043b\u0435\u043d\u0438\u044f;</li>
+              <li>\u0447\u0443\u0432\u0441\u0442\u0432\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c \u043a \u0441\u043e\u0441\u0442\u0430\u0432\u0443 \u0438\u0441\u0445\u043e\u0434\u043d\u043e\u0439 \u0432\u043e\u0434\u044b.</li>
+            </ul>
+          </div>
+          <div class="comparison-group">
+            <h4>\u0422\u0435\u0440\u043c\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0434\u0438\u0441\u0442\u0438\u043b\u043b\u044f\u0446\u0438\u044f</h4>
+            <ul>
+              <li>\u044d\u043d\u0435\u0440\u0433\u043e\u0451\u043c\u043a\u0438\u0439 \u0444\u0430\u0437\u043e\u0432\u044b\u0439 \u043f\u0435\u0440\u0435\u0445\u043e\u0434;</li>
+              <li>\u0432\u044b\u0441\u043e\u043a\u0430\u044f \u043a\u0430\u043f\u0438\u0442\u0430\u043b\u043e\u0451\u043c\u043a\u043e\u0441\u0442\u044c \u0438\u043d\u0444\u0440\u0430\u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u044b;</li>
+              <li>\u043a\u0440\u0443\u043f\u043d\u044b\u0435 \u0441\u0442\u0430\u0446\u0438\u043e\u043d\u0430\u0440\u043d\u044b\u0435 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0438.</li>
+            </ul>
+          </div>
+          <div class="comparison-group aq">
+            <h4>\u041f\u043b\u0430\u0442\u0444\u043e\u0440\u043c\u0430 AQUINTAQA</h4>
+            <ul>
+              <li>\u043e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435 \u043c\u0435\u043c\u0431\u0440\u0430\u043d\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u044f;</li>
+              <li>\u043e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u043e\u0441\u0442\u0438 \u0432 \u0432\u044b\u0441\u043e\u043a\u043e\u043c \u0434\u0430\u0432\u043b\u0435\u043d\u0438\u0438;</li>
+              <li>\u043e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0438\u0435 \u0437\u0430\u0442\u0440\u0430\u0442 \u044d\u043d\u0435\u0440\u0433\u0438\u0438 \u043d\u0430 \u043c\u0430\u0441\u0441\u043e\u0432\u044b\u0439 \u0444\u0430\u0437\u043e\u0432\u044b\u0439 \u043f\u0435\u0440\u0435\u0445\u043e\u0434;</li>
+              <li>\u043e\u0431\u044a\u0451\u043c\u043d\u044b\u0439 \u0438\u043e\u043d-\u0441\u0435\u043b\u0435\u043a\u0442\u0438\u0432\u043d\u044b\u0439 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c;</li>
+              <li>\u043c\u043e\u0434\u0443\u043b\u044c\u043d\u0430\u044f \u043a\u043e\u043d\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u044f \u0440\u0435\u0430\u043a\u0442\u043e\u0440\u0430.</li>
+            </ul>
+          </div>
+          <div class="note">\u041e\u0442\u043b\u0438\u0447\u0438\u0435 \u043d\u043e\u0441\u0438\u0442 \u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u043d\u044b\u0439, \u0430 \u043d\u0435 \u0438\u043d\u043a\u0440\u0435\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u044b\u0439 \u0445\u0430\u0440\u0430\u043a\u0442\u0435\u0440.</div>`,
+
+          /* 4 – IP и управление процессом */
+          `<h2>IP \u0438 <span class="accent">\u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u043e\u043c</span></h2>
+          <p>\u0422\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u044f \u0443\u043f\u0440\u0430\u0432\u043b\u044f\u0435\u0442\u0441\u044f \u0432 \u0440\u0430\u043c\u043a\u0430\u0445 \u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0439 IP-\u043c\u043e\u0434\u0435\u043b\u0438, \u043e\u0445\u0432\u0430\u0442\u044b\u0432\u0430\u044e\u0449\u0435\u0439:</p>
+          <ul>
+            <li>\u043f\u0440\u0438\u043d\u0446\u0438\u043f\u044b \u043a\u043e\u043d\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0438 \u0440\u0435\u0430\u043a\u0442\u043e\u0440\u0430;</li>
+            <li>\u043a\u043e\u043d\u0441\u0442\u0440\u0443\u043a\u0446\u0438\u044e \u0441\u043e\u0440\u0431\u0435\u043d\u0442\u043d\u043e\u0439 \u0441\u0438\u0441\u0442\u0435\u043c\u044b;</li>
+            <li>\u043c\u0435\u0442\u043e\u0434\u043e\u043b\u043e\u0433\u0438\u044e \u0433\u0430\u0437\u043e-\u0436\u0438\u0434\u043a\u043e\u0441\u0442\u043d\u043e\u0433\u043e \u0432\u0437\u0430\u0438\u043c\u043e\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f;</li>
+            <li>\u0430\u043b\u0433\u043e\u0440\u0438\u0442\u043c\u044b \u0443\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f \u0438 \u0440\u0430\u0431\u043e\u0447\u0438\u0435 \u0440\u0435\u0436\u0438\u043c\u044b.</li>
+          </ul>
+          <p>\u041e\u043f\u0435\u0440\u0430\u0446\u0438\u043e\u043d\u043d\u044b\u0435 \u0437\u043d\u0430\u043d\u0438\u044f \u0440\u0430\u0441\u043f\u0440\u0435\u0434\u0435\u043b\u0435\u043d\u044b \u043f\u043e \u043a\u043e\u043d\u0442\u0443\u0440\u0430\u043c \u0434\u043e\u0441\u0442\u0443\u043f\u0430. \u041f\u043e\u0434\u0440\u043e\u0431\u043d\u044b\u0435 \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0440\u0430\u0441\u043a\u0440\u044b\u0432\u0430\u044e\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u043f\u043e\u0441\u043b\u0435 \u043f\u043e\u0434\u043f\u0438\u0441\u0430\u043d\u0438\u044f e-NDA \u0432 \u0440\u0430\u043c\u043a\u0430\u0445 Data Room.</p>
+          <div class="note">\u0412\u0441\u044f \u0442\u0435\u0445\u043d\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0438\u044f \u0438\u043c\u0435\u0435\u0442 \u0432\u0435\u0440\u0441\u0438\u043e\u043d\u043d\u044b\u0439 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c \u0438 \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442 \u043f\u043e\u043b\u043d\u0443\u044e \u043f\u0440\u043e\u0441\u043b\u0435\u0436\u0438\u0432\u0430\u0435\u043c\u043e\u0441\u0442\u044c.</div>`,
+
+          /* 5 – Инженерный статус */
+          `<h2>\u0418\u043d\u0436\u0435\u043d\u0435\u0440\u043d\u044b\u0439 <span class="accent">\u0441\u0442\u0430\u0442\u0443\u0441</span></h2>
+          <p>\u0422\u0435\u043a\u0443\u0449\u0438\u0439 \u0443\u0440\u043e\u0432\u0435\u043d\u044c \u0437\u0440\u0435\u043b\u043e\u0441\u0442\u0438 (\u0441\u043c. TRL Snapshot):</p>
+          <ul>
+            <li>\u0431\u0430\u0437\u043e\u0432\u044b\u0439 \u043f\u0440\u0438\u043d\u0446\u0438\u043f \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0451\u043d;</li>
+            <li>\u043a\u043e\u043d\u0442\u0440\u043e\u043b\u0438\u0440\u0443\u0435\u043c\u044b\u0435 \u043f\u0440\u043e\u0442\u043e\u0442\u0438\u043f\u044b \u043f\u0440\u043e\u0434\u0435\u043c\u043e\u043d\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u044b;</li>
+            <li>\u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430 \u0440\u0430\u0431\u043e\u0442\u0430 \u0438\u043d\u0442\u0435\u0433\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u043d\u043e\u0433\u043e \u043f\u0438\u043b\u043e\u0442\u0430 \u22658\u0030\u0030 \u0447\u0430\u0441\u043e\u0432;</li>
+            <li>\u043d\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u0430\u044f \u043b\u0430\u0431\u043e\u0440\u0430\u0442\u043e\u0440\u043d\u0430\u044f \u0432\u0435\u0440\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u044f \u0437\u0430\u0432\u0435\u0440\u0448\u0435\u043d\u0430.</li>
+          </ul>
+          <p>\u0422\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u044f \u043f\u0435\u0440\u0435\u0445\u043e\u0434\u0438\u0442 \u043e\u0442 \u043f\u0438\u043b\u043e\u0442\u043d\u043e\u0439 \u043a\u043e\u043d\u0444\u0438\u0433\u0443\u0440\u0430\u0446\u0438\u0438 \u043a \u044d\u0442\u0430\u043f\u0443 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0433\u043e \u0438\u043d\u0436\u0435\u043d\u0435\u0440\u043d\u043e\u0433\u043e \u043f\u0440\u043e\u0435\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f.</p>`,
+
+          /* 6 – Область охвата страницы */
+          `<h2>\u041e\u0431\u043b\u0430\u0441\u0442\u044c \u043e\u0445\u0432\u0430\u0442\u0430 <span class="accent">\u0441\u0442\u0440\u0430\u043d\u0438\u0446\u044b</span></h2>
+          <p>\u041d\u0430 \u0434\u0430\u043d\u043d\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435 \u043f\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043b\u0435\u043d\u043e \u0442\u043e\u043b\u044c\u043a\u043e \u0432\u044b\u0441\u043e\u043a\u043e\u0443\u0440\u043e\u0432\u043d\u0435\u0432\u043e\u0435 \u0430\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u043d\u043e\u0435 \u0438 \u0438\u043d\u0436\u0435\u043d\u0435\u0440\u043d\u043e\u0435 \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435.</p>
+          <p>\u041f\u043e\u0434\u0440\u043e\u0431\u043d\u043e\u0441\u0442\u0438 \u0432\u0430\u043b\u0438\u0434\u0430\u0446\u0438\u0438 \u2192 \u0441\u043c. <a href="quality.html" target="_blank" class="scope-link">Quality &amp; Validation</a>.</p>
+          <p>\u0418\u043d\u0432\u0435\u0441\u0442\u0438\u0446\u0438\u043e\u043d\u043d\u0430\u044f \u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u0430 \u2192 \u0441\u043c. <a href="investor-access.html" target="_blank" class="scope-link">Investor Page</a>.</p>`
+        ]
+      }
+    };
+
+    /* ── Language switcher ── */
+    const langBtns = document.querySelectorAll('.lang-btn');
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      langBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (i18n[lang][key] !== undefined) el.textContent = i18n[lang][key];
+      });
+
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.dataset.i18nHtml;
+        if (i18n[lang][key] !== undefined) el.innerHTML = i18n[lang][key];
+      });
+
+      document.querySelectorAll('[data-card-body]').forEach(el => {
+        const idx = parseInt(el.dataset.cardBody);
+        if (i18n[lang].cards[idx] !== undefined) el.innerHTML = i18n[lang].cards[idx];
+      });
+
+      document.title = i18n[lang].pageTitle;
+    }
+
+    langBtns.forEach(btn => btn.addEventListener('click', () => setLang(btn.dataset.lang)));
+
+    /* ── Init: render English content ── */
+    setLang('en');
+
+    /* ── Rail navigation ── */
     const rail = document.getElementById('rail');
     const cards = Array.from(rail.querySelectorAll('.card'));
     const progressFill = document.getElementById('progress-fill');
@@ -464,14 +689,12 @@
       activeIndex = Math.max(0, Math.min(idx, cards.length - 1));
     }
 
-    // alias for consistency
     const updateDots = updateProgress;
 
     function scrollToCard(i) {
       rail.scrollTo({ left: i * STEP, behavior: 'smooth' });
     }
 
-    // Arrow buttons
     leftBtn.addEventListener('click', () => {
       const next = activeIndex <= 0 ? cards.length - 1 : activeIndex - 1;
       scrollToCard(next);
@@ -482,10 +705,8 @@
       scrollToCard(next);
     });
 
-    // Update dots on scroll
     rail.addEventListener('scroll', updateDots, { passive: true });
 
-    // Drag to scroll
     let isDown = false, startX, scrollStart;
 
     rail.addEventListener('mousedown', (e) => {
@@ -506,7 +727,6 @@
       rail.scrollLeft = scrollStart - walk;
     });
 
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight') { rightBtn.click(); }
       if (e.key === 'ArrowLeft') { leftBtn.click(); }
