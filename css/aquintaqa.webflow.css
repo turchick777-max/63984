@@ -2606,6 +2606,13 @@ html, body {
   }
 }
 
+/* Tablet (769–1100px): sphere slightly lower and more to the left */
+@media screen and (min-width: 769px) and (max-width: 1100px) {
+  .spline-scene {
+    transform: scale(1.08) translateX(-12%) translateY(7%) !important;
+  }
+}
+
 /* Ultrawide screens: reduce sphere scale to prevent cropping */
 @media screen and (min-width: 769px) and (min-aspect-ratio: 21/9) {
   .spline-scene {
