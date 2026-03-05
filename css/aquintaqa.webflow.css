@@ -2606,10 +2606,22 @@ html, body {
   }
 }
 
-/* Tablet (769–1100px): sphere slightly lower and more to the left */
+/* Tablet (769–1100px): sphere lower-left + text block raised above sphere */
 @media screen and (min-width: 769px) and (max-width: 1100px) {
   .spline-scene {
-    transform: scale(1.08) translateX(-12%) translateY(7%) !important;
+    transform: scale(1.08) translateX(-12%) translateY(14%) !important;
+  }
+
+  /* Raise the 3-line text group so it clears the sphere */
+  .se1 .content-img > .text-block {
+    top: -55px !important;
+  }
+  .se1 .content-img > .text-block._2 {
+    top: -18px !important;
+  }
+  .se1 .div-block-17 {
+    top: 18px !important;
+    left: 120px !important;
   }
 }
 
