@@ -569,7 +569,7 @@
     color: rgba(255,255,255,0.72) !important;
     font-size: 0.78rem !important;
     font-family: inherit !important;
-    margin: 0 0 6px 24px !important;
+    margin: 0 0 6px 0 !important;
   }
 
   /* RU first two lines — same font/ladder, no display (script shows when RU) */
@@ -596,7 +596,7 @@
   .se1 .content-img > .text-block._2.lang-ru {
     font-size: 0.78rem !important;
     color: rgba(255,255,255,0.72) !important;
-    margin: 0 0 6px 24px !important;
+    margin: 0 0 6px 0 !important;
   }
 
   /* Hide desktop <1% block — we show it from sphere-poster__caption below */
@@ -625,7 +625,7 @@
     display: none !important;
   }
 
-  /* <1% SHARE — show here in flow, under second line, right-aligned (EN and RU same place) */
+  /* <1% SHARE — show here in flow, under second line, left-aligned */
   .sphere-poster__caption:not(.lang-ru) {
     display: block !important;
     order: -1 !important;
@@ -634,7 +634,7 @@
     letter-spacing: 1.2px !important;
     text-transform: uppercase !important;
     color: rgba(255,255,255,0.85) !important;
-    text-align: right !important;
+    text-align: left !important;
     margin: 12px 0 10px 0 !important;
     padding: 0 !important;
   }
@@ -646,7 +646,7 @@
     letter-spacing: 1.2px !important;
     text-transform: uppercase !important;
     color: rgba(255,255,255,0.85) !important;
-    text-align: right !important;
+    text-align: left !important;
     margin: 12px 0 10px 0 !important;
     padding: 0 !important;
   }
