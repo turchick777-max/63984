@@ -2311,7 +2311,23 @@ html, body {
     overflow: visible !important;
   }
 
-  /* Stats text and sphere — controlled by mobile.css */
+  /* Stats text — reset absolute positioning for mobile (controlled by mobile.css) */
+  .se1 .div-block-17 {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    z-index: auto !important;
+  }
+
+  .se1 .content-img > .text-block,
+  .se1 .content-img > .text-block._2 {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+  }
 
   /* === SPHERE CONTAINER: Full screen, no clipping === */
   .spline-content {
