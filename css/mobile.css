@@ -559,14 +559,14 @@
     font-size: 0.82rem !important;
     font-weight: 400 !important;
     font-family: inherit !important;
-    color: rgba(255,255,255,0.75) !important;
+    color: rgba(255,255,255,0.88) !important;
     letter-spacing: 0.06em !important;
     margin: 0 0 4px 0 !important;
     text-shadow: none !important;
   }
 
   .se1 .content-img > .text-block._2:not(.lang-ru) {
-    color: rgba(255,255,255,0.5) !important;
+    color: rgba(255,255,255,0.72) !important;
     font-size: 0.78rem !important;
     font-family: inherit !important;
     margin: 0 0 6px 24px !important;
@@ -588,14 +588,14 @@
   .se1 .content-img > .text-block.lang-ru {
     font-size: 0.82rem !important;
     font-weight: 400 !important;
-    color: rgba(255,255,255,0.75) !important;
+    color: rgba(255,255,255,0.88) !important;
     letter-spacing: 0.06em !important;
     margin: 0 0 4px 0 !important;
   }
 
   .se1 .content-img > .text-block._2.lang-ru {
     font-size: 0.78rem !important;
-    color: rgba(255,255,255,0.5) !important;
+    color: rgba(255,255,255,0.72) !important;
     margin: 0 0 6px 24px !important;
   }
 
