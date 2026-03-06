@@ -547,9 +547,8 @@
     position: static !important;
   }
 
-  /* EN and RU first two lines — same font, ladder layout (2nd line indented right) */
-  .se1 .content-img > .text-block:not(.lang-ru),
-  .se1 .content-img > .text-block.lang-ru {
+  /* EN first two lines — visible by default; RU same styles but visibility from script */
+  .se1 .content-img > .text-block:not(.lang-ru) {
     display: block !important;
     position: static !important;
     top: auto !important;
@@ -566,11 +565,37 @@
     text-shadow: none !important;
   }
 
-  .se1 .content-img > .text-block._2:not(.lang-ru),
-  .se1 .content-img > .text-block._2.lang-ru {
+  .se1 .content-img > .text-block._2:not(.lang-ru) {
     color: rgba(255,255,255,0.5) !important;
     font-size: 0.78rem !important;
     font-family: inherit !important;
+    margin: 0 0 6px 24px !important;
+  }
+
+  /* RU first two lines — same font/ladder, no display (script shows when RU) */
+  .se1 .content-img > .text-block.lang-ru,
+  .se1 .content-img > .text-block._2.lang-ru {
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    max-width: 100% !important;
+    width: auto !important;
+    text-align: left !important;
+    font-family: inherit !important;
+    text-shadow: none !important;
+  }
+
+  .se1 .content-img > .text-block.lang-ru {
+    font-size: 0.82rem !important;
+    font-weight: 400 !important;
+    color: rgba(255,255,255,0.75) !important;
+    letter-spacing: 0.06em !important;
+    margin: 0 0 4px 0 !important;
+  }
+
+  .se1 .content-img > .text-block._2.lang-ru {
+    font-size: 0.78rem !important;
+    color: rgba(255,255,255,0.5) !important;
     margin: 0 0 6px 24px !important;
   }
 
