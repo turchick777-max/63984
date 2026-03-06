@@ -570,26 +570,29 @@
     margin-bottom: 6px !important;
   }
 
-  .se1 .div-block-17:not(.lang-ru) {
+  /* <1% SHARE — directly under second line, aligned right */
+  .se1 .colum-l .content-img .div-block-17:not(.lang-ru) {
     display: block !important;
     position: static !important;
     transform: none !important;
-    width: auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
     height: auto !important;
-    margin-top: 6px !important;
+    margin: 6px 0 0 0 !important;
     left: auto !important;
     top: auto !important;
     right: auto !important;
     bottom: auto !important;
     text-align: right !important;
-    padding-right: 8px !important;
+    padding-right: 0 !important;
   }
 
-  .se1 .div-block-17 .text-block-2 {
+  .se1 .colum-l .content-img .div-block-17 .text-block-2 {
     white-space: normal !important;
     font-size: 0.68rem !important;
     letter-spacing: 1.5px !important;
     text-align: right !important;
+    display: inline !important;
   }
 
   /* Hide decorative desktop-only elements */

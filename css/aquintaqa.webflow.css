@@ -2311,8 +2311,8 @@ html, body {
     overflow: visible !important;
   }
 
-  /* Stats text — reset absolute positioning for mobile (controlled by mobile.css) */
-  .se1 .div-block-17 {
+  /* Stats text — force static flow on mobile so <1% SHARE sits under second line */
+  .se1 .colum-l .content-img .div-block-17 {
     position: static !important;
     top: auto !important;
     left: auto !important;
@@ -2320,10 +2320,13 @@ html, body {
     bottom: auto !important;
     transform: none !important;
     z-index: auto !important;
+    width: auto !important;
+    margin-top: 6px !important;
+    margin-left: 0 !important;
   }
 
-  .se1 .content-img > .text-block,
-  .se1 .content-img > .text-block._2 {
+  .se1 .colum-l .content-img > .text-block,
+  .se1 .colum-l .content-img > .text-block._2 {
     position: static !important;
     top: auto !important;
     left: auto !important;
