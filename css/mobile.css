@@ -480,17 +480,23 @@
 
 
 /* ─────────────────────────────────────────────
-   G. MOBILE HERO — sphere fallback + stats + title
+   G. MOBILE HERO — stats text + sphere + title
+   Order: navbar → stats → sphere → title+CTA
    ───────────────────────────────────────────── */
 
-/* Sphere poster hidden everywhere */
+/* Sphere poster: hidden on desktop, shown on mobile for sphere image */
 .sphere-poster {
   display: none !important;
 }
 
 @media screen and (max-width: 767px) {
 
-  /* Hero: auto height, vertical flow */
+  /* === Hide Spline 3D entirely on mobile === */
+  .spline-content {
+    display: none !important;
+  }
+
+  /* Hero section */
   .se1 {
     height: auto !important;
     min-height: 100vh !important;
@@ -512,7 +518,7 @@
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    align-items: flex-start !important;
+    align-items: stretch !important;
     position: relative !important;
     z-index: 2 !important;
   }
@@ -522,17 +528,18 @@
     height: auto !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
-    align-items: flex-start !important;
+    align-items: stretch !important;
     gap: 0 !important;
     padding: 0 !important;
   }
 
-  /* === SHOW LEFT COLUMN with stats text === */
+  /* === 1. STATS TEXT (colum-l) — under navbar === */
   .se1 .colum-l {
     display: block !important;
     width: 100% !important;
-    padding: 68px 24px 0 24px !important;
+    padding: 64px 24px 0 24px !important;
     position: relative !important;
+    order: 1 !important;
   }
 
   .se1 .content-img {
@@ -540,13 +547,14 @@
     position: static !important;
   }
 
-  .se1 .content-img > .text-block,
-  .se1 .content-img > .text-block._2 {
+  /* EN text lines */
+  .se1 .content-img > .text-block:not(.lang-ru) {
     display: block !important;
     position: static !important;
     top: auto !important;
     left: auto !important;
     max-width: 100% !important;
+    width: auto !important;
     text-align: left !important;
     font-size: 0.82rem !important;
     font-weight: 400 !important;
@@ -562,7 +570,7 @@
     margin-bottom: 6px !important;
   }
 
-  .se1 .div-block-17 {
+  .se1 .div-block-17:not(.lang-ru) {
     display: block !important;
     position: static !important;
     transform: none !important;
@@ -571,6 +579,8 @@
     margin-top: 4px !important;
     left: auto !important;
     top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
   }
 
   .se1 .div-block-17 .text-block-2 {
@@ -579,60 +589,47 @@
     letter-spacing: 1.5px !important;
   }
 
+  /* Hide decorative desktop-only elements */
   .se1 .div-block-5,
   .se1 .podpis,
   .se1 .sfera {
     display: none !important;
   }
 
-  /* === SPHERE FALLBACK IMAGE — show on mobile === */
-  .spline-content {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
+  /* === 2. SPHERE — fallback image via sphere-poster === */
+  .sphere-poster {
     display: flex !important;
-    justify-content: center !important;
+    flex-direction: column !important;
     align-items: center !important;
-    overflow: visible !important;
-    z-index: 1 !important;
-    pointer-events: none !important;
-    order: 0 !important;
-    margin-top: -10px !important;
-  }
-
-  .sphere-fallback {
-    display: block !important;
-    position: relative !important;
     width: 100% !important;
-    height: auto !important;
-    z-index: 1 !important;
-    pointer-events: none !important;
-    opacity: 1 !important;
+    padding: 10px 0 !important;
+    order: 2 !important;
   }
 
-  .sphere-fallback.visible {
-    display: block !important;
-  }
-
-  .sphere-fallback img {
-    position: relative !important;
-    width: 80vw !important;
-    height: 80vw !important;
-    max-width: 360px !important;
-    max-height: 360px !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    margin: 0 auto !important;
-    display: block !important;
-    object-fit: contain !important;
-  }
-
-  .spline-scene {
+  .sphere-poster__stats,
+  .sphere-poster__caption {
     display: none !important;
   }
 
-  /* === RIGHT COLUMN — title, subtitle, CTA below sphere === */
+  .sphere-poster__visual {
+    width: 80vw !important;
+    max-width: 340px !important;
+    aspect-ratio: 1 / 1 !important;
+    position: relative !important;
+  }
+
+  .sphere-poster__orb {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    background: url('../images/sphere.webp') center/contain no-repeat !important;
+  }
+
+  .sphere-poster__play {
+    display: none !important;
+  }
+
+  /* === 3. TITLE + CTA (colum-r) — below sphere === */
   .se1 .colum-r {
     position: static !important;
     background: none !important;
@@ -643,6 +640,7 @@
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
+    order: 3 !important;
   }
 
   .se1 .colum-r::before,
