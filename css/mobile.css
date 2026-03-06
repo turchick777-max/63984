@@ -480,8 +480,7 @@
 
 
 /* ─────────────────────────────────────────────
-   G. MOBILE HERO — clean typographic layout
-      No sphere. Title + subtitle + CTA centered.
+   G. MOBILE HERO — sphere fallback + stats + title
    ───────────────────────────────────────────── */
 
 /* Sphere poster hidden everywhere */
@@ -491,31 +490,28 @@
 
 @media screen and (max-width: 767px) {
 
-  /* Hero: full viewport, centered content */
+  /* Hero: auto height, vertical flow */
   .se1 {
-    height: 100vh !important;
-    height: 100dvh !important;
+    height: auto !important;
     min-height: 100vh !important;
+    min-height: 100dvh !important;
     position: relative !important;
     overflow: hidden !important;
     display: flex !important;
-    align-items: center !important;
+    align-items: flex-start !important;
   }
 
-  .se1::before { display: none !important; }
-
-  .se1::after {
-    display: none !important;
-  }
+  .se1::before, .se1::after { display: none !important; }
 
   .se1 .noize {
     padding: 0 !important;
-    height: 100% !important;
+    height: auto !important;
     width: 100% !important;
-    min-height: auto !important;
+    min-height: 100vh !important;
+    min-height: 100dvh !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: center !important;
+    justify-content: flex-start !important;
     align-items: flex-start !important;
     position: relative !important;
     z-index: 2 !important;
@@ -528,63 +524,155 @@
     justify-content: flex-start !important;
     align-items: flex-start !important;
     gap: 0 !important;
-    padding: 0 28px !important;
+    padding: 0 !important;
   }
 
-  /* Hide left column (sphere/stats) entirely */
+  /* === SHOW LEFT COLUMN with stats text === */
   .se1 .colum-l {
+    display: block !important;
+    width: 100% !important;
+    padding: 68px 24px 0 24px !important;
+    position: relative !important;
+  }
+
+  .se1 .content-img {
+    display: block !important;
+    position: static !important;
+  }
+
+  .se1 .content-img > .text-block,
+  .se1 .content-img > .text-block._2 {
+    display: block !important;
+    position: static !important;
+    top: auto !important;
+    left: auto !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    font-size: 0.82rem !important;
+    font-weight: 400 !important;
+    color: rgba(255,255,255,0.75) !important;
+    letter-spacing: 0.06em !important;
+    margin: 0 0 4px 0 !important;
+    text-shadow: none !important;
+  }
+
+  .se1 .content-img > .text-block._2 {
+    color: rgba(255,255,255,0.5) !important;
+    font-size: 0.78rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  .se1 .div-block-17 {
+    display: block !important;
+    position: static !important;
+    transform: none !important;
+    width: auto !important;
+    height: auto !important;
+    margin-top: 4px !important;
+    left: auto !important;
+    top: auto !important;
+  }
+
+  .se1 .div-block-17 .text-block-2 {
+    white-space: normal !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 1.5px !important;
+  }
+
+  .se1 .div-block-5,
+  .se1 .podpis,
+  .se1 .sfera {
     display: none !important;
   }
 
-  /* Right column — full width, vertical stack */
+  /* === SPHERE FALLBACK IMAGE — show on mobile === */
+  .spline-content {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    overflow: visible !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+    order: 0 !important;
+    margin-top: -10px !important;
+  }
+
+  .sphere-fallback {
+    display: block !important;
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+    opacity: 1 !important;
+  }
+
+  .sphere-fallback.visible {
+    display: block !important;
+  }
+
+  .sphere-fallback img {
+    position: relative !important;
+    width: 80vw !important;
+    height: 80vw !important;
+    max-width: 360px !important;
+    max-height: 360px !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto !important;
+    display: block !important;
+    object-fit: contain !important;
+  }
+
+  .spline-scene {
+    display: none !important;
+  }
+
+  /* === RIGHT COLUMN — title, subtitle, CTA below sphere === */
   .se1 .colum-r {
     position: static !important;
     background: none !important;
     background-image: none !important;
     width: 100% !important;
-    padding: 0 !important;
+    padding: 0 28px 50px 28px !important;
     z-index: auto !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
   }
 
-  /* Eyebrow label removed */
-  .se1 .colum-r::before {
+  .se1 .colum-r::before,
+  .se1 .colum-r::after {
     display: none !important;
   }
 
-  /* H1 — large, tight, impactful */
   .se1 .h1 {
-    font-size: clamp(38px, 11.5vw, 54px) !important;
-    line-height: 1.02 !important;
+    font-size: clamp(32px, 10vw, 48px) !important;
+    line-height: 1.05 !important;
     letter-spacing: -0.025em !important;
-    margin-bottom: 18px !important;
+    margin-bottom: 14px !important;
   }
 
-  /* Subtitle */
   .se1 .colum-r .text {
-    font-size: 15px !important;
+    font-size: 14px !important;
     line-height: 1.55 !important;
     color: rgba(255, 255, 255, 0.45) !important;
     letter-spacing: 0.01em !important;
-    margin-bottom: 40px !important;
+    margin-bottom: 28px !important;
   }
 
-  /* Button wrapper */
   .se1 .div-block-4 {
     margin: 0 !important;
   }
 
-  /* Button — slightly bigger touch target on mobile */
   .se1 .div-block-4 .link.button._2 {
     padding: 12px 22px !important;
     font-size: 0.82rem !important;
     letter-spacing: 0.08em !important;
     border-color: rgba(39, 169, 204, 0.55) !important;
-  }
-
-  .se1 .colum-r::after {
-    display: none !important;
   }
 }

@@ -2311,18 +2311,7 @@ html, body {
     overflow: visible !important;
   }
 
-  /* === HIDE STATS TEXT ON MOBILE (SpaceX style) === */
-  .se1 .colum-l {
-    display: none !important;
-  }
-
-  .se1 .content-img,
-  .se1 .content-img > .text-block,
-  .se1 .content-img > .text-block._2,
-  .se1 .div-block-17,
-  .se1 .div-block-17 .text-block-2 {
-    display: none !important;
-  }
+  /* Stats text and sphere — controlled by mobile.css */
 
   /* === SPHERE CONTAINER: Full screen, no clipping === */
   .spline-content {
