@@ -199,7 +199,7 @@
   <link rel="stylesheet" href="css/consent.css" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="css/consent.css" /></noscript>
   <!-- mobile.css: blocking on mobile (prevents CLS), skipped on desktop via media query -->
-  <link rel="stylesheet" href="css/mobile.css?v=4" media="(max-width: 767px)" />
+  <link rel="stylesheet" href="css/mobile.css?v=5" media="(max-width: 767px)" />
 </head>
 <body class="body">
   <div class="spline-content">
@@ -824,14 +824,19 @@
       var isRu = (lang === 'ru');
 
       /* Show / hide RU duplicates.
-         CSS already has .lang-ru { display: none !important }.
-         To SHOW: setProperty with 'important' flag overrides the CSS rule.
-         To HIDE: removeProperty lets the CSS rule take effect again. */
+         On mobile (<=767): do not show .sphere-poster__stats.lang-ru (duplicate of colum-l text)
+         and .div-block-17.lang-ru (position absolute; we use .sphere-poster__caption.lang-ru instead). */
+      var isMobile = (typeof window !== 'undefined' && window.innerWidth <= 767);
       for (var i = 0; i < ruEls.length; i++) {
+        var el = ruEls[i];
+        if (isRu && isMobile && (el.classList.contains('sphere-poster__stats') || el.classList.contains('div-block-17'))) {
+          el.style.removeProperty('display');
+          continue;
+        }
         if (isRu) {
-          ruEls[i].style.setProperty('display', 'block', 'important');
+          el.style.setProperty('display', 'block', 'important');
         } else {
-          ruEls[i].style.removeProperty('display');
+          el.style.removeProperty('display');
         }
       }
 
