@@ -570,29 +570,9 @@
     margin-bottom: 6px !important;
   }
 
-  /* <1% SHARE — directly under second line, aligned right */
-  .se1 .colum-l .content-img .div-block-17:not(.lang-ru) {
-    display: block !important;
-    position: static !important;
-    transform: none !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: auto !important;
-    margin: 6px 0 0 0 !important;
-    left: auto !important;
-    top: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    text-align: right !important;
-    padding-right: 0 !important;
-  }
-
-  .se1 .colum-l .content-img .div-block-17 .text-block-2 {
-    white-space: normal !important;
-    font-size: 0.68rem !important;
-    letter-spacing: 1.5px !important;
-    text-align: right !important;
-    display: inline !important;
+  /* Hide desktop <1% block — we show it from sphere-poster__caption below */
+  .se1 .colum-l .content-img .div-block-17 {
+    display: none !important;
   }
 
   /* Hide decorative desktop-only elements */
@@ -602,18 +582,35 @@
     display: none !important;
   }
 
-  /* === 2. SPHERE — fallback image via sphere-poster === */
+  /* === 2. SPHERE — <1% line then orb === */
   .sphere-poster {
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
+    align-items: stretch !important;
     width: 100% !important;
-    padding: 10px 0 !important;
+    padding: 0 24px !important;
     order: 2 !important;
   }
 
-  .sphere-poster__stats,
+  .sphere-poster__stats {
+    display: none !important;
+  }
+
+  /* <1% SHARE — show here in flow, under second line, right-aligned */
   .sphere-poster__caption {
+    display: block !important;
+    order: -1 !important;
+    font-size: 0.68rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    color: rgba(255,255,255,0.85) !important;
+    text-align: right !important;
+    margin: 6px 0 10px 0 !important;
+    padding: 0 !important;
+  }
+
+  .sphere-poster__caption.lang-ru {
     display: none !important;
   }
 
