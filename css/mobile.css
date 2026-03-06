@@ -600,13 +600,13 @@
   .sphere-poster__caption {
     display: block !important;
     order: -1 !important;
-    font-size: 0.68rem !important;
+    font-size: 0.6rem !important;
     font-weight: 500 !important;
-    letter-spacing: 1.5px !important;
+    letter-spacing: 1.2px !important;
     text-transform: uppercase !important;
     color: rgba(255,255,255,0.85) !important;
     text-align: right !important;
-    margin: 6px 0 10px 0 !important;
+    margin: 12px 0 10px 0 !important;
     padding: 0 !important;
   }
 
